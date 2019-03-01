@@ -1,0 +1,86 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js remove styled-components
+
+PATH: 
+  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\curl;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_162\bin;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Amazon\AWSCLI;C:\Users\Alex\AppData\Local\Programs\Python\Python36-32\;C:\Users\Alex\AppData\Local\Programs\Python\Python36-32\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\PostgreSQL\10\bin;C:\Users\Alex\AppData\Roaming\npm\node_modules\react-native-cli;C:\Program Files (x86)\DevDesktop\tools;C:\php;C:\Users\Alex\appdata\local\Android\Sdk\platform-tools;C:\Users\Alex\AppData\Roaming\npm;C:\WINDOWS\system32;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;C:\curl;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_162\bin;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Amazon\AWSCLI;C:\Users\Alex\AppData\Local\Programs\Python\Python36-32\;C:\Users\Alex\AppData\Local\Programs\Python\Python36-32\Scripts;C:\WINDOWS;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Java\jdk1.8.0_162\bin;C:\Program Files\Amazon\AWSCLI;C:\Users\Alex\;C:\Users\Alex\AppData\Local\atom\bin;C:\Users\Alex\AppData\Roaming\npm\node_modules\react-native-cli;C:\Users\Alex\AppData\Local\GitHubDesktop\bin;C:\Users\Alex\AppData\Local\hyper\app-2.1.2\resources\bin;C:\Users\Alex\AppData\Local\now-cli
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  9.6.1
+
+Platform: 
+  win32 x64
+
+npm manifest: 
+  {
+    "name": "darknet.fm",
+    "version": "1.0.0",
+    "description": "Frontend for DARKNET.FM",
+    "main": "index.js",
+    "scripts": {
+      "dev": "next -p 7777",
+      "build": "next build",
+      "start": "next start",
+      "test": "NODE_ENV=test jest --watch",
+      "heroku-postbuild": "next build"
+    },
+    "keywords": [],
+    "author": "Alex Busch",
+    "license": "ISC",
+    "dependencies": {
+      "apollo-boost": "^0.3.1",
+      "apollo-client": "^2.5.1",
+      "babel-core": "^6.26.3",
+      "babel-plugin-styled-components": "^1.10.0",
+      "downshift": "^3.2.6",
+      "enzyme": "^3.9.0",
+      "enzyme-adapter-react-16": "^1.10.0",
+      "express": "^4.16.4",
+      "graphql": "^14.1.1",
+      "graphql-tag": "^2.10.1",
+      "isomorphic-unfetch": "^3.0.0",
+      "next": "^8.0.3",
+      "next-with-apollo": "^3.3.2",
+      "nprogress": "^0.2.0",
+      "prop-types": "^15.7.2",
+      "react": "^16.8.3",
+      "react-adopt": "^0.6.0",
+      "react-apollo": "^2.5.1",
+      "react-dom": "^16.8.3",
+      "react-stripe-checkout": "^2.6.3",
+      "styled-components": "^4.1.3"
+    },
+    "devDependencies": {
+      "babel-jest": "^24.1.0",
+      "babel-plugin-module-resolver": "^3.2.0",
+      "enzyme-to-json": "^3.3.5",
+      "graphql-tools": "^4.0.4",
+      "jest": "^24.1.0",
+      "jest-transform-graphql": "^2.1.0"
+    },
+    "jest": {
+      "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
+      "testPathIgnorePatterns": [
+        "<rootDir>/.next/",
+        "<rootDir>/node_modules/"
+      ],
+      "transform": {
+        "\\.(gql|graphql)$": "jest-transform-graphql",
+        ".*": "babel-jest"
+      }
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: No lockfile in this directory. Run `yarn install` to generate one.
+      at new MessageError (C:\Program Files (x86)\Yarn\lib\cli.js:186:110)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:89389:13
+      at <anonymous>
