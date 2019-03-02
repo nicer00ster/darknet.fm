@@ -8,9 +8,13 @@ class Song extends Component {
       song: 'null',
     }
   }
-  // componentDidMount() {
-  //   fetch('https://s3.us-east-2.amazonaws.com/lofi-media/simple+things.mp3').then(res => res.json());
-  // }
+  componentDidMount() {
+    fetch('https://s3.us-east-2.amazonaws.com/lofi-media/simple+things.mp3', {
+      headers: {
+        "access-control-allow-origin" : "*",
+      }
+    }).then(res => res.json());
+  }
   render() {
     return (
       <p>song</p>
