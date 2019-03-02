@@ -1,5 +1,6 @@
 import App, { Container } from 'next/app';
 import Layout from '../components/layout';
+import fetch from 'isomorphic-unfetch';
 
 class DNApp extends App {
   render() {
@@ -7,7 +8,7 @@ class DNApp extends App {
     return (
       <Container>
         <Layout>
-          <Component />
+          <Component {...this.props}/>
         </Layout>
       </Container>
     );

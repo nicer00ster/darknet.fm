@@ -1,20 +1,12 @@
 import Link from 'next/link';
-import fetch from 'isomorphic-unfetch';
 
-const Index = (props) => (
-    <h1>DARKNET.FM</h1>
+import Song from '../components/song';
 
-)
+const Index = props => (
+  <div>
+    <h1>DARKNET.FM {props.song}</h1>
+    <Song />
+  </div>
+);
 
-// Index.getInitialProps = async function() {
-//   const res = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-//   const data = await res.json()
-//
-//   console.log(`Show data fetched. Count: ${data.length}`)
-//
-//   return {
-//     shows: data
-//   }
-// }
-
-export default Index
+export default Index;
