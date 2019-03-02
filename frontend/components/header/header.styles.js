@@ -7,7 +7,7 @@ const DNHeader = styled.header`
 `;
 
 const DNNav = styled.nav`
-  width: 50%;
+  /* width: 100%; */
   & ul {
     display: flex;
     list-style: none;
