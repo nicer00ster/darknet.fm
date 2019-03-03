@@ -8,11 +8,9 @@ import { DNHeader, Logo } from './header.styles';
 Router.onRouteChangeStart = () => {
   NProgress.start();
 }
+
 Router.onRouteChangeComplete = () => {
   NProgress.done();
-}
-Router.onRouteChangeError = () => {
-  console.log('onRouteChangeError ttriggered');
 }
 
 const Header = () => (

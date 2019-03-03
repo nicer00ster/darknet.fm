@@ -1,18 +1,31 @@
 import App, { Container } from 'next/app';
-import Layout from '../components/layout';
 import fetch from 'isomorphic-unfetch';
+import { ApolloProvider } from 'react-apollo';
+
+import withData from '../lib/withData';
+import Layout from '../components/layout';
 
 class DNApp extends App {
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {};
+    if(Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+    pageProps.query = ctx.query;
+    return { pageProps };
+  }
   render() {
-    const { Component } = this.props;
+    const { Component, apollo, pageProps } = this.props;
     return (
       <Container>
-        <Layout>
-          <Component {...this.props}/>
-        </Layout>
+        <ApolloProvider client={apollo}>
+          <Layout>
+            <Component {...pageProps}/>
+          </Layout>
+        </ApolloProvider>
       </Container>
     );
   }
 }
 
-export default DNApp;
+export default withData(DNApp);

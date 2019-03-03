@@ -7,6 +7,10 @@ const DNHeader = styled.header`
 `;
 
 const DNNav = styled.nav`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 85%;
   & ul {
     display: flex;
     list-style: none;
@@ -48,6 +52,22 @@ const DNNavItem = styled.li`
   }
   &:hover {
     color: ${props => props.theme.black};
+  }
+  & a.active {
+    &:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: .1em;
+      bottom: 0;
+      left: 0;
+      background-color: black;
+      color: ${props => props.theme.black};
+      -webkit-transform: scaleX(.5);
+      transform: scaleX(.5);
+      -webkit-transition: all 0.15s ease-in-out 0s;
+      transition: all 0.15s ease-in-out 0s;
+    }
   }
 `;
 

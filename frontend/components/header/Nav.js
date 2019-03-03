@@ -1,17 +1,48 @@
 import NavItem from './NavItem';
+import Search from './Search';
+import User from '../user';
+import Logout from '../account/Logout';
 import { DNNav } from './header.styles';
 
 const Nav = () => (
-  <DNNav>
-    <ul>
-      <NavItem
-        title="home"
-        link="/" />
-      <NavItem
-        title="about"
-        link="/about" />
-    </ul>
-  </DNNav>
+  <User>
+    {({ data }) => {
+      return (
+        <DNNav>
+          <Search />
+          <ul>
+            <NavItem
+              title="library"
+              link="/library" />
+            {data.currentUser && (
+              <>
+              <NavItem
+                title="upload"
+                link="/upload" />
+              <NavItem
+                title="about"
+                link="/about" />
+              <NavItem
+                title="account"
+                link="/account" />
+              <Logout />
+              </>
+            )}
+            {!data.currentUser && (
+              <>
+              <NavItem
+                title="about"
+                link="/about" />
+              <NavItem
+                title="register"
+                link="/account" />
+              </>
+            )}
+          </ul>
+        </DNNav>
+      )
+    }}
+  </User>
 );
 
 export default Nav;

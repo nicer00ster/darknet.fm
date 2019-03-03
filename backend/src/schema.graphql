@@ -1,0 +1,29 @@
+# import * from './generated/prisma.graphql';
+
+type Toast {
+  message: String
+  error: String
+}
+
+type Mutation {
+  createUser(name: String!, email: String!, password: String!): User!
+  login(email: String!, password: String!): User!
+  logout: Toast
+  createSong(title: String!, description: String!, image: String!): Song!
+  requestReset(email: String!): Toast
+}
+
+type Query {
+  user: User
+  users: [User]!
+  currentUser: User
+  song: Song
+  songs: [Song]!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  permissions: [Permission!]!
+}

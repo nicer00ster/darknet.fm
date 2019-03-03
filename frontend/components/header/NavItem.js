@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { DNNavItem } from './header.styles';
+import ActiveLink from './ActiveLink';
 
 const NavItem = props => (
   <DNNavItem>
-    <Link href={props.link}>
-      <a>{props.title}</a>
-    </Link>
+    <ActiveLink href={props.link}>
+      {props.title}
+    </ActiveLink>
   </DNNavItem>
 );
 
