@@ -11,6 +11,7 @@ type Mutation {
   logout: Toast
   createSong(title: String!, description: String!, image: String!): Song!
   requestReset(email: String!): Toast
+  resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 }
 
 type Query {
