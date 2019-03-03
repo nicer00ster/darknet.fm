@@ -34,7 +34,7 @@ const Nav = () => (
                 title="about"
                 link="/about" />
               <NavItem
-                title="register"
+                title="login"
                 link="/account" />
               </>
             )}

@@ -76,7 +76,7 @@ class CreateAccount extends Component {
                     onChange={this.handleState}
                   />
                 </label>
-                <button type="submit">Submit</button>
+                <button type="submit">Register</button>
               </fieldset>
             </Form>
           );

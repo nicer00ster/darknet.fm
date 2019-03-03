@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
+import { withToastManager } from 'react-toast-notifications';
+import Toast from '../toast';
 
 class Upload extends Component {
   render() {
     return (
-      <p>Upload</p>
+      <button onClick={() => <Toast />}>
+        click
+      </button>
     );
   }
 }
 
-export default Upload;
+export default withToastManager(Upload);

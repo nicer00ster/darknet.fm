@@ -66,7 +66,7 @@ class Login extends Component {
                     onChange={this.handleState}
                   />
                 </label>
-                <button type="submit">Sign In!</button>
+                <button type="submit">Login</button>
               </fieldset>
             </Form>
           );
