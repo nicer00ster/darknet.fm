@@ -1,7 +1,20 @@
+enum Permission {
+  ADMIN
+  USER
+  PERMISSIONUPDATE
+  ADDSONG
+  DELETESONG
+  UPDATESONG
+}
+
 type User {
   id: ID! @unique
   name: String!
-  email: String!
+  email: String! @unique
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: [Permission]
 }
 
 type Song {
@@ -9,5 +22,7 @@ type Song {
   title: String!
   description: String!
   image: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   # user: User!
 }
