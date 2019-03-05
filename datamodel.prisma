@@ -22,7 +22,8 @@ type Song {
   title: String!
   description: String!
   image: String!
+  song: String!
   createdAt: DateTime!
   updatedAt: DateTime!
-  # user: User!
+  user: User!
 }

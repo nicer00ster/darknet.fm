@@ -4,6 +4,8 @@ const { checkPermissions } = require('../permissions');
 const Query = {
   song: forwardTo('db'),
   songs: forwardTo('db'),
+  songsConnection: forwardTo('db'),
+  user: forwardTo('db'),
   currentUser(parent, args, ctx, info) {
     if(!ctx.request.userId) {
       return null;
