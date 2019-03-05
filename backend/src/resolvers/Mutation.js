@@ -94,6 +94,16 @@ const Mutations = {
     });
     return updatedUser;
   },
+  toast(parent, args, ctx, info) {
+    let message = args.message;
+    let error = args.error;
+    console.log('message', message);
+    console.log('error', error);
+    return {
+      message,
+      error,
+    }
+  },
   async createSong(parent, args, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to do that!');

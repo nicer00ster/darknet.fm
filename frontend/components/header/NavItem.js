@@ -4,7 +4,7 @@ import ActiveLink from './ActiveLink';
 
 const NavItem = props => (
   <DNNavItem>
-    <ActiveLink href={props.link}>
+    <ActiveLink href={props.link} as={props.as}>
       {props.title}
     </ActiveLink>
   </DNNavItem>

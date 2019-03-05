@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/alex-busch-0e5bbf/darknet/dev
-# timestamp: Sat Mar 02 2019 13:06:04 GMT-0500 (Eastern Standard Time)
+# timestamp: Mon Mar 04 2019 14:59:53 GMT-0500 (Eastern Standard Time)
 
 type AggregateSong {
   count: Int!
@@ -23,18 +23,18 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createSong(data: SongCreateInput!): Song!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  createUser(data: UserCreateInput!): User!
   updateSong(data: SongUpdateInput!, where: SongWhereUniqueInput!): Song
-  deleteUser(where: UserWhereUniqueInput!): User
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteSong(where: SongWhereUniqueInput!): Song
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
   upsertSong(where: SongWhereUniqueInput!, create: SongCreateInput!, update: SongUpdateInput!): Song!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManySongs(data: SongUpdateManyMutationInput!, where: SongWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   deleteManySongs(where: SongWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -74,12 +74,12 @@ enum Permission {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song]!
-  user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   song(where: SongWhereUniqueInput!): Song
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  user(where: UserWhereUniqueInput!): User
   songsConnection(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -93,8 +93,10 @@ type Song implements Node {
   title: String!
   description: String!
   image: String!
+  song: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  user: User!
 }
 
 """A connection to a list of items."""
@@ -111,6 +113,8 @@ input SongCreateInput {
   title: String!
   description: String!
   image: String!
+  song: String!
+  user: UserCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -131,6 +135,8 @@ enum SongOrderByInput {
   description_DESC
   image_ASC
   image_DESC
+  song_ASC
+  song_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -142,6 +148,7 @@ type SongPreviousValues {
   title: String!
   description: String!
   image: String!
+  song: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -189,12 +196,15 @@ input SongUpdateInput {
   title: String
   description: String
   image: String
+  song: String
+  user: UserUpdateOneRequiredInput
 }
 
 input SongUpdateManyMutationInput {
   title: String
   description: String
   image: String
+  song: String
 }
 
 input SongWhereInput {
@@ -366,6 +376,46 @@ input SongWhereInput {
 
   """All values not ending with the given string."""
   image_not_ends_with: String
+  song: String
+
+  """All values that are not equal to given value."""
+  song_not: String
+
+  """All values that are contained in given list."""
+  song_in: [String!]
+
+  """All values that are not contained in given list."""
+  song_not_in: [String!]
+
+  """All values less than the given value."""
+  song_lt: String
+
+  """All values less than or equal the given value."""
+  song_lte: String
+
+  """All values greater than the given value."""
+  song_gt: String
+
+  """All values greater than or equal the given value."""
+  song_gte: String
+
+  """All values containing the given string."""
+  song_contains: String
+
+  """All values not containing the given string."""
+  song_not_contains: String
+
+  """All values starting with the given string."""
+  song_starts_with: String
+
+  """All values not starting with the given string."""
+  song_not_starts_with: String
+
+  """All values ending with the given string."""
+  song_ends_with: String
+
+  """All values not ending with the given string."""
+  song_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -410,6 +460,7 @@ input SongWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
+  user: UserWhereInput
 }
 
 input SongWhereUniqueInput {
@@ -417,8 +468,8 @@ input SongWhereUniqueInput {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   song(where: SongSubscriptionWhereInput): SongSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User implements Node {
@@ -448,6 +499,11 @@ input UserCreateInput {
   resetToken: String
   resetTokenExpiry: Float
   permissions: UserCreatepermissionsInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreatepermissionsInput {
@@ -531,6 +587,15 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: UserUpdatepermissionsInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -549,8 +614,20 @@ input UserUpdateManyMutationInput {
   permissions: UserUpdatepermissionsInput
 }
 
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
 input UserUpdatepermissionsInput {
   set: [Permission!]
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {

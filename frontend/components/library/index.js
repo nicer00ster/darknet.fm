@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import Router from 'next/router';
+import { LibraryContainer, SongListItem } from './library.styles';
 
 const ALL_SONGS_QUERY = gql`
   query ALL_SONGS_QUERY {
@@ -14,6 +16,14 @@ const ALL_SONGS_QUERY = gql`
 `;
 
 class Library extends Component {
+  routeToSong = (song, e) => {
+    Router.push({
+      pathname: '/song',
+      query: {
+        id: song.id,
+      },
+    });
+  }
   render() {
     return (
       <div>
@@ -23,11 +33,21 @@ class Library extends Component {
             if(loading) return <p>loading</p>
             console.log(data);
             return (
-              <ul>
-                {data.songs.map(item => {
-                  return <li key={item.id}>{item.title}</li>
+              <LibraryContainer>
+                {data.songs.map(song => {
+                  return (
+                    <SongListItem onClick={() => this.routeToSong(song)} key={song.id}>
+                      <div className="art">
+                        <img src={song.image} alt={song.title}/>
+                      </div>
+                      <div className="details">
+                        <p className="title">{song.title}</p>
+                        <p className="description">{song.description}</p>
+                      </div>
+                    </SongListItem>
+                  );
                 })}
-              </ul>
+              </LibraryContainer>
             );
           }}
         </Query>
@@ -36,4 +56,5 @@ class Library extends Component {
   }
 }
 
+export { ALL_SONGS_QUERY };
 export default Library;

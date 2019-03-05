@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Router from 'next/router';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -42,6 +43,7 @@ class Login extends Component {
                   email: '',
                   password: '',
                 });
+                Router.push('/');
               }}>
               <fieldset disabled={loading} aria-busy={loading}>
                 <h2>Login To Your Account</h2>

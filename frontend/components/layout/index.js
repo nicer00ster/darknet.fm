@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled, { ThemeProvider, injectGlobal } from 'styled-components';
-import { ToastProvider } from 'react-toast-notifications';
 
 import Header from '../header'
 import Meta from '../meta';
@@ -10,9 +9,11 @@ import DNLayout from './layout.styles';
 const theme = {
   maxWidth: '1080px',
   black: '#1f222e',
+  lightBlack: 'rgba(31, 34, 46, 0.5)',
   white: '#fefefe',
   error: '#e95e5e',
   shadow: '0px 5px 25px 0px rgba(46, 61, 73, 0.2)',
+  shadowHover: '2px 4px 8px 0px rgba(46, 61, 73, 0.2);',
   radius: '0.375rem',
 };
 
@@ -54,14 +55,11 @@ class Layout extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <ToastProvider
-          autoDismissTimeout={6000}>
-          <DNLayout>
-            <Meta />
-            <Header />
-            {this.props.children}
-          </DNLayout>
-        </ToastProvider>
+        <DNLayout>
+          <Meta />
+          <Header />
+          {this.props.children}
+        </DNLayout>
       </ThemeProvider>
     );
   }

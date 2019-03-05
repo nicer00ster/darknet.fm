@@ -36,7 +36,7 @@ class ResetPassword extends Component {
               <fieldset
                 disabled={loading}
                 aria-busy={loading}>
-                <h2>Request a password reset</h2>
+                <h2>Request a Password Reset</h2>
                 {error ? error.message : null}
                 {!error && !loading && called && <p>Success! Check your email for a reset link!</p>}
                 <label htmlFor="email">

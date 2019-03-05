@@ -1,5 +1,5 @@
 import NavItem from './NavItem';
-import Search from './Search';
+import Search from '../search';
 import User from '../user';
 import Logout from '../account/Logout';
 import { DNNav } from './header.styles';
@@ -24,7 +24,8 @@ const Nav = () => (
                 link="/about" />
               <NavItem
                 title="account"
-                link="/account" />
+                // as={`/user/${data.currentUser.name}`}
+                link={`/user?name=${data.currentUser.name}`} />
               <Logout />
               </>
             )}
