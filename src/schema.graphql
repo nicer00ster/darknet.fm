@@ -7,7 +7,7 @@ type Toast {
 
 type Mutation {
   createUser(name: String!, email: String!, password: String!): User!
-  createSong(title: String!, description: String!, image: String!, song: String!): Song!
+  createSong(title: String!, description: String!, image: String!, song: String!, tags: [String]): Song!
   login(email: String!, password: String!): User!
   logout: Toast
   requestReset(email: String!): Toast
@@ -22,7 +22,6 @@ type Query {
   song(where: SongWhereUniqueInput!): Song
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, first: Int): [Song]!
   songsConnection(where: SongWhereInput): SongConnection!
-
 }
 
 type User {
@@ -30,7 +29,6 @@ type User {
   name: String!
   email: String!
   permissions: [Permission!]!
-  songsConnection(where: SongWhereInput): SongConnection!
   # friendsConnection(
   #   first: Int,
   #   after: String,

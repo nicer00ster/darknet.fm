@@ -105,23 +105,29 @@ const Mutations = {
     }
   },
   async createSong(parent, args, ctx, info) {
-    if (!ctx.request.userId) {
-      throw new Error('You must be logged in to do that!');
-    }
-
-    const item = await ctx.db.mutation.createSong({
+    // if (!ctx.request.userId) {
+    //   throw new Error('You must be logged in to do that!');
+    // }
+    console.log('args', args);
+    const song = await ctx.db.mutation.createSong({
       data: {
+        title: args.title,
+        description: args.description,
+        song: args.song,
+        image: args.image,
+        tags: {
+          set: args.tags,
+        },
         // This is how to create a relationship between the Item and the User
         user: {
           connect: {
             id: ctx.request.userId,
           },
         },
-        ...args,
       },
     }, info);
-    console.log(item);
-    return item;
+
+    return song;
   },
 }
 

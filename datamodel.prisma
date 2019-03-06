@@ -7,6 +7,23 @@ enum Permission {
   UPDATESONG
 }
 
+enum Tag {
+  HIPHOP
+  ROCK
+  ELECTRONIC
+  COUNTRY
+  PUNK
+  ALTERNATIVE
+  BLUES
+  CLASSICAL
+  DANCE
+  TECHNO
+  RAP
+  POP
+  JAZZ
+  SOUL
+}
+
 type User {
   id: ID! @unique
   name: String!
@@ -23,6 +40,7 @@ type Song {
   description: String!
   image: String!
   song: String!
+  tags: [Tag]
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
