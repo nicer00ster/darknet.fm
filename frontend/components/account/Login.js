@@ -30,6 +30,7 @@ class Login extends Component {
           { query: CURRENT_USER_QUERY }
         ]}
         mutation={LOGIN_MUTATION}
+        onCompleted={() => Router.push('/')}
         variables={this.state}>
         {(login, { error, loading }) => {
           return (
@@ -43,7 +44,6 @@ class Login extends Component {
                   email: '',
                   password: '',
                 });
-                Router.push('/');
               }}>
               <fieldset disabled={loading} aria-busy={loading}>
                 <h2>Login To Your Account</h2>

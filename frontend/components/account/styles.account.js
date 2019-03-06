@@ -62,7 +62,6 @@ const Form = styled.form`
     border-radius: ${props => props.theme.radius};
     &:focus {
       outline: 0;
-      border-color: ${props => props.theme.red};
     }
   }
   button,

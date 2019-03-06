@@ -1,5 +1,6 @@
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import Router from 'next/router';
 
 import { CURRENT_USER_QUERY } from '../user';
 import Loading from '../loading';
@@ -23,7 +24,8 @@ const Logout = props => (
     refetchQueries={[
       { query: CURRENT_USER_QUERY }
     ]}
-    mutation={LOGOUT_MUTATION}>
+    mutation={LOGOUT_MUTATION}
+    onCompleted={() => Router.push('/account')}>
     {(logout, { loading }) => {
       return (
         <DNNavItem style={loading ? isLoading : null}>

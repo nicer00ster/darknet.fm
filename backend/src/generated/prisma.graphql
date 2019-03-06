@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/alex-busch-0e5bbf/darknet/dev
-# timestamp: Mon Mar 04 2019 14:59:53 GMT-0500 (Eastern Standard Time)
+# timestamp: Tue Mar 05 2019 17:08:46 GMT-0500 (Eastern Standard Time)
 
 type AggregateSong {
   count: Int!
@@ -94,6 +94,7 @@ type Song implements Node {
   description: String!
   image: String!
   song: String!
+  tags: [Tag!]!
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
@@ -114,7 +115,12 @@ input SongCreateInput {
   description: String!
   image: String!
   song: String!
+  tags: SongCreatetagsInput
   user: UserCreateOneInput!
+}
+
+input SongCreatetagsInput {
+  set: [Tag!]
 }
 
 """An edge in a connection."""
@@ -149,6 +155,7 @@ type SongPreviousValues {
   description: String!
   image: String!
   song: String!
+  tags: [Tag!]!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -197,6 +204,7 @@ input SongUpdateInput {
   description: String
   image: String
   song: String
+  tags: SongUpdatetagsInput
   user: UserUpdateOneRequiredInput
 }
 
@@ -205,6 +213,11 @@ input SongUpdateManyMutationInput {
   description: String
   image: String
   song: String
+  tags: SongUpdatetagsInput
+}
+
+input SongUpdatetagsInput {
+  set: [Tag!]
 }
 
 input SongWhereInput {
@@ -470,6 +483,23 @@ input SongWhereUniqueInput {
 type Subscription {
   song(where: SongSubscriptionWhereInput): SongSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+enum Tag {
+  HIPHOP
+  ROCK
+  ELECTRONIC
+  COUNTRY
+  PUNK
+  ALTERNATIVE
+  BLUES
+  CLASSICAL
+  DANCE
+  TECHNO
+  RAP
+  POP
+  JAZZ
+  SOUL
 }
 
 type User implements Node {

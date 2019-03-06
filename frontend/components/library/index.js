@@ -11,6 +11,10 @@ const ALL_SONGS_QUERY = gql`
       title
       description
       image
+      user {
+        id
+        name
+      }
     }
   }
 `;

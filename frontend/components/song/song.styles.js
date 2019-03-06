@@ -50,10 +50,39 @@ const Title = styled.div`
   -webkit-hyphens: auto;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  &:before {
-    content: "";
-    display: table;
+  font-size: 18px;
+  background-color: ${props => props.theme.lightBlack};
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-top: .5rem;
+  & a {
+    color: ${props => props.theme.white};
+    transition: all 0.25s;
+    &:hover {
+      color: ${props => props.theme.black};
+      font-weight: bold;
+    }
   }
+`;
+
+const Headline = styled.div`
+  font-size: 12px;
+  background-color: ${props => props.theme.lightBlack};
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-bottom: .5rem;
+  & a {
+    color: ${props => props.theme.white};
+    transition: all 0.25s;
+    &:hover {
+      color: ${props => props.theme.black};
+      font-weight: bold;
+    }
+  }
+`;
+
+const UserAndTitle = styled.div`
+  flex: 1;
 `;
 
 const TitleContainer = styled.div`
@@ -63,6 +92,66 @@ const TitleContainer = styled.div`
   -webkit-align-items: flex-start;
   -ms-flex-align: start;
   align-items: flex-start;
+`;
+
+const SongMetaData = styled.div`
+  position: absolute;
+  top: 29px;
+  width: 150px;
+  right: 390px;
+  text-align: right;
+  & div {
+    ${'' /* margin-bottom: 16px; */}
+  }
+  & div:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    & a {
+      margin: .25rem;
+    }
+  }
+`;
+
+const Tag = styled.a`
+    position: relative;
+    display: inline-block;
+    height: 22px;
+    padding: 0 6px;
+    background: ${props => props.theme.lightBlack};
+    border: 1px solid ${props => props.theme.lightBlack};
+    border-left-width: 0;
+    color: ${props => props.theme.white};
+    font-weight: 100;
+    font-size: 12px;
+    line-height: 20px;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 20px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: all 0.25s;
+    &:hover {
+      background: ${props => props.theme.black};
+    }
+    & span {
+      max-width: 120px;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: normal;
+    }
+    &:before {
+      content: "#";
+      display: block;
+      float: left;
+      margin-right: 3px;
+    }
 `;
 
 const PlayButton = styled.div`
@@ -85,8 +174,11 @@ const PlayButton = styled.div`
     &:hover {
       font-size: 36px;
     }
-
   }
+`;
+
+const PlayerContainer = styled.div`
+  display: flex;
 `;
 
 export {
@@ -96,5 +188,10 @@ export {
   Artwork,
   Title,
   TitleContainer,
+  Headline,
+  UserAndTitle,
   PlayButton,
+  Tag,
+  SongMetaData,
+  PlayerContainer,
 };

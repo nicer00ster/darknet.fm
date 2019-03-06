@@ -3,7 +3,9 @@ import fetch from 'isomorphic-unfetch';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Head from 'next/head';
+import moment from 'moment';
 
+import Analyser from './Analyser';
 import Loading from '../loading';
 import {
   SongContainer,
@@ -12,7 +14,11 @@ import {
   Artwork,
   TitleContainer,
   Title,
+  Headline,
+  UserAndTitle,
+  Tag,
   PlayButton,
+  SongMetaData,
 } from './song.styles';
 
 const SONG_QUERY = gql`
@@ -24,6 +30,32 @@ const SONG_QUERY = gql`
       title
       description
       image
+      song
+      createdAt
+      tags
+      user {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const SONG_USER_QUERY = gql`
+  query SONG_USER_QUERY($id: ID!) {
+    songsConnection(where: {
+      user: {
+        id: $id
+      }
+    }) {
+      edges {
+        node {
+          id
+          image
+          description
+          song
+        }
+      }
     }
   }
 `;
@@ -54,10 +86,27 @@ class Song extends Component {
                   <PlayButton>
                     <button>▷</button>
                   </PlayButton>
-                  <Title>
-                    {song.title}
-                  </Title>
+                  <UserAndTitle>
+                    <Headline>
+                      <a href="#">Uploaded by {song.user.name}</a>
+                    </Headline>
+                    <Title>
+                      <a href="#">{song.title}</a>
+                    </Title>
+                  </UserAndTitle>
                 </TitleContainer>
+                <SongMetaData>
+                  <div>{moment(song.createdAt).fromNow()}</div>
+                  <div>
+                    {song.tags.map((tag, index) => (
+                      <Tag key={index}>
+                          <span>{tag}</span>
+                      </Tag>
+                    ))}
+                  </div>
+                </SongMetaData>
+                {/* Visual player goes here */}
+                <Analyser audio={song.song} />
               </Foreground>
             </SongContainer>
           );

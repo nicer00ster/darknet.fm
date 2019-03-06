@@ -4,7 +4,30 @@ import gql from 'graphql-tag';
 import Router from 'next/router';
 
 import { Form } from '../account/styles.account';
+// import TagComponent from './TagComponent';
 import { ALL_SONGS_QUERY } from '../library';
+import {
+  TagContainer,
+  TagListItem,
+  TagInput,
+} from './upload.styles';
+
+const ALLOWED_TAGS = [
+  "HIPHOP",
+  "ROCK",
+  "ELECTRONIC",
+  "COUNTRY",
+  "PUNK",
+  "ALTERNATIVE",
+  "BLUES",
+  "CLASSICAL",
+  "DANCE",
+  "TECHNO",
+  "RAP",
+  "POP",
+  "JAZZ",
+  "SOUL",
+];
 
 const UPLOAD_SONG_MUTATION = gql`
   mutation UPLOAD_SONG_MUTATION(
@@ -12,8 +35,9 @@ const UPLOAD_SONG_MUTATION = gql`
     $description: String!
     $image: String!
     $song: String!
+    $tags: [String]
   ) {
-    createSong(title: $title, description: $description, image: $image, song: $song) {
+    createSong(title: $title, description: $description, image: $image, song: $song, tags: $tags) {
       id
     }
   }
@@ -25,6 +49,9 @@ class Upload extends Component {
       description: '',
       image: '',
       song: '',
+      tags: [],
+      focused: false,
+      input: '',
   }
   uploadImage = async e => {
     const files = e.target.files;
@@ -40,8 +67,9 @@ class Upload extends Component {
     console.log(file);
     this.setState({
       image: file.secure_url,
-    })
+    });
   }
+
   uploadSong = async e => {
     const files = e.target.files;
     const data = new FormData();
@@ -56,17 +84,59 @@ class Upload extends Component {
     console.log(file);
     this.setState({
       song: file.secure_url,
-    })
+    });
   }
+
   handleChange = e => {
     const { name, type, value } = e.target;
     const val = type === 'number' ? parseFloat(value) : value;
     this.setState({ [name]: val });
   };
+
+  handleTag = e => {
+    this.setState({ input: e.target.value });
+  }
+
+  handleAddTag = e => {
+    if (e.keyCode === 13 && this.state.input.length > 2) {
+      const { value } = e.target;
+      if(this.state.tags.includes(this.state.input) || this.state.tags.includes(this.state.input.toUpperCase())) {
+        console.log('exissts');
+        return;
+      }
+      if(ALLOWED_TAGS.includes(this.state.input) || ALLOWED_TAGS.includes(this.state.input.toUpperCase())) {
+        this.setState(state => ({
+          tags: [...state.tags, value.toUpperCase()],
+          input: ''
+        }));
+      }
+    }
+
+    if (this.state.tags.length && e.keyCode === 8 && !this.state.input.length ) {
+      this.setState(state => ({
+        tags: state.tags.slice(0, state.tags.length - 1)
+      }));
+    }
+  }
+
+  handleRemoveItem = index => {
+    return () => {
+      this.setState(state => ({
+        tags: state.tags.filter((tag, i) => i !== index)
+      }));
+    }
+  }
+
   render() {
     return (
       <Mutation
-        variables={this.state}
+        variables={{
+          title: this.state.title,
+          description: this.state.description,
+          image: this.state.image,
+          song: this.state.song,
+          tags: this.state.tags,
+        }}
         refetchQueries={[
           { query: ALL_SONGS_QUERY }
         ]}
@@ -78,7 +148,6 @@ class Upload extends Component {
               onSubmit={async e => {
                 e.preventDefault();
                 const res = await createSong();
-                console.log(res);
                 Router.push({
                   pathname: '/song',
                   query: {
@@ -100,7 +169,7 @@ class Upload extends Component {
                     onChange={this.uploadImage}
                   />
                   {this.state.image && (
-                    <img width="200" src={this.state.image} alt="Preview of Image"/>
+                    <img src={this.state.image} alt="Preview of Image" style={{ width: '100%', paddingTop: '1rem', paddingBottom: '1rem', display: 'block', margin: '0 auto' }} />
                   )}
                 </label>
 
@@ -115,6 +184,9 @@ class Upload extends Component {
                     required
                     onChange={this.uploadSong}
                   />
+                  {this.state.song && (
+                    <audio src={this.state.song} controls style={{ width: '100%', padding: '1rem' }} />
+                  )}
                 </label>
 
                 <label htmlFor="title">
@@ -140,6 +212,30 @@ class Upload extends Component {
                     value={this.state.description}
                     onChange={this.handleChange}
                   />
+                </label>
+
+                <label htmlFor="tags">
+                  <p>Tags</p>
+                  <TagContainer>
+                    <TagInput
+                      value={this.state.input}
+                      placeholder="Add tags to help filter your song"
+                      onChange={this.handleTag}
+                      onKeyDown={this.handleAddTag} />
+                      {this.state.tags.map((tag, index) =>
+                        <TagListItem key={index} onClick={this.handleRemoveItem(index)}>
+                          #{tag}
+                          <span>x</span>
+                        </TagListItem>
+                      )}
+                      {/* {ALLOWED_TAGS.map((tag, index) => (
+                        <TagListItem key={index} onClick={this.handleRemoveItem(index)}>
+                          #{tag}
+                          <span>x</span>
+                        </TagListItem>
+                      ))} */}
+                  </TagContainer>
+                  ?
                 </label>
 
                 <button type="submit">Upload</button>

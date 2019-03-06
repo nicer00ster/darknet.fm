@@ -9,9 +9,10 @@ import DNLayout from './layout.styles';
 const theme = {
   maxWidth: '1080px',
   black: '#1f222e',
-  lightBlack: 'rgba(31, 34, 46, 0.5)',
+  lightBlack: 'rgba(31, 34, 46, 0.75)',
   white: '#fefefe',
-  error: '#e95e5e',
+  red: '#e95e5e',
+  lightRed: 'rgba(233, 94, 94, 0.75)',
   shadow: '0px 5px 25px 0px rgba(46, 61, 73, 0.2)',
   shadowHover: '2px 4px 8px 0px rgba(46, 61, 73, 0.2);',
   radius: '0.375rem',
