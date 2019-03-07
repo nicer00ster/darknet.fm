@@ -5,7 +5,7 @@ import { Query } from 'react-apollo';
 import Head from 'next/head';
 import moment from 'moment';
 
-import Analyser from './Analyser';
+import Player from './Player';
 import Loading from '../loading';
 import {
   SongContainer,
@@ -79,34 +79,31 @@ class Song extends Component {
                 <title>DARKNET.FM | {song.title}</title>
               </Head>
               <Foreground>
-                <ArtWrapper>
-                  <img src={song.image} alt={song.title}/>
-                </ArtWrapper>
-                <TitleContainer>
-                  <PlayButton>
-                    <button>▷</button>
-                  </PlayButton>
-                  <UserAndTitle>
-                    <Headline>
-                      <a href="#">Uploaded by {song.user.name}</a>
-                    </Headline>
-                    <Title>
-                      <a href="#">{song.title}</a>
-                    </Title>
-                  </UserAndTitle>
-                </TitleContainer>
-                <SongMetaData>
-                  <div>{moment(song.createdAt).fromNow()}</div>
-                  <div>
-                    {song.tags.map((tag, index) => (
-                      <Tag key={index}>
-                          <span>{tag}</span>
-                      </Tag>
-                    ))}
-                  </div>
-                </SongMetaData>
-                {/* Visual player goes here */}
-                <Analyser audio={song.song} />
+                <Player audio={song.song}>
+                  <ArtWrapper>
+                    <img src={song.image} alt={song.title}/>
+                  </ArtWrapper>
+                  <TitleContainer>
+                    <UserAndTitle>
+                      <Headline>
+                        <a href="#">Uploaded by {song.user.name}</a>
+                      </Headline>
+                      <Title>
+                        <a href="#">{song.title}</a>
+                      </Title>
+                    </UserAndTitle>
+                  </TitleContainer>
+                  <SongMetaData>
+                    <div>{moment(song.createdAt).fromNow()}</div>
+                    <div>
+                      {song.tags.map((tag, index) => (
+                        <Tag key={index}>
+                            <span>{tag}</span>
+                        </Tag>
+                      ))}
+                    </div>
+                  </SongMetaData>
+                </Player>
               </Foreground>
             </SongContainer>
           );

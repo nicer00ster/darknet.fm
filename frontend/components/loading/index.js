@@ -12,8 +12,8 @@ const Spinner = styled.div`
     box-sizing: border-box;
     position: absolute;
     top: 50%;
-    /* left: 50%; */
-    right: 0;
+    left: 50%;
+    /* right: 0; */
     width: 30px;
     height: 30px;
     margin-top: -15px;
@@ -26,9 +26,9 @@ const Spinner = styled.div`
 `;
 
 const Loading = () => (
-  // <div style={{ position: 'relative' }}>
+  <div style={{ position: 'relative' }}>
     <Spinner />
-  // </div>
+  </div>
 );
 
 export default Loading;

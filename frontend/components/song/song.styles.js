@@ -50,7 +50,7 @@ const Title = styled.div`
   -webkit-hyphens: auto;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  font-size: 18px;
+  font-size: 24px;
   background-color: ${props => props.theme.lightBlack};
   padding-left: 1rem;
   padding-right: 1rem;
@@ -178,7 +178,10 @@ const PlayButton = styled.div`
 `;
 
 const PlayerContainer = styled.div`
-  display: flex;
+  position: relative;
+  height: auto;
+  width: 100%;
+  margin: 1rem 0;
 `;
 
 export {
