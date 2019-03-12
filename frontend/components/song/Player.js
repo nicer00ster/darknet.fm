@@ -14,6 +14,7 @@ class Player extends Component {
     this.audioGain = React.createRef();
     this.source = React.createRef();
     this.raf = React.createRef()
+    this.rafSeek = React.createRef();
     this.scrubber = React.createRef();
     this.seeker = React.createRef();
     this.progress = React.createRef();
@@ -42,7 +43,6 @@ class Player extends Component {
     this.audioContext = new AudioContext();
     this.audioAnalyser = this.audioContext.createAnalyser();
     this.audioGain = this.audioContext.createGain();
-    // this.raf = requestAnimationFrame(this.init);
     this.scrubber.addEventListener('mousedown', this.handleMouseDown);
     window.addEventListener('mousemove', this.handleDrag);
     window.addEventListener('mouseup', this.handleMouseUp);
@@ -59,8 +59,8 @@ class Player extends Component {
         });
     });
 
-    this.init();
     this.handleSeeker();
+    this.init();
   }
 
   init = () => {
@@ -86,6 +86,7 @@ class Player extends Component {
   }
 
   play = (time) => {
+    console.log(this.audioBuffer);
     this.connect();
     this.setState({
       isPlaying: true,
@@ -94,17 +95,18 @@ class Player extends Component {
       startTime: this.audioContext.currentTime - (this.state.position || 0),
     });
     this.source.start(this.audioContext.currentTime, this.state.position);
-    this.source.onended = e => {
-      setTimeout(() => {
-        this.setState({
-          isPlaying: false,
-        });
-      }, 500);
-    }
+    // this.source.onended = e => {
+    //   console.log(this.source);
+    //   setTimeout(() => {
+    //     this.setState({
+    //       isPlaying: false,
+    //     });
+    //   }, 500);
+    // }
   }
 
   pause = () => {
-    if(this.source) {
+    if(this.source && this.source.current !== null) {
       this.source.stop();
       this.source = null;
       this.setState({
@@ -117,7 +119,11 @@ class Player extends Component {
 
   seek = time => {
     if(this.state.isPlaying) {
-      this.play(time);
+      this.setState({
+        position: time,
+      }, () => {
+        this.play(time);
+      });
     } else {
       this.setState({
         position: time,
@@ -126,7 +132,6 @@ class Player extends Component {
   }
 
   handleMouseDown = e => {
-    console.log('here', e);
     this.pause();
     this.setState({
       isSeeking: true,
@@ -139,13 +144,14 @@ class Player extends Component {
     let width;
     let left;
     let time;
+
     if(this.state.isSeeking) {
       width = this.seeker.offsetWidth;
       left = parseInt(this.scrubber.style.left || 0, 10);
       time = left / width * this.audioBuffer.duration;
       this.setState({
         isSeeking: false,
-        isPlaying: true,
+        isPlaying: false,
         isPaused: false,
       });
       this.seek(time);
@@ -163,7 +169,7 @@ class Player extends Component {
       position: position,
     });
 
-    this.scrubber.style.left = this.state.position + 'px';
+    this.scrubber.style.left = position + 'px';
   }
 
   handlePosition = () => {
@@ -179,47 +185,74 @@ class Player extends Component {
     return this.state.position;
   };
 
+  fastForward = () => {
+    if(this.state.isPlaying) {
+      this.pause();
+    }
+    this.setState({
+      position: (this.state.position / 6) + this.state.position,
+    }, () => {
+      this.play();
+    });
+  }
+
+  rewind = () => {
+    if(this.state.isPlaying) {
+      this.pause();
+    }
+    this.setState({
+      position: this.state.position - (this.state.position / 6),
+    }, () => {
+      this.play();
+    })
+  }
+
   handleSeeker = () => {
+    this.rafSeek = requestAnimationFrame(this.handleSeeker);
     let progress = (this.handlePosition() / this.audioBuffer.duration);
     let width = this.seeker.offsetWidth;
 
-    this.progress.style.width = `${progress * width}px`;
+
     if (!this.state.isSeeking) {
+      this.progress.style.width = `${progress * width}px`;
       this.scrubber.style.left = `${progress * width}px`;
     }
-    requestAnimationFrame(this.handleSeeker);
   }
 
   componentWillUnmount() {
     this.raf = cancelAnimationFrame(this.raf);
+    this.rafSeek = cancelAnimationFrame(this.rafSeek);
     this.audioAnalyser.disconnect();
     this.audioGain.disconnect();
-    if(this.source.current !== null) {
-      this.source.disconnect();
-    }
+    this.scrubber.removeEventListener('mousedown', this.handleMouseDown);
+    window.removeEventListener('mousemove', this.handleDrag);
+    window.removeEventListener('mouseup', this.handleMouseUp);
   }
 
   render() {
-      return (
-        <>
-        {this.props.children}
-        {this.state.isLoading
-        ? <Loading />
-        : <Canvas
-            play={this.play}
-            audioData={this.state.audioData}
-            frequencyBinCount={this.state.frequencyBinCount}
-            isPlaying={this.state.isPlaying}
-          />}
-          <Controls
-            isPlaying={this.state.isPlaying}
-            play={this.play}
-            pause={this.pause}
-            seek={this.seek}
-            position={this.state.position}
-          />
-        </>
-      );
+    return (
+      <>
+      {this.props.children}
+      {this.state.isLoading
+      ? <Loading />
+      : <Canvas
+          play={this.play}
+          audioData={this.state.audioData}
+          frequencyBinCount={this.state.frequencyBinCount}
+          isPlaying={this.state.isPlaying}
+        />}
+        <Controls
+          isPlaying={this.state.isPlaying}
+          play={this.play}
+          pause={this.pause}
+          seek={this.seek}
+          fastForward={this.fastForward}
+          rewind={this.rewind}
+          position={this.state.position}
+          duration={this.audioBuffer.duration}
+        />
+      </>
+    );
   }
 }
 

@@ -12,7 +12,6 @@ const ControlsStyles = styled.div`
   border-radius: ${props => props.theme.radius};
   box-shadow: ${props => props.theme.shadow};
   height: 76px;
-  ${'' /* margin-top: 28px; */}
   z-index: 5;
 `;
 
@@ -24,9 +23,26 @@ const Bar = styled.div`
 
 const Buttons = styled.div`
   display: flex;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   height: 70px;
   padding: 0 15px;
+`;
+
+const Time = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  height: 24px;
+  padding: 4px;
+  & span {
+    color: ${props => props.theme.white};
+    height: 16px;
+    padding: 0 4px;
+    font-size: 10px;
+    border-radius: ${props => props.theme.radius};
+    background-color: ${props => props.theme.lightBlack}
+  }
 `;
 
 const Play = styled.div`
@@ -95,9 +111,7 @@ const Rewind = styled.div`
 const Seek = styled.div`
   position: relative;
   width: 624px;
-  ${'' /* margin: 7px 0 0 16px; */}
   height: 4px;
-  ${'' /* padding: 0; */}
   border: 1px solid ${props => props.theme.black};
   border-radius: ${props => props.theme.radius};
   box-shadow: 0px 0px 10px 2px rgba(46,61,73,0.5);
@@ -119,6 +133,15 @@ const Seek = styled.div`
     border: solid 1px ${props => props.theme.lightBlack};
     cursor: pointer;
     box-shadow: 0 0 5px #000, inset 0 0 4px #400;
+    transition: background 0.25s, transform 0.25s;
+    &:before {
+      content: "";
+      padding: 3rem;
+    }
+    &:hover {
+      transform: scale(1.2);
+      background: ${props => props.theme.black};
+    }
   }
 `;
 
@@ -131,4 +154,5 @@ export {
   Rewind,
   Bar,
   Seek,
+  Time,
 };

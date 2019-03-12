@@ -100,9 +100,7 @@ const SongMetaData = styled.div`
   width: 150px;
   right: 390px;
   text-align: right;
-  & div {
-    ${'' /* margin-bottom: 16px; */}
-  }
+  user-select: none;
   & div:last-child {
     display: flex;
     flex-direction: column;
