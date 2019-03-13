@@ -22,15 +22,6 @@ const SEARCH_SONGS_QUERY = gql`
     }
   }
 `;
-//
-// function routeToSong(song) {
-//   Router.push({
-//     pathname: '/song',
-//     query: {
-//       id: song.id,
-//     },
-//   });
-// }
 
 class Search extends Component {
   state = {

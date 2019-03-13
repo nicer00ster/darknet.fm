@@ -1,33 +1,22 @@
 import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
+import Downshift, { resetIdCounter } from 'downshift';
+import debounce from 'lodash.debounce';
 
 import { Form } from '../account/styles.account';
-// import TagComponent from './TagComponent';
 import { ALL_SONGS_QUERY } from '../library';
+import Loading from '../loading';
 import {
   TagContainer,
   TagListItem,
   TagInput,
 } from './upload.styles';
-
-const ALLOWED_TAGS = [
-  "HIPHOP",
-  "ROCK",
-  "ELECTRONIC",
-  "COUNTRY",
-  "PUNK",
-  "ALTERNATIVE",
-  "BLUES",
-  "CLASSICAL",
-  "DANCE",
-  "TECHNO",
-  "RAP",
-  "POP",
-  "JAZZ",
-  "SOUL",
-];
+import {
+  DropDown,
+  DropDownItem,
+} from '../search/search.styles';
 
 const UPLOAD_SONG_MUTATION = gql`
   mutation UPLOAD_SONG_MUTATION(
@@ -43,6 +32,17 @@ const UPLOAD_SONG_MUTATION = gql`
   }
 `;
 
+const QUERY_TAGS = gql`
+  query {
+    __type(name: "Tag") {
+      name
+      enumValues {
+        name
+      }
+    }
+  }
+`;
+
 class Upload extends Component {
   state = {
       title: '',
@@ -50,8 +50,9 @@ class Upload extends Component {
       image: '',
       song: '',
       tags: [],
-      focused: false,
+      allowedTags: [],
       input: '',
+      selected: '',
   }
   uploadImage = async e => {
     const files = e.target.files;
@@ -65,6 +66,7 @@ class Upload extends Component {
 
     const file = await res.json();
     console.log(file);
+
     this.setState({
       image: file.secure_url,
     });
@@ -81,7 +83,7 @@ class Upload extends Component {
     });
 
     const file = await res.json();
-    console.log(file);
+
     this.setState({
       song: file.secure_url,
     });
@@ -93,28 +95,37 @@ class Upload extends Component {
     this.setState({ [name]: val });
   };
 
-  handleTag = e => {
-    this.setState({ input: e.target.value });
-  }
+  handleTag = debounce(async (e, client) => {
+    this.setState({ loading: true });
+    let tags = [];
 
-  handleAddTag = e => {
-    if (e.keyCode === 13 && this.state.input.length > 2) {
-      const { value } = e.target;
-      if(this.state.tags.includes(this.state.input) || this.state.tags.includes(this.state.input.toUpperCase())) {
-        console.log('exissts');
-        return;
+    const res = await client.query({
+      query: QUERY_TAGS,
+      variables: {
+        input: e.target.value
+      },
+    });
+
+    res.data.__type.enumValues.map(tag => {
+      if(tag.name.indexOf(e.target.value.toUpperCase()) > -1) {
+        return tags.push(tag.name);
       }
-      if(ALLOWED_TAGS.includes(this.state.input) || ALLOWED_TAGS.includes(this.state.input.toUpperCase())) {
-        this.setState(state => ({
-          tags: [...state.tags, value.toUpperCase()],
-          input: ''
-        }));
-      }
+    });
+
+    this.setState({
+      allowedTags: tags,
+      loading: false,
+    });
+  }, 350);
+
+  handleAddTag = (e, tag) => {
+    if(this.state.tags.includes(tag) || this.state.tags.includes(tag.toUpperCase())) {
+      return;
     }
-
-    if (this.state.tags.length && e.keyCode === 8 && !this.state.input.length ) {
+    if(this.state.allowedTags.includes(tag) || this.state.allowedTags.includes(tag.toUpperCase())) {
       this.setState(state => ({
-        tags: state.tags.slice(0, state.tags.length - 1)
+        tags: [...state.tags, tag.toUpperCase()],
+        input: ''
       }));
     }
   }
@@ -128,6 +139,7 @@ class Upload extends Component {
   }
 
   render() {
+    resetIdCounter();
     return (
       <Mutation
         variables={{
@@ -216,26 +228,64 @@ class Upload extends Component {
 
                 <label htmlFor="tags">
                   <p>Tags</p>
-                  <TagContainer>
-                    <TagInput
-                      value={this.state.input}
-                      placeholder="Add tags to help filter your song"
-                      onChange={this.handleTag}
-                      onKeyDown={this.handleAddTag} />
-                      {this.state.tags.map((tag, index) =>
-                        <TagListItem key={index} onClick={this.handleRemoveItem(index)}>
-                          #{tag}
-                          <span>x</span>
-                        </TagListItem>
-                      )}
-                      {/* {ALLOWED_TAGS.map((tag, index) => (
-                        <TagListItem key={index} onClick={this.handleRemoveItem(index)}>
-                          #{tag}
-                          <span>x</span>
-                        </TagListItem>
-                      ))} */}
-                  </TagContainer>
-                  ?
+                  <Downshift itemToString={item => (item ? item : '')}>
+                    {({ getInputProps, getItemProps, isOpen, inputValue, highlightedIndex }) => (
+                      <div style={{ position: 'relative' }}>
+                        <ApolloConsumer>
+                          {client => {
+                            return (
+                              <TagContainer>
+                                <TagInput
+                                  {...getInputProps({
+                                    type: 'search',
+                                    name: 'input',
+                                    id: 'tag',
+                                    required: true,
+                                    onChange: e => {
+                                      e.persist();
+                                      this.setState({ input: e.target.value });
+                                      this.handleTag(e, client);
+                                    },
+                                    onKeyDown: e => {
+                                      if(e.key === 'Enter') {
+                                        this.handleAddTag(e, inputValue);
+                                      }
+                                    },
+                                  })} />
+                                  {this.state.tags.map((tag, index) =>
+                                    <TagListItem key={index} onClick={this.handleRemoveItem(index)}>
+                                      #{tag}
+                                      <span>x</span>
+                                    </TagListItem>
+                                  )}
+                                  {this.state.loading && (
+                                    <Loading />
+                                  )}
+                              </TagContainer>
+                            );
+                          }}
+                        </ApolloConsumer>
+                        {isOpen && (
+                          <DropDown>
+                            {this.state.allowedTags.map((tag, index) => (
+                              <DropDownItem
+                                {...getItemProps({ item: tag })}
+                                key={index}
+                                onClick={e => this.handleAddTag(e, tag)}
+                                highlighted={index === highlightedIndex}>
+                                <span>{tag}</span>
+                              </DropDownItem>
+                            ))}
+                            {!this.state.allowedTags.length && !this.state.loading && (
+                              <DropDownItem>
+                                Nothing found for {inputValue}
+                              </DropDownItem>
+                            )}
+                          </DropDown>
+                        )}
+                      </div>
+                    )}
+                  </Downshift>
                 </label>
 
                 <button type="submit">Upload</button>
@@ -248,5 +298,5 @@ class Upload extends Component {
   }
 }
 
-export { UPLOAD_SONG_MUTATION };
+export { UPLOAD_SONG_MUTATION, QUERY_TAGS };
 export default Upload;

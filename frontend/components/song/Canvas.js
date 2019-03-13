@@ -16,7 +16,11 @@ class Canvas extends Component {
   drawVisualiser = () => {
     const context = this.canvas.getContext("2d");
 
-    context.fillStyle = "#1f222e";
+    const gradient = context.createLinearGradient(0, 116, 0, 0);
+    gradient.addColorStop(0, "#1f222e");
+    gradient.addColorStop(1, "#fefefe");
+
+    context.fillStyle = gradient;
     context.shadowColor = "#fefefe";
     context.shadowBlur = 12;
     context.fillRect(0, 0, this.canvas.width, this.canvas.height);

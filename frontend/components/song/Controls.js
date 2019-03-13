@@ -4,9 +4,11 @@ import {
   ControlContainer,
   ControlsStyles,
   Buttons,
+  MetaButtons,
   Play,
   Forward,
   Rewind,
+  Heart,
   Bar,
   Seek,
   Time,
@@ -31,6 +33,9 @@ class Controls extends Component {
             <Play onClick={this.props.isPlaying ? this.props.pause : this.props.play}>{this.props.isPlaying ? "||" : "▷"}</Play>
             <Forward onClick={this.props.fastForward}>⏭</Forward>
           </Buttons>
+          <MetaButtons>
+            <Heart>❤️</Heart>
+          </MetaButtons>
         </ControlsStyles>
       </ControlContainer>
     );

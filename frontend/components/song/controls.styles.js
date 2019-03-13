@@ -7,6 +7,8 @@ const ControlContainer = styled.div`
 `;
 
 const ControlsStyles = styled.div`
+  display: flex;
+  justify-content: space-between;
   position: relative;
   background-color: ${props => props.theme.white};
   border-radius: ${props => props.theme.radius};
@@ -26,6 +28,10 @@ const Buttons = styled.div`
   /* justify-content: flex-end; */
   height: 70px;
   padding: 0 15px;
+`;
+
+const MetaButtons = styled.div`
+  display: flex;
 `;
 
 const Time = styled.div`
@@ -108,6 +114,27 @@ const Rewind = styled.div`
   }
 `;
 
+const Heart = styled.div`
+  width: 55px;
+  height: auto;
+  border-radius: 10px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  margin: 5px 0;
+  font-size: 32px;
+  text-align: center;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color .3s ease;
+  -webkit-transition: background-color .3s ease;
+  &:hover {
+    background-color: #eee;
+    transition: background-color .3s ease;
+    -webkit-transition: background-color .3s ease;
+  }
+`;
+
 const Seek = styled.div`
   position: relative;
   width: 624px;
@@ -149,9 +176,11 @@ export {
   ControlContainer,
   ControlsStyles,
   Buttons,
+  MetaButtons,
   Play,
   Forward,
   Rewind,
+  Heart,
   Bar,
   Seek,
   Time,
