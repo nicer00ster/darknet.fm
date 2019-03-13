@@ -3,6 +3,7 @@ import fetch from 'isomorphic-unfetch';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Head from 'next/head';
+import Link from 'next/link';
 import moment from 'moment';
 
 import Player from './Player';
@@ -86,7 +87,9 @@ class Song extends Component {
                   <TitleContainer>
                     <UserAndTitle>
                       <Headline>
-                        <a href="#">Uploaded by {song.user.name}</a>
+                        <Link href={`user?id=${song.user.id}`}>
+                          <a>Uploaded by {song.user.name}</a>
+                        </Link>
                       </Headline>
                       <Title>
                         <a href="#">{song.title}</a>
@@ -96,11 +99,15 @@ class Song extends Component {
                   <SongMetaData>
                     <div>{moment(song.createdAt).fromNow()}</div>
                     <div>
-                      {song.tags.map((tag, index) => (
-                        <Tag key={index}>
-                            <span>{tag}</span>
-                        </Tag>
-                      ))}
+                      {song.tags.map((tag, index) => {
+                        if(index < 2) {
+                          return (
+                            <Tag key={index}>
+                              <span>{tag}</span>
+                            </Tag>
+                          );
+                        }
+                      })}
                     </div>
                   </SongMetaData>
                 </Player>

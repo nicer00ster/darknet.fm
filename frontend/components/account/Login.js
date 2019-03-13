@@ -30,7 +30,11 @@ class Login extends Component {
           { query: CURRENT_USER_QUERY }
         ]}
         mutation={LOGIN_MUTATION}
-        onCompleted={() => Router.push('/')}
+        onCompleted={() => {
+          if(window.location.pathname === '/account') {
+            Router.push('/');
+          }
+        }}
         variables={this.state}>
         {(login, { error, loading }) => {
           return (
@@ -39,7 +43,6 @@ class Login extends Component {
               onSubmit={async e => {
                 e.preventDefault();
                 const response = await login();
-                console.log(response);
                 this.setState({
                   email: '',
                   password: '',

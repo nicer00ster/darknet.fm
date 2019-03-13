@@ -1,9 +1,8 @@
-import Users from '../components/users';
+import User from '../components/user';
+import ViewUser from '../components/user/ViewUser';
 
 const UserPage = props => (
-  <div>
-    <p>hey {props.query.name}</p>
-  </div>
+  <ViewUser id={props.query.id} />
 );
 
 export default UserPage;

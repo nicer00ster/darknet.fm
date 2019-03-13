@@ -14,6 +14,7 @@ const SongListItem = styled.li`
   border-radius: ${props => props.theme.radius};
   margin: 1.2rem;
   width: 17.666%;
+  min-width: 175px;
   float: left;
   cursor: pointer;
   transition: all 0.35s;

@@ -20,20 +20,20 @@ const Nav = () => (
                 title="upload"
                 link="/upload" />
               <NavItem
-                title="about"
-                link="/about" />
+                title="users"
+                link="/users" />
               <NavItem
                 title="account"
                 // as={`/user/${data.currentUser.name}`}
-                link={`/user?name=${data.currentUser.name}`} />
+                link={`/user?id=${data.currentUser.id}`} />
               <Logout />
               </>
             )}
             {!data.currentUser && (
               <>
               <NavItem
-                title="about"
-                link="/about" />
+                title="users"
+                link="/users" />
               <NavItem
                 title="login"
                 link="/account" />

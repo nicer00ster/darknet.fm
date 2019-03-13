@@ -17,7 +17,25 @@ A music application written with React, NextJS, GraphQL, and Apollo.
 - ### Reset Password
 	- Setup nodemailer for emailing user their reset token.
 	-
+- ### Register
+	- Redirect user to home screen after creating an account.
 - ### Single Song
-  - Display the first two #hashtags that the song has.
+  - ~~Display the first two #hashtags that the song has.~~
   - Add all the controls to the dashboard.
   - "Like Song" functionality.
+- ### Pagination
+	- Better styling on pagination.
+- ### Users
+	- Styling for Users.
+- ### User Profile
+	- Scaffold out the UI for displaying a users profile.
+	- Allow users to upload thumbnail/avatar picture.
+	- Show followers.
+	- Show following.
+	- Show users playlist.
+	- Show users uploaded music.
+
+## Tests
+
+- ### Unit Testing
+	- Start writing tests.

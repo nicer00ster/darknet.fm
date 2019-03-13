@@ -1,7 +1,10 @@
 import Upload from '../components/upload';
+import GatedLogin from '../components/account/GatedLogin';
 
 const UploadPage = () => (
-  <Upload />
+  <GatedLogin>
+    <Upload />
+  </GatedLogin>
 );
 
 export default UploadPage;

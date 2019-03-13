@@ -38,6 +38,15 @@ const TabContainer = styled.div`
   }
 `;
 
+const Gated = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  & > h2 {
+    color: ${props => props.theme.red};
+    text-align: center;
+  }
+`;
+
 const Form = styled.form`
   width: 50%;
   margin: 0 auto;
@@ -126,4 +135,4 @@ const Form = styled.form`
   }
 `;
 
-export { Form, TabContainer };
+export { Form, TabContainer, Gated };

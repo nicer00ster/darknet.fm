@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
+
+import Loading from '../loading';
+import { perPage } from '../../config';
 import { LibraryContainer, SongListItem } from './library.styles';
 
 const ALL_SONGS_QUERY = gql`
-  query ALL_SONGS_QUERY {
-    songs {
+  query ALL_SONGS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
+    songs(first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       title
       description
@@ -32,10 +35,11 @@ class Library extends Component {
     return (
       <div>
         Library of songs
-        <Query query={ALL_SONGS_QUERY}>
+        <Query query={ALL_SONGS_QUERY} variables={{
+          skip: this.props.page * perPage - perPage,
+        }}>
           {({ data, loading, error }) => {
-            if(loading) return <p>loading</p>
-            console.log(data);
+            if(loading) return <Loading />
             return (
               <LibraryContainer>
                 {data.songs.map(song => {
