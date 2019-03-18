@@ -1,5 +1,6 @@
 import withApollo from 'next-with-apollo';
 import ApolloClient from 'apollo-boost';
+
 import { endpoint } from '../config';
 
 function createClient({ headers }) {
@@ -12,6 +13,14 @@ function createClient({ headers }) {
         },
         headers,
       });
+    },
+    clientState: {
+      resolvers: {},
+      defaults: {
+        hasError: false,
+        goodField: '',
+        badField: '',
+      },
     },
   });
 }

@@ -177,7 +177,7 @@ const PlayButton = styled.div`
 
 const PlayerContainer = styled.div`
   position: relative;
-  height: auto;
+  height: 124px;
   width: 100%;
   margin: 1rem 0;
 `;

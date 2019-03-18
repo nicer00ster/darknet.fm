@@ -24,6 +24,7 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
   render() {
+    const { toastManager } = this.props;
     return (
       <Mutation
         refetchQueries={[

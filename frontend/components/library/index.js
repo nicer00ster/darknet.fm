@@ -5,7 +5,11 @@ import Router from 'next/router';
 
 import Loading from '../loading';
 import { perPage } from '../../config';
-import { LibraryContainer, SongListItem } from './library.styles';
+import {
+  LibraryContainer,
+  SongList,
+  SongListItem,
+} from './library.styles';
 
 const ALL_SONGS_QUERY = gql`
   query ALL_SONGS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
@@ -33,7 +37,7 @@ class Library extends Component {
   }
   render() {
     return (
-      <div>
+      <LibraryContainer>
         Library of songs
         <Query query={ALL_SONGS_QUERY} variables={{
           skip: this.props.page * perPage - perPage,
@@ -41,7 +45,7 @@ class Library extends Component {
           {({ data, loading, error }) => {
             if(loading) return <Loading />
             return (
-              <LibraryContainer>
+              <SongList>
                 {data.songs.map(song => {
                   return (
                     <SongListItem onClick={() => this.routeToSong(song)} key={song.id}>
@@ -55,11 +59,11 @@ class Library extends Component {
                     </SongListItem>
                   );
                 })}
-              </LibraryContainer>
+              </SongList>
             );
           }}
         </Query>
-      </div>
+      </LibraryContainer>
     );
   }
 }

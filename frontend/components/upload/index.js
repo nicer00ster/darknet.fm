@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import Router from 'next/router';
 import Downshift, { resetIdCounter } from 'downshift';
 import debounce from 'lodash.debounce';
+import { withToast } from 'react-awesome-toasts';
 
 import { Form } from '../account/styles.account';
 import { ALL_SONGS_QUERY } from '../library';
@@ -44,7 +45,9 @@ const QUERY_TAGS = gql`
 `;
 
 class Upload extends Component {
-  state = {
+  constructor() {
+    super();
+    this.state = {
       title: '',
       description: '',
       image: '',
@@ -53,7 +56,10 @@ class Upload extends Component {
       allowedTags: [],
       input: '',
       selected: '',
+    }
+    this.form = React.createRef();
   }
+
   uploadImage = async e => {
     const files = e.target.files;
     const data = new FormData();
@@ -157,6 +163,7 @@ class Upload extends Component {
           return (
             <Form
               data-test="form"
+              ref={form => this.form = form}
               onSubmit={async e => {
                 e.preventDefault();
                 const res = await createSong();
@@ -167,7 +174,6 @@ class Upload extends Component {
                   },
                 });
               }}>
-              {error && <p>{error}</p>}
               <fieldset disabled={loading} aria-busy={loading}>
                 <label htmlFor="file">
                   <p>Image</p>
@@ -288,7 +294,7 @@ class Upload extends Component {
                   </Downshift>
                 </label>
 
-                <button type="submit">Upload</button>
+                <button type="button" onClick={e => this.form.props.onSubmit(e)}>Upload</button>
               </fieldset>
             </Form>
           )
@@ -299,4 +305,4 @@ class Upload extends Component {
 }
 
 export { UPLOAD_SONG_MUTATION, QUERY_TAGS };
-export default Upload;
+export default withToast(Upload);

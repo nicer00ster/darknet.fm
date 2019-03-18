@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Canvas from './Canvas';
 import Controls from './Controls';
 import Loading from '../loading';
-import { PlayButton } from './song.styles';
+import { PlayButton, PlayerContainer } from './song.styles';
 
 class Player extends Component {
   constructor(props) {
@@ -234,7 +234,9 @@ class Player extends Component {
       <>
       {this.props.children}
       {this.state.isLoading
-      ? <Loading />
+      ? <PlayerContainer>
+          <Loading />
+        </PlayerContainer>
       : <Canvas
           play={this.play}
           audioData={this.state.audioData}

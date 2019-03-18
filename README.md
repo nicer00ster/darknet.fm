@@ -9,16 +9,17 @@ A music application written with React, NextJS, GraphQL, and Apollo.
 
 - ### Upload
 	- Return user a success message after successfully uploading.
-	- Better UX for adding tags.
+	- ~~Better UX for adding tags.~~
 	- Fix required settings on the image/song uploading.
 	- ~~Add #hashtag functionality.~~
 	- Better styling on tags.
   - Validate file type server side.
 - ### Reset Password
-	- Setup nodemailer for emailing user their reset token.
-	-
+	- ~~Setup nodemailer for emailing user their reset token.~~
+	- Better email templating.
+	- Before production change SMTP server to use a real email.
 - ### Register
-	- Redirect user to home screen after creating an account.
+	- ~~Redirect user to home screen after creating an account.~~
 - ### Single Song
   - ~~Display the first two #hashtags that the song has.~~
   - Add all the controls to the dashboard.
@@ -34,6 +35,8 @@ A music application written with React, NextJS, GraphQL, and Apollo.
 	- Show following.
 	- Show users playlist.
 	- Show users uploaded music.
+- ### Toasts
+	- Get toast functionality working.
 
 ## Tests
 

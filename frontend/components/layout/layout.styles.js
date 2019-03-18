@@ -4,7 +4,7 @@ const DNLayout = styled.div `
   display: flex;
   flex-direction: column;
   max-width: ${props => props.theme.maxWidth};
-  height: 100vh;
+  height: 100%;
   padding: 2rem;
   margin: 0 auto;
   background-color: ${props => props.theme.white};

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
+import Router from 'next/router';
 
 import { CURRENT_USER_QUERY } from '../user';
 import { Form } from './styles.account';
@@ -34,6 +35,7 @@ class ResetPassword extends Component {
           { query: CURRENT_USER_QUERY },
         ]}
         mutation={RESET_PASSWORD_MUTATION}
+        onCompleted={() => Router.push('/')}
         variables={{
           resetToken: this.props.resetToken,
           password: this.state.password,
@@ -81,7 +83,6 @@ class ResetPassword extends Component {
           );
         }}
       </Mutation>
-
     );
   }
 }

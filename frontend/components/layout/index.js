@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled, { ThemeProvider, injectGlobal } from 'styled-components';
+import { ToastProvider } from 'react-awesome-toasts';
 
 import Header from '../header'
 import Meta from '../meta';
@@ -56,11 +57,13 @@ class Layout extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <DNLayout>
-          <Meta />
-          <Header />
-          {this.props.children}
-        </DNLayout>
+        <ToastProvider position="top-right">
+          <DNLayout>
+            <Meta />
+            <Header />
+            {this.props.children}
+          </DNLayout>
+        </ToastProvider>
       </ThemeProvider>
     );
   }

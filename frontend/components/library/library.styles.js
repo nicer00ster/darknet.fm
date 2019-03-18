@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-const LibraryContainer = styled.ul`
+const LibraryContainer = styled.div`
+  height: 100%;
+`;
+
+const SongList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -44,5 +48,6 @@ const SongListItem = styled.li`
 
 export {
   LibraryContainer,
+  SongList,
   SongListItem,
 };

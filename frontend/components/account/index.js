@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 import { Form, TabContainer } from './styles.account';
 import Login from './Login';
-import CreateAccount from './CreateAccount';
+import Register from './Register';
 import RequestReset from './RequestReset';
 
 class Account extends Component {
@@ -17,7 +17,7 @@ class Account extends Component {
     if(this.state.currentTab === 'login') {
       return <Login />
     } else if(this.state.currentTab === 'register') {
-      return <CreateAccount />
+      return <Register />
     } else {
       return <RequestReset />
     }

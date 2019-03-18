@@ -6,14 +6,12 @@ const Spinner = styled.div`
       transform: rotate(360deg);
     }
   }
-
   &:before {
     content: '';
     box-sizing: border-box;
     position: absolute;
     top: 50%;
     left: 50%;
-    /* right: 0; */
     width: 30px;
     height: 30px;
     margin-top: -15px;
@@ -25,10 +23,6 @@ const Spinner = styled.div`
   }
 `;
 
-const Loading = () => (
-  <div style={{ position: 'relative' }}>
-    <Spinner />
-  </div>
-);
+const Loading = () => <Spinner />
 
 export default Loading;

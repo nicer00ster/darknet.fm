@@ -1,10 +1,8 @@
 import App, { Container } from 'next/app';
 import fetch from 'isomorphic-unfetch';
 import { ApolloProvider } from 'react-apollo';
-import { ToastProvider } from 'react-toast-notifications';
 
 import withData from '../lib/withData';
-import ToastListener from '../components/toast';
 import Layout from '../components/layout';
 
 class DNApp extends App {
@@ -20,14 +18,11 @@ class DNApp extends App {
     const { Component, apollo, pageProps } = this.props;
     return (
       <ApolloProvider client={apollo}>
-        {/* <ToastProvider>
-          <ToastListener /> */}
-          <Container>
-            <Layout>
-              <Component {...pageProps}/>
-            </Layout>
-          </Container>
-        {/* </ToastProvider> */}
+        <Container>
+          <Layout>
+            <Component {...pageProps}/>
+          </Layout>
+        </Container>
       </ApolloProvider>
     );
   }

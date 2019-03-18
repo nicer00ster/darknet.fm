@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
+const { transport, emailTemplate } = require('../mail');
 
 const Mutations = {
   async createUser(parent, args, ctx, info) {
@@ -63,6 +64,14 @@ const Mutations = {
       where: { email: args.email },
       data: { resetToken, resetTokenExpiry }
     });
+    const mailResponse = await transport.sendMail({
+      from: 'darknet@fm.com',
+      to: user.email,
+      subject: 'DARKNET.FM || Password Reset Token',
+      html: emailTemplate(`Follow this link to reset your password! \n\n
+        <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">Reset Password</a>`),
+    });
+
     return { message: 'A token has been sent to your email.' };
   },
   async resetPassword(parent, args, ctx, info) {
@@ -105,10 +114,24 @@ const Mutations = {
     }
   },
   async createSong(parent, args, ctx, info) {
-    // if (!ctx.request.userId) {
-    //   throw new Error('You must be logged in to do that!');
-    // }
-    console.log('args', args);
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that.');
+    }
+    if(!args.song) {
+      throw new Error('You must upload a song before submitting.');
+    }
+    if(!args.image) {
+      throw new Error('You must upload an image before submitting.');
+    }
+    if(!args.title) {
+      throw new Error('Please provide a title before submitting.');
+    }
+    if(!args.description) {
+      throw new Error('Please provide a description before submitting.');
+    }
+    if(args.tags.length <= 0) {
+      throw new Error('Give your song a few tags.');
+    }
     const song = await ctx.db.mutation.createSong({
       data: {
         title: args.title,
