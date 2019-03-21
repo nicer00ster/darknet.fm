@@ -13,11 +13,13 @@ type Mutation {
   requestReset(email: String!): Toast
   resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
   toast(message: String, error: String): Toast
+  uploadAvatar(avatar: String!, where: UserWhereUniqueInput!): User!
 }
 
 type Query {
   user(where: UserWhereUniqueInput!): User
   users: [User]!
+  usersConnection(where: UserWhereInput): UserConnection!
   currentUser: User
   song(where: SongWhereUniqueInput!): Song
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, first: Int): [Song]!
@@ -29,6 +31,8 @@ type User {
   name: String!
   email: String!
   permissions: [Permission!]!
+  songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, first: Int): [Song]!
+  avatar: String!
   # friendsConnection(
   #   first: Int,
   #   after: String,

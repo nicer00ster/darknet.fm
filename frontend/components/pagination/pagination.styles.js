@@ -26,4 +26,26 @@ const PaginationContainer = styled.div`
   }
 `;
 
-export default PaginationContainer;
+const UserSongPaginationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  min-height: 55px;
+  white-space: nowrap;
+  a {
+    border: 1px solid ${props => props.theme.grey};
+    padding: 1rem;
+    border-radius: ${props => props.theme.radius};
+  }
+  a[aria-disabled='true'] {
+    color: ${props => props.theme.grey};
+    pointer-events: none;
+  }
+`;
+
+export {
+  PaginationContainer,
+  UserSongPaginationContainer,
+};

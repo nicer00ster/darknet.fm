@@ -51,8 +51,10 @@ const Time = styled.div`
   }
 `;
 
-const Play = styled.div`
+const Play = styled.button`
   width: 65px;
+  outline: 0;
+  border: 0;
   height: auto;
   border-radius: 10px;
   background-position: center center;
@@ -72,8 +74,10 @@ const Play = styled.div`
   }
 `;
 
-const Forward = styled.div`
+const Forward = styled.button`
   width: 55px;
+  outline: 0;
+  border: 0;
   height: auto;
   border-radius: 10px;
   background-position: center center;
@@ -93,8 +97,10 @@ const Forward = styled.div`
   }
 `;
 
-const Rewind = styled.div`
+const Rewind = styled.button`
   width: 55px;
+  outline: 0;
+  border: 0;
   height: auto;
   border-radius: 10px;
   background-position: center center;
@@ -114,8 +120,10 @@ const Rewind = styled.div`
   }
 `;
 
-const Heart = styled.div`
+const Heart = styled.button`
   width: 55px;
+  outline: 0;
+  border: 0;
   height: auto;
   border-radius: 10px;
   background-position: center center;

@@ -30,6 +30,7 @@ const DNNavItem = styled.li`
   position: relative;
   color: ${props => props.theme.black};
   letter-spacing: 1px;
+  text-transform: uppercase;
   padding: 1rem;
   cursor: pointer;
   white-space: nowrap;

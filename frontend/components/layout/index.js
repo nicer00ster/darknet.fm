@@ -11,6 +11,7 @@ const theme = {
   maxWidth: '1080px',
   black: '#1f222e',
   lightBlack: 'rgba(31, 34, 46, 0.75)',
+  grey: '#cacacc',
   white: '#fefefe',
   red: '#e95e5e',
   lightRed: 'rgba(233, 94, 94, 0.75)',
@@ -50,6 +51,16 @@ injectGlobal`
     a {
       text-decoration: none;
       color: ${theme.black};
+    }
+    ul {
+      list-style-position: outside;
+      padding: 0;
+      margin: 0;
+    }
+    button {
+      font-family: 'Raleway';
+      background: none;
+      cursor: pointer;
     }
 `;
 

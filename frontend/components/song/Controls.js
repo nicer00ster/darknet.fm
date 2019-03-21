@@ -29,9 +29,15 @@ class Controls extends Component {
         </Seek>
         <ControlsStyles>
           <Buttons>
-            <Rewind onClick={this.props.rewind}>⏮</Rewind>
-            <Play onClick={this.props.isPlaying ? this.props.pause : this.props.play}>{this.props.isPlaying ? "||" : "▷"}</Play>
-            <Forward onClick={this.props.fastForward}>⏭</Forward>
+            <Rewind
+              disabled={this.props.disabled}
+              onClick={this.props.rewind}>⏮</Rewind>
+            <Play
+              disabled={this.props.disabled}
+              onClick={this.props.isPlaying ? this.props.pause : this.props.play}>{this.props.isPlaying ? "||" : "▷"}</Play>
+            <Forward
+              disabled={this.props.disabled}
+              onClick={this.props.fastForward}>⏭</Forward>
           </Buttons>
           <MetaButtons>
             <Heart>❤️</Heart>

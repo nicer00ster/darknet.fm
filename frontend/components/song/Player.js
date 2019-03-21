@@ -252,6 +252,7 @@ class Player extends Component {
           rewind={this.rewind}
           position={this.state.position}
           duration={this.audioBuffer.duration}
+          disabled={this.state.isLoading}
         />
       </>
     );

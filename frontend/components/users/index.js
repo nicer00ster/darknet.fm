@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
+import {
+  UserList,
+  UserListItem,
+  Avatar,
+} from './users.styles';
+
 import Loading from '../loading';
 
 const ALL_USERS_QUERY = gql`
@@ -17,14 +23,19 @@ const ALL_USERS_QUERY = gql`
 class Users extends Component {
   render() {
     return (
-      <Query query={ALL_USERS_QUERY}>
-        {({ data, loading, error }) => {
-          if(loading) return <Loading />
-          return data.users.map(user => (
-            <p key={user.id}>{user.name}</p>
-          ))
-        }}
-      </Query>
+      <UserList>
+        <Query query={ALL_USERS_QUERY}>
+          {({ data, loading, error }) => {
+            if(loading) return <Loading />
+            return data.users.map(user => (
+              <UserListItem key={user.id}>
+                <Avatar src="https://www.w3schools.com/howto/img_avatar2.png" alt="" />
+                <p>{user.name}</p>
+              </UserListItem>
+            ))
+          }}
+        </Query>
+      </UserList>
     );
   }
 }
