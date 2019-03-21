@@ -106,8 +106,6 @@ const Mutations = {
   toast(parent, args, ctx, info) {
     let message = args.message;
     let error = args.error;
-    console.log('message', message);
-    console.log('error', error);
     return {
       message,
       error,
@@ -151,6 +149,25 @@ const Mutations = {
     }, info);
 
     return song;
+  },
+  async uploadAvatar(parent, args, ctx, info) {
+    const [user] = await ctx.db.query.users({
+      where: {
+        email: args.email,
+      },
+    });
+    if(!user) {
+      throw new Error('No user exists.');
+    }
+    const updatedUser = await ctx.db.mutation.updateUser({
+      where: {
+        email: user.email,
+      },
+      data: {
+        avatar: args.avatar,
+      },
+    });
+    return updatedUser;
   },
 }
 

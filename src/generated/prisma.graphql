@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/alex-busch-0e5bbf/darknet/dev
-# timestamp: Tue Mar 05 2019 17:08:46 GMT-0500 (Eastern Standard Time)
+# timestamp: Thu Mar 21 2019 14:32:07 GMT-0400 (Eastern Daylight Time)
 
 type AggregateSong {
   count: Int!
@@ -23,18 +23,18 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createSong(data: SongCreateInput!): Song!
   createUser(data: UserCreateInput!): User!
-  updateSong(data: SongUpdateInput!, where: SongWhereUniqueInput!): Song
+  createSong(data: SongCreateInput!): Song!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deleteSong(where: SongWhereUniqueInput!): Song
+  updateSong(data: SongUpdateInput!, where: SongWhereUniqueInput!): Song
   deleteUser(where: UserWhereUniqueInput!): User
-  upsertSong(where: SongWhereUniqueInput!, create: SongCreateInput!, update: SongUpdateInput!): Song!
+  deleteSong(where: SongWhereUniqueInput!): Song
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManySongs(data: SongUpdateManyMutationInput!, where: SongWhereInput): BatchPayload!
+  upsertSong(where: SongWhereUniqueInput!, create: SongCreateInput!, update: SongUpdateInput!): Song!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  deleteManySongs(where: SongWhereInput): BatchPayload!
+  updateManySongs(data: SongUpdateManyMutationInput!, where: SongWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManySongs(where: SongWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -74,12 +74,12 @@ enum Permission {
 }
 
 type Query {
-  songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  song(where: SongWhereUniqueInput!): Song
+  songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song]!
   user(where: UserWhereUniqueInput!): User
-  songsConnection(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection!
+  song(where: SongWhereUniqueInput!): Song
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  songsConnection(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -111,16 +111,31 @@ type SongConnection {
 }
 
 input SongCreateInput {
+  id: ID
   title: String!
   description: String!
   image: String!
   song: String!
   tags: SongCreatetagsInput
-  user: UserCreateOneInput!
+  user: UserCreateOneWithoutSongsInput!
+}
+
+input SongCreateManyWithoutUserInput {
+  create: [SongCreateWithoutUserInput!]
+  connect: [SongWhereUniqueInput!]
 }
 
 input SongCreatetagsInput {
   set: [Tag!]
+}
+
+input SongCreateWithoutUserInput {
+  id: ID
+  title: String!
+  description: String!
+  image: String!
+  song: String!
+  tags: SongCreatetagsInput
 }
 
 """An edge in a connection."""
@@ -158,6 +173,261 @@ type SongPreviousValues {
   tags: [Tag!]!
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+input SongScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SongScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SongScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [SongScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+  description: String
+
+  """All values that are not equal to given value."""
+  description_not: String
+
+  """All values that are contained in given list."""
+  description_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_not_in: [String!]
+
+  """All values less than the given value."""
+  description_lt: String
+
+  """All values less than or equal the given value."""
+  description_lte: String
+
+  """All values greater than the given value."""
+  description_gt: String
+
+  """All values greater than or equal the given value."""
+  description_gte: String
+
+  """All values containing the given string."""
+  description_contains: String
+
+  """All values not containing the given string."""
+  description_not_contains: String
+
+  """All values starting with the given string."""
+  description_starts_with: String
+
+  """All values not starting with the given string."""
+  description_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_ends_with: String
+
+  """All values not ending with the given string."""
+  description_not_ends_with: String
+  image: String
+
+  """All values that are not equal to given value."""
+  image_not: String
+
+  """All values that are contained in given list."""
+  image_in: [String!]
+
+  """All values that are not contained in given list."""
+  image_not_in: [String!]
+
+  """All values less than the given value."""
+  image_lt: String
+
+  """All values less than or equal the given value."""
+  image_lte: String
+
+  """All values greater than the given value."""
+  image_gt: String
+
+  """All values greater than or equal the given value."""
+  image_gte: String
+
+  """All values containing the given string."""
+  image_contains: String
+
+  """All values not containing the given string."""
+  image_not_contains: String
+
+  """All values starting with the given string."""
+  image_starts_with: String
+
+  """All values not starting with the given string."""
+  image_not_starts_with: String
+
+  """All values ending with the given string."""
+  image_ends_with: String
+
+  """All values not ending with the given string."""
+  image_not_ends_with: String
+  song: String
+
+  """All values that are not equal to given value."""
+  song_not: String
+
+  """All values that are contained in given list."""
+  song_in: [String!]
+
+  """All values that are not contained in given list."""
+  song_not_in: [String!]
+
+  """All values less than the given value."""
+  song_lt: String
+
+  """All values less than or equal the given value."""
+  song_lte: String
+
+  """All values greater than the given value."""
+  song_gt: String
+
+  """All values greater than or equal the given value."""
+  song_gte: String
+
+  """All values containing the given string."""
+  song_contains: String
+
+  """All values not containing the given string."""
+  song_not_contains: String
+
+  """All values starting with the given string."""
+  song_starts_with: String
+
+  """All values not starting with the given string."""
+  song_not_starts_with: String
+
+  """All values ending with the given string."""
+  song_ends_with: String
+
+  """All values not ending with the given string."""
+  song_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
 }
 
 type SongSubscriptionPayload {
@@ -205,7 +475,15 @@ input SongUpdateInput {
   image: String
   song: String
   tags: SongUpdatetagsInput
-  user: UserUpdateOneRequiredInput
+  user: UserUpdateOneRequiredWithoutSongsInput
+}
+
+input SongUpdateManyDataInput {
+  title: String
+  description: String
+  image: String
+  song: String
+  tags: SongUpdatetagsInput
 }
 
 input SongUpdateManyMutationInput {
@@ -216,8 +494,44 @@ input SongUpdateManyMutationInput {
   tags: SongUpdatetagsInput
 }
 
+input SongUpdateManyWithoutUserInput {
+  create: [SongCreateWithoutUserInput!]
+  connect: [SongWhereUniqueInput!]
+  set: [SongWhereUniqueInput!]
+  disconnect: [SongWhereUniqueInput!]
+  delete: [SongWhereUniqueInput!]
+  update: [SongUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [SongUpdateManyWithWhereNestedInput!]
+  deleteMany: [SongScalarWhereInput!]
+  upsert: [SongUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input SongUpdateManyWithWhereNestedInput {
+  where: SongScalarWhereInput!
+  data: SongUpdateManyDataInput!
+}
+
 input SongUpdatetagsInput {
   set: [Tag!]
+}
+
+input SongUpdateWithoutUserDataInput {
+  title: String
+  description: String
+  image: String
+  song: String
+  tags: SongUpdatetagsInput
+}
+
+input SongUpdateWithWhereUniqueWithoutUserInput {
+  where: SongWhereUniqueInput!
+  data: SongUpdateWithoutUserDataInput!
+}
+
+input SongUpsertWithWhereUniqueWithoutUserInput {
+  where: SongWhereUniqueInput!
+  update: SongUpdateWithoutUserDataInput!
+  create: SongCreateWithoutUserInput!
 }
 
 input SongWhereInput {
@@ -481,8 +795,8 @@ input SongWhereUniqueInput {
 }
 
 type Subscription {
-  song(where: SongSubscriptionWhereInput): SongSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  song(where: SongSubscriptionWhereInput): SongSubscriptionPayload
 }
 
 enum Tag {
@@ -510,6 +824,8 @@ type User implements Node {
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]!
+  songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song!]
+  avatar: String
 }
 
 """A connection to a list of items."""
@@ -523,21 +839,35 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  id: ID
   name: String!
   email: String!
   password: String!
   resetToken: String
   resetTokenExpiry: Float
+  avatar: String
   permissions: UserCreatepermissionsInput
+  songs: SongCreateManyWithoutUserInput
 }
 
-input UserCreateOneInput {
-  create: UserCreateInput
+input UserCreateOneWithoutSongsInput {
+  create: UserCreateWithoutSongsInput
   connect: UserWhereUniqueInput
 }
 
 input UserCreatepermissionsInput {
   set: [Permission!]
+}
+
+input UserCreateWithoutSongsInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  avatar: String
+  permissions: UserCreatepermissionsInput
 }
 
 """An edge in a connection."""
@@ -562,6 +892,8 @@ enum UserOrderByInput {
   resetToken_DESC
   resetTokenExpiry_ASC
   resetTokenExpiry_DESC
+  avatar_ASC
+  avatar_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -576,6 +908,7 @@ type UserPreviousValues {
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]!
+  avatar: String
 }
 
 type UserSubscriptionPayload {
@@ -617,22 +950,15 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
-input UserUpdateDataInput {
-  name: String
-  email: String
-  password: String
-  resetToken: String
-  resetTokenExpiry: Float
-  permissions: UserUpdatepermissionsInput
-}
-
 input UserUpdateInput {
   name: String
   email: String
   password: String
   resetToken: String
   resetTokenExpiry: Float
+  avatar: String
   permissions: UserUpdatepermissionsInput
+  songs: SongUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -641,23 +967,34 @@ input UserUpdateManyMutationInput {
   password: String
   resetToken: String
   resetTokenExpiry: Float
+  avatar: String
   permissions: UserUpdatepermissionsInput
 }
 
-input UserUpdateOneRequiredInput {
-  create: UserCreateInput
+input UserUpdateOneRequiredWithoutSongsInput {
+  create: UserCreateWithoutSongsInput
   connect: UserWhereUniqueInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
+  update: UserUpdateWithoutSongsDataInput
+  upsert: UserUpsertWithoutSongsInput
 }
 
 input UserUpdatepermissionsInput {
   set: [Permission!]
 }
 
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
+input UserUpdateWithoutSongsDataInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  avatar: String
+  permissions: UserUpdatepermissionsInput
+}
+
+input UserUpsertWithoutSongsInput {
+  update: UserUpdateWithoutSongsDataInput!
+  create: UserCreateWithoutSongsInput!
 }
 
 input UserWhereInput {
@@ -891,6 +1228,49 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   resetTokenExpiry_gte: Float
+  avatar: String
+
+  """All values that are not equal to given value."""
+  avatar_not: String
+
+  """All values that are contained in given list."""
+  avatar_in: [String!]
+
+  """All values that are not contained in given list."""
+  avatar_not_in: [String!]
+
+  """All values less than the given value."""
+  avatar_lt: String
+
+  """All values less than or equal the given value."""
+  avatar_lte: String
+
+  """All values greater than the given value."""
+  avatar_gt: String
+
+  """All values greater than or equal the given value."""
+  avatar_gte: String
+
+  """All values containing the given string."""
+  avatar_contains: String
+
+  """All values not containing the given string."""
+  avatar_not_contains: String
+
+  """All values starting with the given string."""
+  avatar_starts_with: String
+
+  """All values not starting with the given string."""
+  avatar_not_starts_with: String
+
+  """All values ending with the given string."""
+  avatar_ends_with: String
+
+  """All values not ending with the given string."""
+  avatar_not_ends_with: String
+  songs_every: SongWhereInput
+  songs_some: SongWhereInput
+  songs_none: SongWhereInput
 }
 
 input UserWhereUniqueInput {
