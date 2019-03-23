@@ -38,6 +38,7 @@ type User {
 
 type Song {
   id: ID! @unique
+  artist: String!
   title: String!
   description: String!
   image: String!

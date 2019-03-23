@@ -7,7 +7,7 @@ type Toast {
 
 type Mutation {
   createUser(name: String!, email: String!, password: String!, avatar: String!): User!
-  createSong(title: String!, description: String!, image: String!, song: String!, tags: [String]): Song!
+  createSong(artist: String!, title: String!, description: String!, image: String!, song: String!, tags: [String]): Song!
   login(email: String!, password: String!): User!
   logout: Toast
   requestReset(email: String!): Toast
