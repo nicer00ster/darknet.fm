@@ -19,6 +19,15 @@ const DropDownItem = styled.div`
   img {
     margin-right: 10px;
   }
+  div {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    & span:first-child {
+      font-weight: bold;
+    }
+  }
 `;
 
 const highlight = keyframes`
@@ -27,6 +36,7 @@ const highlight = keyframes`
 `;
 
 const SearchStyles = styled.div`
+  z-index: 9999;
   position: relative;
   margin: 45px 0;
   input[type="search"]::-webkit-search-decoration,

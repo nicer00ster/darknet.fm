@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import { CURRENT_USER_QUERY } from '../user';
 import Login from './Login';
 import Loading from '../loading';
-import { Gated } from './styles.account';
+import { Gated } from './account.styles';
 
 const GatedLogin = props => (
   <Query query={CURRENT_USER_QUERY}>

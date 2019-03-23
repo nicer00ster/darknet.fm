@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 
-import { Form, TabContainer } from './styles.account';
+import { Form, TabContainer } from './account.styles';
 import Login from './Login';
 import Register from './Register';
 import RequestReset from './RequestReset';

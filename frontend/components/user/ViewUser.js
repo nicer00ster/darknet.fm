@@ -36,6 +36,7 @@ const VIEW_USER_QUERY = gql`
       avatar
       songs(first: $first, skip: $skip, orderBy: createdAt_DESC) {
         id
+        artist
         title
         description
         tags
@@ -219,11 +220,11 @@ class ViewUser extends Component {
                                 return (
                                   <SongListItem onClick={() => this.routeToSong(song)} key={song.id}>
                                     <div className="art">
-                                      <img src={song.image} alt={song.title}/>
+                                      <img src={song.image} alt={song.artist}/>
                                     </div>
                                     <div className="details">
-                                      <p className="title">{song.title}</p>
-                                      <p className="description">{song.description}</p>
+                                      <p className="artist">{song.artist}</p>
+                                      <p className="description">{song.title}</p>
                                     </div>
                                   </SongListItem>
                                 );

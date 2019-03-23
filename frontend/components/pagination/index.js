@@ -32,7 +32,7 @@ const USER_SONG_PAGINATION_QUERY = gql`
           name
           songs {
             id
-            title
+            artist
             description
             image
             song

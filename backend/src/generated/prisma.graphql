@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/alex-busch-0e5bbf/darknet/dev
-# timestamp: Thu Mar 21 2019 23:22:25 GMT-0400 (Eastern Daylight Time)
+# timestamp: Sat Mar 23 2019 10:49:26 GMT-0600 (Mountain Daylight Time)
 
 type AggregateSong {
   count: Int!
@@ -90,6 +90,7 @@ type Query {
 
 type Song implements Node {
   id: ID!
+  artist: String!
   title: String!
   description: String!
   image: String!
@@ -112,6 +113,7 @@ type SongConnection {
 
 input SongCreateInput {
   id: ID
+  artist: String!
   title: String!
   description: String!
   image: String!
@@ -131,6 +133,7 @@ input SongCreatetagsInput {
 
 input SongCreateWithoutUserInput {
   id: ID
+  artist: String!
   title: String!
   description: String!
   image: String!
@@ -150,6 +153,8 @@ type SongEdge {
 enum SongOrderByInput {
   id_ASC
   id_DESC
+  artist_ASC
+  artist_DESC
   title_ASC
   title_DESC
   description_ASC
@@ -166,6 +171,7 @@ enum SongOrderByInput {
 
 type SongPreviousValues {
   id: ID!
+  artist: String!
   title: String!
   description: String!
   image: String!
@@ -224,6 +230,46 @@ input SongScalarWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  artist: String
+
+  """All values that are not equal to given value."""
+  artist_not: String
+
+  """All values that are contained in given list."""
+  artist_in: [String!]
+
+  """All values that are not contained in given list."""
+  artist_not_in: [String!]
+
+  """All values less than the given value."""
+  artist_lt: String
+
+  """All values less than or equal the given value."""
+  artist_lte: String
+
+  """All values greater than the given value."""
+  artist_gt: String
+
+  """All values greater than or equal the given value."""
+  artist_gte: String
+
+  """All values containing the given string."""
+  artist_contains: String
+
+  """All values not containing the given string."""
+  artist_not_contains: String
+
+  """All values starting with the given string."""
+  artist_starts_with: String
+
+  """All values not starting with the given string."""
+  artist_not_starts_with: String
+
+  """All values ending with the given string."""
+  artist_ends_with: String
+
+  """All values not ending with the given string."""
+  artist_not_ends_with: String
   title: String
 
   """All values that are not equal to given value."""
@@ -470,6 +516,7 @@ input SongSubscriptionWhereInput {
 }
 
 input SongUpdateInput {
+  artist: String
   title: String
   description: String
   image: String
@@ -479,6 +526,7 @@ input SongUpdateInput {
 }
 
 input SongUpdateManyDataInput {
+  artist: String
   title: String
   description: String
   image: String
@@ -487,6 +535,7 @@ input SongUpdateManyDataInput {
 }
 
 input SongUpdateManyMutationInput {
+  artist: String
   title: String
   description: String
   image: String
@@ -516,6 +565,7 @@ input SongUpdatetagsInput {
 }
 
 input SongUpdateWithoutUserDataInput {
+  artist: String
   title: String
   description: String
   image: String
@@ -583,6 +633,46 @@ input SongWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  artist: String
+
+  """All values that are not equal to given value."""
+  artist_not: String
+
+  """All values that are contained in given list."""
+  artist_in: [String!]
+
+  """All values that are not contained in given list."""
+  artist_not_in: [String!]
+
+  """All values less than the given value."""
+  artist_lt: String
+
+  """All values less than or equal the given value."""
+  artist_lte: String
+
+  """All values greater than the given value."""
+  artist_gt: String
+
+  """All values greater than or equal the given value."""
+  artist_gte: String
+
+  """All values containing the given string."""
+  artist_contains: String
+
+  """All values not containing the given string."""
+  artist_not_contains: String
+
+  """All values starting with the given string."""
+  artist_starts_with: String
+
+  """All values not starting with the given string."""
+  artist_not_starts_with: String
+
+  """All values ending with the given string."""
+  artist_ends_with: String
+
+  """All values not ending with the given string."""
+  artist_not_ends_with: String
   title: String
 
   """All values that are not equal to given value."""

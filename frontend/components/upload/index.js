@@ -6,13 +6,15 @@ import Downshift, { resetIdCounter } from 'downshift';
 import debounce from 'lodash.debounce';
 import { withToast } from 'react-awesome-toasts';
 
-import { Form } from '../account/styles.account';
+import { Form } from '../account/account.styles';
 import { ALL_SONGS_QUERY } from '../library';
 import Loading from '../loading';
+import { DNInput } from '../layout/layout.styles';
 import {
   TagContainer,
   TagListItem,
   TagInput,
+  InputContainer,
 } from './upload.styles';
 import {
   DropDown,
@@ -21,13 +23,14 @@ import {
 
 const UPLOAD_SONG_MUTATION = gql`
   mutation UPLOAD_SONG_MUTATION(
+    $artist: String!
     $title: String!
     $description: String!
     $image: String!
     $song: String!
     $tags: [String]
   ) {
-    createSong(title: $title, description: $description, image: $image, song: $song, tags: $tags) {
+    createSong(artist: $artist, title: $title, description: $description, image: $image, song: $song, tags: $tags) {
       id
     }
   }
@@ -48,6 +51,7 @@ class Upload extends Component {
   constructor() {
     super();
     this.state = {
+      artist: '',
       title: '',
       description: '',
       image: '',
@@ -149,6 +153,7 @@ class Upload extends Component {
     return (
       <Mutation
         variables={{
+          artist: this.state.artist,
           title: this.state.title,
           description: this.state.description,
           image: this.state.image,
@@ -207,30 +212,55 @@ class Upload extends Component {
                   )}
                 </label>
 
-                <label htmlFor="title">
-                  <p>Title</p>
+                <InputContainer>
+                  <DNInput>
+                    <input
+                      type="text"
+                      id="artist"
+                      name="artist"
+                      required
+                      value={this.state.artist}
+                      onChange={this.handleChange}
+                    />
+                    <span className="bar"></span>
+                    <span className="highlight"></span>
+                    <label htmlFor="artist">
+                      Artist
+                    </label>
+                  </DNInput>
+
+                  <DNInput>
+                    <input
+                      type="text"
+                      id="title"
+                      name="title"
+                      required
+                      value={this.state.title}
+                      onChange={this.handleChange}
+                    />
+                    <span className="bar"></span>
+                    <span className="highlight"></span>
+                    <label htmlFor="title">
+                      Title
+                    </label>
+                  </DNInput>
+                </InputContainer>
+
+                <DNInput>
                   <input
                     type="text"
-                    id="title"
-                    name="title"
-                    placeholder="Title"
-                    required
-                    value={this.state.title}
-                    onChange={this.handleChange}
-                  />
-                </label>
-
-                <label htmlFor="description">
-                  <p>Description</p>
-                  <input
                     id="description"
                     name="description"
-                    placeholder="Enter A Description"
                     required
                     value={this.state.description}
                     onChange={this.handleChange}
                   />
-                </label>
+                  <span className="bar"></span>
+                  <span className="highlight"></span>
+                  <label htmlFor="description">
+                    Description
+                  </label>
+                </DNInput>
 
                 <label htmlFor="tags">
                   <p>Tags</p>

@@ -28,6 +28,7 @@ const SONG_QUERY = gql`
       id: $id
     }) {
       id
+      artist
       title
       description
       image
@@ -53,6 +54,8 @@ const SONG_USER_QUERY = gql`
         node {
           id
           image
+          artist
+          title
           description
           song
         }
@@ -92,7 +95,8 @@ class Song extends Component {
                         </Link>
                       </Headline>
                       <Title>
-                        <a href="#">{song.title}</a>
+                        <a href="#">{song.artist}</a>
+                        <p>{song.title}</p>
                       </Title>
                     </UserAndTitle>
                   </TitleContainer>

@@ -16,13 +16,13 @@ class Canvas extends Component {
   drawVisualiser = () => {
     const context = this.canvas.getContext("2d");
 
-    const gradient = context.createLinearGradient(0, 116, 0, 0);
+    const gradient = context.createLinearGradient(0, 96, 0, 0);
     gradient.addColorStop(0, "#1f222e");
     gradient.addColorStop(1, "#fefefe");
 
     context.fillStyle = gradient;
-    context.shadowColor = "#fefefe";
-    context.shadowBlur = 12;
+    // context.shadowColor = "#fefefe";
+    // context.shadowBlur = 12;
     context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     context.beginPath();
 
@@ -47,7 +47,7 @@ class Canvas extends Component {
   render() {
     return (
       <PlayerContainer>
-        <canvas className="frequency-bars" width="624" height="124" ref={canvas => this.canvas = canvas}></canvas>
+        <canvas className="frequency-bars" width="624" height="96" ref={canvas => this.canvas = canvas}></canvas>
       </PlayerContainer>
     );
   }

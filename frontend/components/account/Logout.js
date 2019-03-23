@@ -7,7 +7,7 @@ import debounce from 'lodash.debounce';
 import { CURRENT_USER_QUERY } from '../user';
 import Loading from '../loading';
 import { DNNavItem } from '../header/header.styles';
-import { UserMenu, UserMenuItem } from './styles.account';
+import { UserMenu, UserMenuItem } from './account.styles';
 import Avatar from '../users/Avatar';
 
 const LOGOUT_MUTATION = gql`
@@ -65,8 +65,7 @@ class Logout extends Component {
                 avatar={this.props.avatar}
                 alt={this.props.name} />
               {loading ? <Loading /> : null}
-              {this.state.isOpen
-              ? <UserMenu
+              <UserMenu
                 className={this.state.isOpen ? 'active' : null}>
                   <UserMenuItem onClick={() => Router.push({
                       pathname: '/user',
@@ -82,8 +81,7 @@ class Logout extends Component {
                   <UserMenuItem onClick={logout}>
                     Logout
                   </UserMenuItem>
-                </UserMenu>
-              : null}
+              </UserMenu>
             </DNNavItem>
           );
         }}

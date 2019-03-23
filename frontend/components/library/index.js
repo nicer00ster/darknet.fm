@@ -15,8 +15,8 @@ const ALL_SONGS_QUERY = gql`
   query ALL_SONGS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
     songs(first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
+      artist
       title
-      description
       image
       user {
         id
@@ -49,11 +49,11 @@ class Library extends Component {
                   return (
                     <SongListItem onClick={() => this.routeToSong(song)} key={song.id}>
                       <div className="art">
-                        <img src={song.image} alt={song.title}/>
+                        <img src={song.image} alt={song.artist}/>
                       </div>
                       <div className="details">
-                        <p className="title">{song.title}</p>
-                        <p className="description">{song.description}</p>
+                        <p className="artist">{song.artist}</p>
+                        <p className="description">{song.title}</p>
                       </div>
                     </SongListItem>
                   );

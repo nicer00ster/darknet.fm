@@ -3,7 +3,7 @@ import Router from 'next/router';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Form } from './styles.account';
+import { Form } from './account.styles';
 import { CURRENT_USER_QUERY } from '../user';
 
 const LOGIN_MUTATION = gql`

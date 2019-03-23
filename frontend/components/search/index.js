@@ -12,12 +12,14 @@ const SEARCH_SONGS_QUERY = gql`
   query SEARCH_SONGS_QUERY($input: String!) {
     songs(where: {
       OR: [
+        { artist_contains: $input },
+        { description_contains: $input },
         { title_contains: $input },
-        { description_contains: $input }
       ]
     }) {
       id
       image
+      artist
       title
     }
   }
@@ -54,7 +56,7 @@ class Search extends Component {
     resetIdCounter();
     return (
       <SearchStyles>
-        <Downshift onChange={this.routeToSong} itemToString={song => (song === null ? '' : song.title)}>
+        <Downshift onChange={this.routeToSong} itemToString={song => (song === null ? '' : song.artist)}>
           {({ getInputProps, getItemProps, isOpen, inputValue, highlightedIndex }) => (
             <div>
               <ApolloConsumer>
@@ -91,8 +93,11 @@ class Search extends Component {
                       {...getItemProps({ item: song })}
                       key={song.id}
                       highlighted={index === highlightedIndex}>
-                      <img width="50" src={song.image} alt={song.title} />
-                      <span>{song.title}</span>
+                      <img width="50" src={song.image} alt={song.artist} />
+                      <div>
+                        <span>{song.artist}</span>
+                        <span>{song.title}</span>
+                      </div>
                     </DropDownItem>
                   ))}
                   {!this.state.songs.length && !this.state.loading && (

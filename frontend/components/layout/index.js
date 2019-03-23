@@ -5,7 +5,7 @@ import { ToastProvider } from 'react-awesome-toasts';
 import Header from '../header'
 import Meta from '../meta';
 import Toast from '../toast';
-import DNLayout from './layout.styles';
+import { DNLayout } from './layout.styles';
 
 const theme = {
   maxWidth: '1080px',
@@ -62,6 +62,10 @@ injectGlobal`
       font-family: 'Raleway';
       background: none;
       cursor: pointer;
+      border: 1px solid ${theme.grey};
+      border-radius: ${theme.radius};
+      outline: 0;
+      padding: 1rem;
     }
 `;
 

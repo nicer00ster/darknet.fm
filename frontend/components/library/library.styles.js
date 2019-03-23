@@ -31,12 +31,17 @@ const SongListItem = styled.li`
       width: 100%;
       height: 150px;
       object-fit: fill;
+      border-top-right-radius: ${props => props.theme.radius};
+      border-top-left-radius: ${props => props.theme.radius};
     }
   }
   & div.details {
     padding: 1rem;
     width: 100%;
     z-index: 1;
+    & .artist {
+      font-size: 15px;
+    }
     & .description {
       color: ${props => props.theme.lightBlack};
     }

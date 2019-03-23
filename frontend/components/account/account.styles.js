@@ -142,13 +142,17 @@ const UserMenu = styled.ul`
   border-radius: ${props => props.theme.radius};
   box-shadow: ${props => props.theme.shadow};
   background-color: ${props => props.theme.white};
-  z-index: 9999;
   list-style: none;
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: 0;
+  z-index: 9999;
+  pointer-events: none;
   transition: all 0.25s;
   &.active {
+    opacity: 1;
+    pointer-events: all;
     transform: translateY(50px);
   }
 `;

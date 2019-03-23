@@ -121,8 +121,11 @@ const Mutations = {
     if(!args.image) {
       throw new Error('You must upload an image before submitting.');
     }
+    if(!args.artist) {
+      throw new Error('Please provide an artist before submitting.');
+    }
     if(!args.title) {
-      throw new Error('Please provide a title before submitting.');
+      throw new Error('Please provide a title for your song.');
     }
     if(!args.description) {
       throw new Error('Please provide a description before submitting.');
@@ -132,6 +135,7 @@ const Mutations = {
     }
     const song = await ctx.db.mutation.createSong({
       data: {
+        artist: args.artist,
         title: args.title,
         description: args.description,
         song: args.song,

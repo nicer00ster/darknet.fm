@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Router from 'next/router';
 
 import { CURRENT_USER_QUERY } from '../user';
-import { Form } from './styles.account';
+import { Form } from './account.styles';
 
 const RESET_PASSWORD_MUTATION = gql`
   mutation RESET_PASSWORD_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!) {

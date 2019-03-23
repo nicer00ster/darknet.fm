@@ -34,8 +34,17 @@ const TagInput = styled.input`
   margin-bottom: 12px;
 `;
 
+const InputContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  & label {
+    flex: 1;
+  }
+`;
+
 export {
   TagContainer,
   TagListItem,
   TagInput,
+  InputContainer,
 };

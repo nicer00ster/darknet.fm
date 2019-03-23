@@ -63,6 +63,14 @@ const Title = styled.div`
       font-weight: bold;
     }
   }
+  & p {
+    color: ${props => props.theme.white};
+    transition: all 0.25s;
+    padding: 0 0 1rem 0;
+    margin: 0;
+    font-size: 14px;
+    pointer-events: none;
+  }
 `;
 
 const Headline = styled.div`
@@ -177,7 +185,7 @@ const PlayButton = styled.div`
 
 const PlayerContainer = styled.div`
   position: relative;
-  height: 124px;
+  height: 96px;
   width: 100%;
   margin: 1rem 0;
 `;
