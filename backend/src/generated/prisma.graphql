@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/alex-busch-0e5bbf/darknet/dev
-# timestamp: Thu Mar 21 2019 14:32:07 GMT-0400 (Eastern Daylight Time)
+# timestamp: Thu Mar 21 2019 23:22:25 GMT-0400 (Eastern Daylight Time)
 
 type AggregateSong {
   count: Int!
@@ -825,7 +825,7 @@ type User implements Node {
   resetTokenExpiry: Float
   permissions: [Permission!]!
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song!]
-  avatar: String
+  avatar: String!
 }
 
 """A connection to a list of items."""
@@ -845,7 +845,7 @@ input UserCreateInput {
   password: String!
   resetToken: String
   resetTokenExpiry: Float
-  avatar: String
+  avatar: String!
   permissions: UserCreatepermissionsInput
   songs: SongCreateManyWithoutUserInput
 }
@@ -866,7 +866,7 @@ input UserCreateWithoutSongsInput {
   password: String!
   resetToken: String
   resetTokenExpiry: Float
-  avatar: String
+  avatar: String!
   permissions: UserCreatepermissionsInput
 }
 
@@ -908,7 +908,7 @@ type UserPreviousValues {
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]!
-  avatar: String
+  avatar: String!
 }
 
 type UserSubscriptionPayload {

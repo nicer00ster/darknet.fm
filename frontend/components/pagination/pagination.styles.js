@@ -12,6 +12,13 @@ const PaginationContainer = styled.div`
   box-shadow: ${props => props.theme.shadow};
   min-height: 55px;
   white-space: nowrap;
+  & a {
+    display: flex;
+    transition: all 0.25s;
+    &:hover {
+      background-color: ${props => props.theme.hover};
+    }
+  }
   & > * {
     margin: 0;
     padding: 15px 30px;
@@ -35,9 +42,14 @@ const UserSongPaginationContainer = styled.div`
   min-height: 55px;
   white-space: nowrap;
   a {
+    display: flex;
     border: 1px solid ${props => props.theme.grey};
     padding: 1rem;
     border-radius: ${props => props.theme.radius};
+    transition: all 0.25s;
+    &:hover {
+      background-color: ${props => props.theme.hover};
+    }
   }
   a[aria-disabled='true'] {
     color: ${props => props.theme.grey};

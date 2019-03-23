@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
+import Router from 'next/router';
 import gql from 'graphql-tag';
 
 import { Form } from './styles.account';
 import { CURRENT_USER_QUERY } from '../user';
 
 const CREATE_USER_MUTATION = gql`
-  mutation CREATE_USER_MUTATION($email: String!, $name: String!, $password: String!) {
-    createUser(email: $email, name: $name, password: $password) {
+  mutation CREATE_USER_MUTATION($email: String!, $name: String!, $password: String!, $avatar: String!) {
+    createUser(email: $email, name: $name, password: $password, avatar: $avatar) {
       id
       email
       name
@@ -20,6 +21,7 @@ class Register extends Component {
     email: '',
     name: '',
     password: '',
+    avatar: 'https://i2.wp.com/www.ahfirstaid.org/wp-content/uploads/2014/07/avatar-placeholder.png?fit=204%2C204',
   }
   handleState = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -31,6 +33,11 @@ class Register extends Component {
           { query: CURRENT_USER_QUERY }
         ]}
         mutation={CREATE_USER_MUTATION}
+        onCompleted={() => {
+          if(window.location.pathname === '/account') {
+            Router.push('/');
+          }
+        }}
         variables={this.state}>
         {(createUser, { error, loading }) => {
           return (

@@ -33,7 +33,7 @@ type User {
   resetTokenExpiry: Float
   permissions: [Permission]
   songs: [Song]!
-  avatar: String
+  avatar: String!
 }
 
 type Song {

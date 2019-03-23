@@ -19,7 +19,6 @@ const Query = {
     // if(!ctx.request.userId) {
     //   throw new Error('You must be logged in to view other users.');
     // }
-    console.log(ctx.request.userId);
     // checkPermissions(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE']);
     return ctx.db.query.users({}, info);
   },

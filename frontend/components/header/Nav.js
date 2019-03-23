@@ -6,7 +6,7 @@ import { DNNav } from './header.styles';
 
 const Nav = () => (
   <User>
-    {({ data }) => {
+    {({ data: { currentUser }, loading }) => {
       return (
         <DNNav>
           <Search />
@@ -14,7 +14,7 @@ const Nav = () => (
             <NavItem
               title="library"
               link="/library" />
-            {data.currentUser && (
+            {currentUser && (
               <>
               <NavItem
                 title="upload"
@@ -22,14 +22,17 @@ const Nav = () => (
               <NavItem
                 title="users"
                 link="/users" />
-              <NavItem
+              {/* <NavItem
                 title="account"
                 // as={`/user/${data.currentUser.name}`}
-                link={`/user?id=${data.currentUser.id}`} />
-              <Logout />
+                link={`/user?id=${data.currentUser.id}`} /> */}
+              <Logout
+                userId={currentUser.id}
+                avatar={currentUser.avatar}
+                name={currentUser.name} />
               </>
             )}
-            {!data.currentUser && (
+            {!currentUser && (
               <>
               <NavItem
                 title="users"

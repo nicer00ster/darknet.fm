@@ -38,7 +38,6 @@ class Library extends Component {
   render() {
     return (
       <LibraryContainer>
-        Library of songs
         <Query query={ALL_SONGS_QUERY} variables={{
           skip: this.props.page * perPage - perPage,
         }}>

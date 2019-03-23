@@ -26,7 +26,7 @@ const UserPhoto = styled.img`
   cursor: pointer;
   transition: all 0.25s;
   &:hover {
-    opacity: 0.5;
+    opacity: 0.75;
   }
 `;
 
@@ -69,7 +69,7 @@ const AvatarForm = styled.form`
       & button {
         opacity: 0;
         z-index: -1;
-        border: 1px solid ${props => props.theme.black};
+        border: 1px solid ${props => props.theme.grey};
         border-radius: ${props => props.theme.radius};
         outline: 0;
         padding: 1rem;
@@ -86,6 +86,28 @@ const AvatarForm = styled.form`
   }
 `;
 
+const DetailsList = styled.ul`
+  list-style: none;
+  margin-bottom: 16px;
+  width: 100%;
+`;
+
+const DetailsListItem = styled.li`
+  display: flex;
+  max-width: 100%;
+  margin: 4px;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  white-space: nowrap;
+  & div {
+    display: inline-block;
+    padding-left: 1rem;
+  }
+  & i {
+    text-align: center;
+    min-width: 25px;
+  }
+`;
 
 export {
   UserContainer,
@@ -94,4 +116,6 @@ export {
   ProfileTabs,
   Tab,
   AvatarForm,
+  DetailsList,
+  DetailsListItem,
 };

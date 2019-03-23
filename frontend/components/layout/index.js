@@ -11,6 +11,7 @@ const theme = {
   maxWidth: '1080px',
   black: '#1f222e',
   lightBlack: 'rgba(31, 34, 46, 0.75)',
+  hover: 'rgba(31, 34, 46, 0.25)',
   grey: '#cacacc',
   white: '#fefefe',
   red: '#e95e5e',

@@ -31,16 +31,22 @@ class Controls extends Component {
           <Buttons>
             <Rewind
               disabled={this.props.disabled}
-              onClick={this.props.rewind}>⏮</Rewind>
+              onClick={this.props.rewind}>
+              <i className="fal fa-fast-backward"></i>
+            </Rewind>
             <Play
               disabled={this.props.disabled}
-              onClick={this.props.isPlaying ? this.props.pause : this.props.play}>{this.props.isPlaying ? "||" : "▷"}</Play>
+              onClick={this.props.isPlaying ? this.props.pause : this.props.play}>{this.props.isPlaying ? <i className="fal fa-pause"></i> : <i className="fal fa-play"></i>}</Play>
             <Forward
               disabled={this.props.disabled}
-              onClick={this.props.fastForward}>⏭</Forward>
+              onClick={this.props.fastForward}>
+              <i className="fal fa-fast-forward"></i>
+            </Forward>
           </Buttons>
           <MetaButtons>
-            <Heart>❤️</Heart>
+            <Heart>
+              <i className="fal fa-heart"></i>
+            </Heart>
           </MetaButtons>
         </ControlsStyles>
       </ControlContainer>

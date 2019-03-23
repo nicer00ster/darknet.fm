@@ -73,7 +73,10 @@ class Search extends Component {
                       })} />
                       <span className="bar"></span>
                       <span className="highlight"></span>
-                      <label>Search</label>
+                      <label>
+                        <i className="fal fa-search"></i>
+                        Search
+                      </label>
                       {this.state.loading && (
                         <Loading />
                       )}

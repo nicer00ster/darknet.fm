@@ -60,7 +60,9 @@ const Pagination = props => (
                 page: props.page - 1
               }
             }}>
-              <a aria-disabled={props.page <= 1}>Prev</a>
+              <a aria-disabled={props.page <= 1}>
+                <i className="fal fa-chevron-left fa-2x"></i>
+              </a>
             </Link>
             <p>Page {props.page} of {pages}</p>
             <Link prefetch href={{
@@ -70,7 +72,7 @@ const Pagination = props => (
               }
             }}>
               <a aria-disabled={props.page >= pages}>
-                More
+                <i className="fal fa-chevron-right fa-2x"></i>
               </a>
             </Link>
           </PaginationContainer>
@@ -98,7 +100,9 @@ const UserSongPagination = props => (
                 page: props.page - 1
               }
             }}>
-              <a aria-disabled={props.page <= 1}>Prev</a>
+              <a aria-disabled={props.page <= 1}>
+                <i className="fal fa-chevron-left fa-2x"></i>
+              </a>
             </Link>
             {props.children}
             <Link prefetch href={{
@@ -110,7 +114,7 @@ const UserSongPagination = props => (
               }
             }}>
               <a aria-disabled={props.page >= pages}>
-                More
+                <i className="fal fa-chevron-right fa-2x"></i>
               </a>
             </Link>
           </UserSongPaginationContainer>

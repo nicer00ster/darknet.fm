@@ -14,7 +14,10 @@ export default class DNDocument extends Document {
   render() {
     return (
       <html>
-        <Head>{this.props.styleTags}</Head>
+        <Head>
+          {this.props.styleTags}
+          <link rel="stylesheet" href="../static/fontawesome-pro-5.6.3-web/css/all.min.css"/>
+        </Head>
         <body>
           <Main />
           <NextScript />

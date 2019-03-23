@@ -15,14 +15,15 @@ const UserListItem = styled.li`
   }
 `;
 
-const Avatar = styled.img`
-  width: 50px;
-  height: 50px;
+const AvatarImage = styled.img`
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
+  object-fit: fill;
 `;
 
 export {
   UserList,
   UserListItem,
-  Avatar,
+  AvatarImage,
 };

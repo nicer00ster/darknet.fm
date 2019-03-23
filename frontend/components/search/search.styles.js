@@ -67,6 +67,9 @@ const SearchStyles = styled.div`
     left: 5px;
     top: 6px;
     transition: 300ms ease all;
+    & i {
+      padding-right: 1rem;
+    }
   }
   .bar {
     position: relative;

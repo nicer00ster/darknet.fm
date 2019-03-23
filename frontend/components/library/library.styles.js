@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 const LibraryContainer = styled.div`
   height: 100%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 `;
 
 const SongList = styled.ul`

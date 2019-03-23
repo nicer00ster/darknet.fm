@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import Avatar from './Avatar';
 
 import {
   UserList,
   UserListItem,
-  Avatar,
 } from './users.styles';
 
 import Loading from '../loading';
@@ -16,6 +16,7 @@ const ALL_USERS_QUERY = gql`
       id
       name
       email
+      avatar
     }
   }
 `;
@@ -29,7 +30,7 @@ class Users extends Component {
             if(loading) return <Loading />
             return data.users.map(user => (
               <UserListItem key={user.id}>
-                <Avatar src="https://www.w3schools.com/howto/img_avatar2.png" alt="" />
+                <Avatar avatar={user.avatar} alt={user.name} />
                 <p>{user.name}</p>
               </UserListItem>
             ))

@@ -86,7 +86,6 @@ class Player extends Component {
   }
 
   play = (time) => {
-    console.log(this.audioBuffer);
     this.connect();
     this.setState({
       isPlaying: true,

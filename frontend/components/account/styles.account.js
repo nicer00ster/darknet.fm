@@ -135,4 +135,38 @@ const Form = styled.form`
   }
 `;
 
-export { Form, TabContainer, Gated };
+const UserMenu = styled.ul`
+  position: absolute;
+  height: auto;
+  width: 200px;
+  border-radius: ${props => props.theme.radius};
+  box-shadow: ${props => props.theme.shadow};
+  background-color: ${props => props.theme.white};
+  z-index: 9999;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.25s;
+  &.active {
+    transform: translateY(50px);
+  }
+`;
+
+const UserMenuItem = styled.li`
+  text-transform: uppercase;
+  text-align: center;
+  padding: 1rem;
+  width: 100%;
+  &:hover {
+    box-shadow: ${props => props.theme.shadow};
+  }
+`;
+
+export {
+  Form,
+  TabContainer,
+  Gated,
+  UserMenu,
+  UserMenuItem,
+};
