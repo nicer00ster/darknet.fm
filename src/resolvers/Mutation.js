@@ -173,6 +173,54 @@ const Mutations = {
     });
     return updatedUser;
   },
+  async followUser(parent, args, ctx, info) {
+    const [user] = await ctx.db.query.users({
+      where: {
+        email: args.email,
+      },
+    });
+    if(!user) {
+      throw new Error('No user exists.');
+    }
+    console.log(ctx.request.userId + ' is now following ' + args.email);
+    const updatedUser = await ctx.db.mutation.updateUser({
+      where: {
+        email: user.email,
+      },
+      data: {
+        followers: {
+          connect: {
+            id: ctx.request.userId,
+          },
+        },
+      },
+    });
+    return updatedUser;
+  },
+  async unfollowUser(parent, args, ctx, info) {
+    const [user] = await ctx.db.query.users({
+      where: {
+        email: args.email,
+      },
+    });
+    if(!user) {
+      throw new Error('No user exists.');
+    }
+    console.log(ctx.request.userId + ' is now unfollowing ' + args.email);
+    const updatedUser = await ctx.db.mutation.updateUser({
+      where: {
+        email: user.email,
+      },
+      data: {
+        followers: {
+          disconnect: {
+            id: ctx.request.userId,
+          },
+        },
+      },
+    });
+    return updatedUser;
+  },
 }
 
 module.exports = Mutations;

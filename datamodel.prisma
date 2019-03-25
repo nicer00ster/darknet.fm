@@ -34,6 +34,7 @@ type User {
   permissions: [Permission]
   songs: [Song]!
   avatar: String!
+  followers: [User]
 }
 
 type Song {
