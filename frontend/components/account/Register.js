@@ -4,6 +4,7 @@ import Router from 'next/router';
 import gql from 'graphql-tag';
 
 import { Form } from './account.styles';
+import { DNInput } from '../layout/layout.styles';
 import { CURRENT_USER_QUERY } from '../user';
 
 const CREATE_USER_MUTATION = gql`
@@ -53,37 +54,49 @@ class Register extends Component {
               <fieldset disabled={loading} aria-busy={loading}>
                 <h2>Create New Account</h2>
                 {error ? error.message : null}
-                <label htmlFor="email">
-                  <p>Email</p>
+                <DNInput>
                   <input
                     type="text"
                     name="email"
-                    placeholder="Email"
+                    id="email"
                     value={this.state.email}
                     onChange={this.handleState}
                   />
-                </label>
-                <label htmlFor="name">
-                  <p>Username</p>
+                  <span className="bar"></span>
+                  <span className="highlight"></span>
+                  <label htmlFor="email">
+                    Email
+                  </label>
+                </DNInput>
+                <DNInput>
                   <input
                     type="text"
                     name="name"
-                    placeholder="Username"
+                    id="name"
                     value={this.state.name}
                     onChange={this.handleState}
                   />
-                </label>
-                <label htmlFor="password">
-                  <p>Password</p>
+                  <span className="bar"></span>
+                  <span className="highlight"></span>
+                  <label htmlFor="name">
+                    Username
+                  </label>
+                </DNInput>
+                <DNInput>
                   <input
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    id="password"
                     value={this.state.password}
                     onChange={this.handleState}
                   />
-                </label>
-                <button type="submit">Register</button>
+                  <span className="bar"></span>
+                  <span className="highlight"></span>
+                  <label htmlFor="password">
+                    Password
+                  </label>
+                </DNInput>
+                <button type="submit" data-button>Register</button>
               </fieldset>
             </Form>
           );

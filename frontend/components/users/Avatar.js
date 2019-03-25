@@ -4,8 +4,7 @@ const Avatar = props => (
   <AvatarImage
     onClick={props.onClick}
     style={props.style}
-    src={props.avatar}
-    alt={props.alt} />
+    src={props.avatar} />
 );
 
 export default Avatar;

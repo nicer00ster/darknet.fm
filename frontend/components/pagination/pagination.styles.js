@@ -57,7 +57,32 @@ const UserSongPaginationContainer = styled.div`
   }
 `;
 
+const UserFollowerPaginationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  min-height: 55px;
+  white-space: nowrap;
+  a {
+    display: flex;
+    border: 1px solid ${props => props.theme.grey};
+    padding: 1rem;
+    border-radius: ${props => props.theme.radius};
+    transition: all 0.25s;
+    &:hover {
+      background-color: ${props => props.theme.hover};
+    }
+  }
+  a[aria-disabled='true'] {
+    color: ${props => props.theme.grey};
+    pointer-events: none;
+  }
+`;
+
 export {
   PaginationContainer,
   UserSongPaginationContainer,
+  UserFollowerPaginationContainer,
 };

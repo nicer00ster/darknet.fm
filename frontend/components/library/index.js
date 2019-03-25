@@ -9,6 +9,7 @@ import {
   LibraryContainer,
   SongList,
   SongListItem,
+  SongImage,
 } from './library.styles';
 
 const ALL_SONGS_QUERY = gql`
@@ -48,9 +49,7 @@ class Library extends Component {
                 {data.songs.map(song => {
                   return (
                     <SongListItem onClick={() => this.routeToSong(song)} key={song.id}>
-                      <div className="art">
-                        <img src={song.image} alt={song.artist}/>
-                      </div>
+                      <SongImage className="art" src={song.image} />
                       <div className="details">
                         <p className="artist">{song.artist}</p>
                         <p className="description">{song.title}</p>

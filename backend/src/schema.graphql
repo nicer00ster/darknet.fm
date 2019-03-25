@@ -5,6 +5,17 @@ type Toast {
   error: String
 }
 
+# type UserFollowersConnection {
+#   pageInfo: PageInfo!
+#   edges: [UserFollowersEdge]
+# }
+#
+# type UserFollowersEdge {
+#   cursor: String!
+#   node: User
+#   followedAt: DateTime
+# }
+
 type Mutation {
   createUser(name: String!, email: String!, password: String!, avatar: String!): User!
   createSong(artist: String!, title: String!, description: String!, image: String!, song: String!, tags: [String]): Song!
@@ -14,6 +25,8 @@ type Mutation {
   resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
   toast(message: String, error: String): Toast
   uploadAvatar(avatar: String!, where: UserWhereUniqueInput!): User!
+  followUser(where: UserWhereUniqueInput!, email: String!): User!
+  unfollowUser(where: UserWhereUniqueInput!, email: String!): User!
 }
 
 type Query {
@@ -33,10 +46,11 @@ type User {
   permissions: [Permission!]!
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, first: Int): [Song]!
   avatar: String!
-  # friendsConnection(
+  followers: [User]
+  # followersConnection(
   #   first: Int,
   #   after: String,
   #   last: Int,
   #   before: String
-  # ): UserFriendsConnection
+  # ): UserFollowersConnection
 }

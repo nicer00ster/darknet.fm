@@ -58,14 +58,56 @@ injectGlobal`
       padding: 0;
       margin: 0;
     }
-    button {
-      font-family: 'Raleway';
-      background: none;
-      cursor: pointer;
-      border: 1px solid ${theme.grey};
-      border-radius: ${theme.radius};
-      outline: 0;
+    [data-button] {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      color: ${theme.black};
+      background-color: transparent;
+      text-transform: uppercase;
+      font-size: 11px;
       padding: 1rem;
+      cursor: pointer;
+      white-space: nowrap;
+      border: 0;
+      outline: 0;
+      &:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: .1em;
+        bottom: 0;
+        left: 0;
+        background-color: ${theme.black};
+        visibility: hidden;
+        -webkit-transform: scaleX(0);
+        transform: scaleX(0);
+        -webkit-transition: all 0.15s ease-in-out 0s;
+        transition: all 0.15s ease-in-out 0s;
+      }
+      &:hover:before {
+        visibility: visible;
+        -webkit-transform: scaleX(.5);
+        transform: scaleX(.5);
+      }
+      &:hover {
+        color: ${theme.black};
+      }
+      &:disabled {
+        color: ${theme.grey};
+      }
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover
+    textarea:-webkit-autofill:focus,
+    select:-webkit-autofill,
+    select:-webkit-autofill:hover,
+    select:-webkit-autofill:focus {
+      -webkit-text-fill-color: ${theme.black};
+      -webkit-box-shadow: 0 0 0px 1000px #fff inset;
     }
 `;
 

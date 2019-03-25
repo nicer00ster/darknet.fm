@@ -9,6 +9,7 @@ import {
   Forward,
   Rewind,
   Heart,
+  Mute,
   Bar,
   Seek,
   Time,
@@ -31,20 +32,32 @@ class Controls extends Component {
           <Buttons>
             <Rewind
               disabled={this.props.disabled}
+              style={this.props.disabled ? { pointerEvents: 'none' } : null}
               onClick={this.props.rewind}>
               <i className="fal fa-fast-backward"></i>
             </Rewind>
             <Play
               disabled={this.props.disabled}
+              style={this.props.disabled ? { pointerEvents: 'none' } : null}
               onClick={this.props.isPlaying ? this.props.pause : this.props.play}>{this.props.isPlaying ? <i className="fal fa-pause"></i> : <i className="fal fa-play"></i>}</Play>
             <Forward
               disabled={this.props.disabled}
+              style={this.props.disabled ? { pointerEvents: 'none' } : null}
               onClick={this.props.fastForward}>
               <i className="fal fa-fast-forward"></i>
             </Forward>
           </Buttons>
           <MetaButtons>
-            <Heart>
+            <Mute
+              disabled={this.props.disabled}
+              style={this.props.disabled ? { pointerEvents: 'none' } : null}
+              onClick={this.props.mute}>
+              <i className="fal fa-volume-mute"></i>
+            </Mute>
+            <Heart
+              disabled={this.props.disabled}
+              style={this.props.disabled ? { pointerEvents: 'none' } : null}
+              onClick={() => alert('liked')}>
               <i className="fal fa-heart"></i>
             </Heart>
           </MetaButtons>

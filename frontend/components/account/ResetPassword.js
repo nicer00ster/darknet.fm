@@ -6,6 +6,7 @@ import Router from 'next/router';
 
 import { CURRENT_USER_QUERY } from '../user';
 import { Form } from './account.styles';
+import { DNInput } from '../layout/layout.styles';
 
 const RESET_PASSWORD_MUTATION = gql`
   mutation RESET_PASSWORD_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!) {
@@ -59,25 +60,33 @@ class ResetPassword extends Component {
                 aria-busy={loading}>
                 <h2>Reset Your Password</h2>
                 {error ? error.message : null}
-                <label htmlFor="password">
-                  <p>Password</p>
+                <DNInput>
                   <input
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    id="password"
                     value={this.state.password}
                     onChange={this.handleState} />
-                </label>
-                <label htmlFor="confirmPassword">
-                  <p>Confirm Password</p>
+                  <span className="bar"></span>
+                  <span className="highlight"></span>
+                  <label htmlFor="password">
+                    Password
+                  </label>
+                </DNInput>
+                <DNInput>
                   <input
                     type="password"
                     name="confirmPassword"
-                    placeholder="Confirm Password"
+                    id="confirmPassword"
                     value={this.state.confirmPassword}
                     onChange={this.handleState} />
-                </label>
-                <button type="submit">Reset</button>
+                  <span className="bar"></span>
+                  <span className="highlight"></span>
+                  <label htmlFor="confirmPassword">
+                    Confirm Password
+                  </label>
+                </DNInput>
+                <button type="submit" data-button>Reset</button>
               </fieldset>
             </Form>
           );

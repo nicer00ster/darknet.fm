@@ -9,6 +9,7 @@ const ControlContainer = styled.div`
 const ControlsStyles = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: relative;
   background-color: ${props => props.theme.white};
   border-radius: ${props => props.theme.radius};
@@ -25,7 +26,6 @@ const Bar = styled.div`
 
 const Buttons = styled.div`
   display: flex;
-  /* justify-content: flex-end; */
   height: 70px;
   padding: 0 15px;
 `;
@@ -56,14 +56,14 @@ const Play = styled.button`
   outline: 0;
   border: 0;
   height: auto;
-  border-radius: 10px;
+  border-radius: ${props => props.theme.radius};
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 20px;
   margin: 5px 0;
   font-size: 32px;
   text-align: center;
-  background-color: #fff;
+  background-color: ${props => props.theme.white};
   cursor: pointer;
   transition: background-color .3s ease;
   -webkit-transition: background-color .3s ease;
@@ -79,14 +79,14 @@ const Forward = styled.button`
   outline: 0;
   border: 0;
   height: auto;
-  border-radius: 10px;
+  border-radius: ${props => props.theme.radius};
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 20px;
   margin: 5px 0;
   font-size: 32px;
   text-align: center;
-  background-color: #fff;
+  background-color: ${props => props.theme.white};
   cursor: pointer;
   transition: background-color .3s ease;
   -webkit-transition: background-color .3s ease;
@@ -102,14 +102,14 @@ const Rewind = styled.button`
   outline: 0;
   border: 0;
   height: auto;
-  border-radius: 10px;
+  border-radius: ${props => props.theme.radius};
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 20px;
   margin: 5px 0;
   font-size: 32px;
   text-align: center;
-  background-color: #fff;
+  background-color: ${props => props.theme.white};
   cursor: pointer;
   transition: background-color .3s ease;
   -webkit-transition: background-color .3s ease;
@@ -125,14 +125,37 @@ const Heart = styled.button`
   outline: 0;
   border: 0;
   height: auto;
-  border-radius: 10px;
+  border-radius: ${props => props.theme.radius};
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 20px;
   margin: 5px 0;
   font-size: 32px;
   text-align: center;
-  background-color: #fff;
+  background-color: ${props => props.theme.white};
+  cursor: pointer;
+  transition: background-color .3s ease;
+  -webkit-transition: background-color .3s ease;
+  &:hover {
+    background-color: #eee;
+    transition: background-color .3s ease;
+    -webkit-transition: background-color .3s ease;
+  }
+`;
+
+const Mute = styled.button`
+  width: 55px;
+  outline: 0;
+  border: 0;
+  height: auto;
+  border-radius: ${props => props.theme.radius};
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  margin: 5px 0;
+  font-size: 32px;
+  text-align: center;
+  background-color: ${props => props.theme.white};
   cursor: pointer;
   transition: background-color .3s ease;
   -webkit-transition: background-color .3s ease;
@@ -189,6 +212,7 @@ export {
   Forward,
   Rewind,
   Heart,
+  Mute,
   Bar,
   Seek,
   Time,

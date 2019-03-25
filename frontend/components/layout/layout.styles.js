@@ -19,6 +19,12 @@ const DNInput = styled.div`
   input[type="text"]::-webkit-search-results-decoration {
     -webkit-appearance:none;
   }
+  input[type="email"]::-webkit-search-decoration,
+  input[type="email"]::-webkit-search-cancel-button,
+  input[type="email"]::-webkit-search-results-button,
+  input[type="email"]::-webkit-search-results-decoration {
+    -webkit-appearance:none;
+  }
   input {
     background: none;
     color: ${props => props.theme.black};

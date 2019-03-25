@@ -6,6 +6,10 @@ import { Query, Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
 
 import Loading from '../loading';
+import User from './index';
+import Avatar from '../users/Avatar';
+import { userPerPage } from '../../config';
+import { Composed } from '../users';
 import {
   UserContainer,
   PhotoContainer,
@@ -15,15 +19,22 @@ import {
   AvatarForm,
   DetailsList,
   DetailsListItem,
+  Overview,
 } from './user.styles';
 import {
   SongList,
   SongListItem,
+  SongImage,
 } from '../library/library.styles';
+import {
+  UserList,
+  UserListItem,
+} from '../users/users.styles';
 import { DNNavItem } from '../header/header.styles';
-import { UserSongPagination } from '../pagination';
-import { userPerPage } from '../../config';
-import User from './index';
+import {
+  UserSongPagination,
+  UserFollowerPagination
+} from '../pagination';
 
 const VIEW_USER_QUERY = gql`
   query VIEW_USER_QUERY($id: ID!, $skip: Int = 0, $first: Int = ${userPerPage}) {
@@ -34,6 +45,18 @@ const VIEW_USER_QUERY = gql`
       name
       email
       avatar
+      followers {
+        id
+        name
+        email
+        avatar
+        songs {
+          id
+        }
+        followers {
+          id
+        }
+      }
       songs(first: $first, skip: $skip, orderBy: createdAt_DESC) {
         id
         artist
@@ -136,7 +159,7 @@ class ViewUser extends Component {
                                       required
                                       onChange={this.uploadImage}
                                     />
-                                    <button type="submit">Upload</button>
+                                    <button data-button type="submit">Upload</button>
                                   </div>
                                 </fieldset>
                               </AvatarForm>
@@ -160,7 +183,7 @@ class ViewUser extends Component {
                     </PhotoContainer>
                     <Tab>
                       <ProfileTabs>
-                        {/* <DNNavItem>
+                        <DNNavItem>
                           <Link prefetch href={{
                             pathname: 'user',
                             query: {
@@ -169,7 +192,7 @@ class ViewUser extends Component {
                           }}>
                             <a>Overview</a>
                           </Link>
-                        </DNNavItem> */}
+                        </DNNavItem>
                         <DNNavItem>
                           <Link prefetch href={{
                             pathname: 'user',
@@ -206,10 +229,12 @@ class ViewUser extends Component {
                         </DNNavItem>
                       </ProfileTabs>
                       {this.props.id && !this.props.query.uploads && !this.props.query.followers && !this.props.query.following
-                      ? <div>
-                          <p>{data.user.name}</p>
-                          <p>{data.user.email}</p>
-                        </div>
+                      ? <Overview>
+                          <p>Username: {data.user.name}</p>
+                          <p>Email: {data.user.email}</p>
+                          <div><i className="fal fa-users"></i>{data.user.followers.length}</div>
+                          <div><i className="fal fa-cloud-upload"></i>{data.user.songs.length}</div>
+                        </Overview>
                       : null}
                       {this.props.query.uploads === data.user.name
                       ? <SongList>
@@ -219,9 +244,7 @@ class ViewUser extends Component {
                               {data.user.songs.map(song => {
                                 return (
                                   <SongListItem onClick={() => this.routeToSong(song)} key={song.id}>
-                                    <div className="art">
-                                      <img src={song.image} alt={song.artist}/>
-                                    </div>
+                                    <SongImage className="art" src={song.image} />
                                     <div className="details">
                                       <p className="artist">{song.artist}</p>
                                       <p className="description">{song.title}</p>
@@ -232,6 +255,78 @@ class ViewUser extends Component {
                             </UserSongPagination>}
                         </SongList>
                       : null}
+                      {this.props.query.followers === data.user.name
+                        ? <UserList>
+                            {data.user.followers.length <= 0
+                              ? <p>{data.user.name} has no followers.</p>
+                              : <UserFollowerPagination id={this.props.id} name={data.user.name} page={parseFloat(this.props.query.page) || 1}>
+                                  {data.user.followers.map(follower => {
+                                    return (
+                                      <UserListItem key={follower.id}>
+                                        <Avatar
+                                          avatar={follower.avatar}
+                                          style={{ width: 65, height: 65 }}
+                                          onClick={() => Router.push({
+                                          pathname: '/user',
+                                          query: {
+                                            id: follower.id,
+                                          },
+                                        })} />
+                                        <p onClick={() => Router.push({
+                                          pathname: '/user',
+                                          query: {
+                                            id: follower.id,
+                                          },
+                                        })}>{follower.name}</p>
+                                        <Composed email={follower.email}>
+                                          {({ followUser, unfollowUser }) => {
+                                            if(currentUser && follower.followers.some(user => user.id === currentUser.id)) {
+                                              return (
+                                                <>
+                                                <span>
+                                                  <div><i className="fal fa-users"></i>{follower.followers.length}</div>
+                                                  <div><i className="fal fa-cloud-upload"></i>{follower.songs.length}</div>
+                                                </span>
+                                                <button
+                                                  type="button"
+                                                  data-button
+                                                  disabled={unfollowUser.data.loading}
+                                                  aria-disabled={unfollowUser.data.loading}
+                                                  onClick={unfollowUser.mutation}>
+                                                  Unfollow
+                                                  {unfollowUser.data.loading ? <Loading /> : null}
+                                                </button>
+                                                </>
+                                              );
+                                            } else {
+                                              return (
+                                                <>
+                                                <span>
+                                                  <div><i className="fal fa-users"></i>{follower.followers.length}</div>
+                                                  <div><i className="fal fa-cloud-upload"></i>{follower.songs.length}</div>
+                                                </span>
+                                                {currentUser && follower.id === currentUser.id
+                                                  ? null
+                                                  : <button
+                                                      type="button"
+                                                      data-button
+                                                      disabled={followUser.data.loading}
+                                                      aria-disabled={followUser.data.loading}
+                                                      onClick={followUser.mutation}>
+                                                      Follow
+                                                      {followUser.data.loading ? <Loading /> : null}
+                                                    </button>}
+                                                </>
+                                              );
+                                            }
+                                          }}
+                                        </Composed>
+                                      </UserListItem>
+                                    );
+                                  })}
+                                </UserFollowerPagination>}
+                          </UserList>
+                        : null}
                     </Tab>
                   </UserContainer>
                 )

@@ -26,9 +26,9 @@ class Account extends Component {
     return (
       <>
         <TabContainer>
-          <button onClick={e => this.handleTab(e)} value="login">Login</button>
-          <button onClick={e => this.handleTab(e)} value="register">Register</button>
-          <button onClick={e => this.handleTab(e)} value="resetPassword">Reset Password</button>
+          <button data-button onClick={e => this.handleTab(e)} value="login">Login</button>
+          <button data-button onClick={e => this.handleTab(e)} value="register">Register</button>
+          <button data-button onClick={e => this.handleTab(e)} value="resetPassword">Reset Password</button>
         </TabContainer>
         {this.renderTab()}
       </>

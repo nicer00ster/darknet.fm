@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import { Form } from './account.styles';
+import { DNInput } from '../layout/layout.styles';
 import { CURRENT_USER_QUERY } from '../user';
 
 const LOGIN_MUTATION = gql`
@@ -52,27 +53,35 @@ class Login extends Component {
               <fieldset disabled={loading} aria-busy={loading}>
                 <h2>Login To Your Account</h2>
                 {error ? error.message : null}
-                <label htmlFor="email">
-                  <p>Email</p>
+                <DNInput>
                   <input
                     type="email"
                     name="email"
-                    placeholder="email"
+                    id="email"
                     value={this.state.email}
                     onChange={this.handleState}
                   />
-                </label>
-                <label htmlFor="password">
-                  <p>Password</p>
+                  <span className="bar"></span>
+                  <span className="highlight"></span>
+                  <label htmlFor="email">
+                    Email
+                  </label>
+                </DNInput>
+                <DNInput>
                   <input
                     type="password"
                     name="password"
-                    placeholder="password"
+                    id="password"
                     value={this.state.password}
                     onChange={this.handleState}
                   />
-                </label>
-                <button type="submit">Login</button>
+                  <span className="bar"></span>
+                  <span className="highlight"></span>
+                  <label htmlFor="password">
+                    Password
+                  </label>
+                </DNInput>
+                <button type="submit" data-button>Login</button>
               </fieldset>
             </Form>
           );

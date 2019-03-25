@@ -22,7 +22,7 @@ const TabContainer = styled.div`
   margin: 2rem auto;
   border-radius: ${props => props.theme.radius};
   & > * {
-    margin: 0;
+    margin: 1rem;
     padding: 2rem 3.75rem;
     background-color: transparent;
     border: 0;
@@ -71,49 +71,6 @@ const Form = styled.form`
     border-radius: ${props => props.theme.radius};
     &:focus {
       outline: 0;
-    }
-  }
-  button,
-  input[type='submit'] {
-    position: relative;
-    color: ${props => props.theme.black};
-    display: inline-block;
-    height: 60px;
-    background: ${props => props.theme.white};
-    text-align: center;
-    transition: 0.5s;
-    padding: 0 2rem;
-    cursor: pointer;
-    border: 0;
-    -webkit-transition: 0.25s;
-    &:hover {
-      background-color: ${props => props.theme.white};
-      color: ${props => props.theme.black};
-    }
-    &:before, &:after {
-      width: 100%;
-      height:100%;
-      z-index: 3;
-      content:'';
-      position: absolute;
-      top:0;
-      left:0;
-      box-sizing: border-box;
-      -webkit-transform: scale(0);
-      transition: 0.5s;
-    }
-    &:before {
-      border-bottom: 1px solid ${props => props.theme.black};
-      border-left: 1px solid ${props => props.theme.black};
-      -webkit-transform-origin: 0 100%;
-    }
-    &:after {
-      border-top: 1px solid ${props => props.theme.black};
-      border-right: 1px solid ${props => props.theme.black};
-      -webkit-transform-origin: 100% 0%;
-    }
-    &:hover::after, &:hover::before {
-      -webkit-transform: scale(1);
     }
   }
   fieldset {

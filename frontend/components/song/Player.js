@@ -116,6 +116,11 @@ class Player extends Component {
     }
   }
 
+  mute = () => {
+    console.log(this.audioGain);
+    this.audioGain.gain.setValueAtTime(0, this.audioContext.currentTime);
+  }
+
   seek = time => {
     if(this.state.isPlaying) {
       this.setState({
@@ -247,6 +252,7 @@ class Player extends Component {
           play={this.play}
           pause={this.pause}
           seek={this.seek}
+          mute={this.mute}
           fastForward={this.fastForward}
           rewind={this.rewind}
           position={this.state.position}

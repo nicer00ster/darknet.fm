@@ -324,7 +324,7 @@ class Upload extends Component {
                   </Downshift>
                 </label>
 
-                <button type="button" onClick={e => this.form.props.onSubmit(e)}>Upload</button>
+                <button type="button" data-button onClick={e => this.form.props.onSubmit(e)}>Upload</button>
               </fieldset>
             </Form>
           )

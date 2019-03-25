@@ -26,14 +26,8 @@ const SongListItem = styled.li`
   transition: all 0.35s;
   & div.art {
     width: 100%;
+    height: 150px;
     position: relative;
-    & img {
-      width: 100%;
-      height: 150px;
-      object-fit: fill;
-      border-top-right-radius: ${props => props.theme.radius};
-      border-top-left-radius: ${props => props.theme.radius};
-    }
   }
   & div.details {
     padding: 1rem;
@@ -52,9 +46,22 @@ const SongListItem = styled.li`
   }
 `;
 
+const SongImage = styled.div`
+  position: relative;
+  border-top-right-radius: ${props => props.theme.radius};
+  border-top-left-radius: ${props => props.theme.radius};
+  background-image: ${props => `url(${props.src})`};
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  object-fit: fill;
+  height: 100%;
+  width: 100%;
+`;
 
 export {
   LibraryContainer,
   SongList,
   SongListItem,
+  SongImage,
 };

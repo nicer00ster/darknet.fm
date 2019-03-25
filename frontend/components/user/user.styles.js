@@ -47,6 +47,17 @@ const Tab = styled.div`
   flex-direction: column;
 `;
 
+const Overview = styled.div`
+  padding: 1rem;
+  margin: 2rem;
+  & div {
+    padding: .6rem;
+    & i {
+      padding-right: .4rem;
+    }
+  }
+`;
+
 const AvatarForm = styled.form`
   fieldset {
     border: 0;
@@ -69,10 +80,6 @@ const AvatarForm = styled.form`
       & button {
         opacity: 0;
         z-index: -1;
-        border: 1px solid ${props => props.theme.grey};
-        border-radius: ${props => props.theme.radius};
-        outline: 0;
-        padding: 1rem;
       }
     }
     &:hover, &:focus {
@@ -118,4 +125,5 @@ export {
   AvatarForm,
   DetailsList,
   DetailsListItem,
+  Overview,
 };

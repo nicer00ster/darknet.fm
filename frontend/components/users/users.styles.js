@@ -38,7 +38,7 @@ const UserListItem = styled.li`
     color: ${props => props.theme.lightBlack};
     pointer-events: none;
     & div {
-      padding: .6rem;
+      padding: .4rem;
       & i {
         color: ${props => props.theme.lightBlack};
         padding-right: .4rem;
@@ -47,9 +47,14 @@ const UserListItem = styled.li`
   }
 `;
 
-const AvatarImage = styled.img`
+const AvatarImage = styled.div`
   width: 35px;
   height: 35px;
+  position: relative;
+  background-image: ${props => `url(${props.src})`};
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
   border-radius: 50%;
   object-fit: fill;
   cursor: pointer;

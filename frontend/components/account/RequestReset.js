@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import { Form } from './account.styles';
+import { DNInput } from '../layout/layout.styles';
 
 const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($email: String!) {
@@ -38,16 +39,20 @@ class ResetPassword extends Component {
                 <h2>Request a Password Reset</h2>
                 {error ? error.message : null}
                 {!error && !loading && called && <p>Success! Check your email for a reset link!</p>}
-                <label htmlFor="email">
-                  <p>Email</p>
+                <DNInput>
                   <input
                     type="email"
                     name="email"
-                    placeholder="email"
+                    id="email"
                     value={this.state.email}
                     onChange={this.handleState} />
-                </label>
-                <button type="submit">Request</button>
+                  <span className="bar"></span>
+                  <span className="highlight"></span>
+                  <label htmlFor="email">
+                    Email
+                  </label>
+                </DNInput>
+                <button type="submit" data-button>Request</button>
               </fieldset>
             </Form>
           );
