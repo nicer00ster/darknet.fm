@@ -46,7 +46,7 @@ type User {
   permissions: [Permission!]!
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, first: Int): [Song]!
   avatar: String!
-  followers: [User]
+  followers(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, first: Int): [User]
   # followersConnection(
   #   first: Int,
   #   after: String,
