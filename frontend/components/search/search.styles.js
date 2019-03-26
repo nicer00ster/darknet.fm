@@ -39,6 +39,9 @@ const SearchStyles = styled.div`
   z-index: 9999;
   position: relative;
   margin: 45px 0;
+  ${props => props.theme.media.tablet`
+    width: 85%;
+  `}
   input[type="search"]::-webkit-search-decoration,
   input[type="search"]::-webkit-search-cancel-button,
   input[type="search"]::-webkit-search-results-button,
@@ -55,6 +58,10 @@ const SearchStyles = styled.div`
     border: none;
     border-radius: 0;
     border-bottom: 1px solid ${props => props.theme.lightBlack};
+    transition: all 0.25s;
+    ${props => props.theme.media.tablet`
+      width: 100%;
+    `}
     &:focus {
       outline: none;
     }
@@ -66,6 +73,9 @@ const SearchStyles = styled.div`
     }
     &:focus ~ .bar:before {
       width: 320px;
+      ${props => props.theme.media.tablet`
+        width: 100%;
+      `}
     }
   }
   label {
@@ -85,6 +95,9 @@ const SearchStyles = styled.div`
     position: relative;
     display: block;
     width: 320px;
+    ${props => props.theme.media.tablet`
+      width: 100%;
+    `}
     &:before {
       content: '';
       height: 2px;

@@ -45,7 +45,7 @@ const VIEW_USER_QUERY = gql`
       name
       email
       avatar
-      followers {
+      followers(first: $first, skip: $skip, orderBy: createdAt_DESC) {
         id
         name
         email
@@ -149,7 +149,7 @@ class ViewUser extends Component {
                                 <UserPhoto
                                   onClick={() => document.querySelector("#file").click()}
                                   src={this.state.avatar ? this.state.avatar : data.user.avatar} />
-                                  <div>
+                                  <div className="uploadAvatar">
                                     <input
                                       id="file"
                                       type="file"
@@ -199,7 +199,7 @@ class ViewUser extends Component {
                             query: {
                               id: this.props.id,
                               uploads: data.user.name,
-                              page: parseFloat(this.props.query.page) || 1,
+                              page: 1,
                             }
                           }}>
                             <a>Uploads</a>
@@ -211,6 +211,7 @@ class ViewUser extends Component {
                             query: {
                               id: this.props.id,
                               followers: data.user.name,
+                              page: 1,
                             }
                           }}>
                             <a>Followers</a>
@@ -288,10 +289,10 @@ class ViewUser extends Component {
                                                   <div><i className="fal fa-cloud-upload"></i>{follower.songs.length}</div>
                                                 </span>
                                                 <button
-                                                  type="button"
                                                   data-button
                                                   disabled={unfollowUser.data.loading}
                                                   aria-disabled={unfollowUser.data.loading}
+                                                  className="unfollow"
                                                   onClick={unfollowUser.mutation}>
                                                   Unfollow
                                                   {unfollowUser.data.loading ? <Loading /> : null}
@@ -308,7 +309,6 @@ class ViewUser extends Component {
                                                 {currentUser && follower.id === currentUser.id
                                                   ? null
                                                   : <button
-                                                      type="button"
                                                       data-button
                                                       disabled={followUser.data.loading}
                                                       aria-disabled={followUser.data.loading}

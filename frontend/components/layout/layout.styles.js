@@ -4,10 +4,18 @@ const DNLayout = styled.div `
   display: flex;
   flex-direction: column;
   max-width: ${props => props.theme.maxWidth};
-  height: 100%;
+  ${'' /* height: 100%; */}
   padding: 2rem;
   margin: 0 auto;
   background-color: ${props => props.theme.white};
+  position: relative;
+  ${props => props.theme.media.tablet`
+    padding: 1rem;
+    max-width: ${props => props.theme.sizes.tablet}px;
+  `}
+  ${props => props.theme.media.phone`
+    max-width: ${props => props.theme.sizes.phone}px;
+  `}
 `;
 
 const DNInput = styled.div`

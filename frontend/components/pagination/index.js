@@ -32,6 +32,33 @@ const USER_SONG_PAGINATION_QUERY = gql`
           email
           name
           avatar
+          songs {
+            id
+            artist
+            description
+            image
+            song
+            tags
+            createdAt
+            updatedAt
+          }
+        }
+      }
+    }
+  }
+`;
+
+const USER_FOLLOWERS_PAGINATION_QUERY = gql`
+  query USER_FOLLOWERS_PAGINATION_QUERY($id: ID!) {
+    usersConnection(where: {
+      id: $id
+    }) {
+      edges {
+        node {
+          id
+          email
+          name
+          avatar
           followers {
             id
             name
@@ -44,16 +71,6 @@ const USER_SONG_PAGINATION_QUERY = gql`
               id
               avatar
             }
-          }
-          songs {
-            id
-            artist
-            description
-            image
-            song
-            tags
-            createdAt
-            updatedAt
           }
         }
       }
@@ -139,7 +156,7 @@ const UserSongPagination = props => (
 );
 
 const UserFollowerPagination = props => (
-    <Query query={USER_SONG_PAGINATION_QUERY} variables={{
+    <Query query={USER_FOLLOWERS_PAGINATION_QUERY} variables={{
       id: props.id,
       skip: props.page * userPerPage - userPerPage,
     }}>

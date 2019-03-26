@@ -60,43 +60,70 @@ class Upload extends Component {
       allowedTags: [],
       input: '',
       selected: '',
+      uploadingSong: false,
+      uploadingImage: false,
     }
     this.form = React.createRef();
   }
 
   uploadImage = async e => {
+    this.setState({
+      uploadingImage: true,
+    });
+
     const files = e.target.files;
     const data = new FormData();
-    data.append('file', files[0]);
-    data.append('upload_preset', 'darknet.fm');
-    const res = await fetch('https://api.cloudinary.com/v1_1/nicer00ster/image/upload', {
-      method: 'POST',
-      body: data,
-    });
+    // Allowed types
+    const mimeTypes = ['image/jpeg', 'image/png'];
 
-    const file = await res.json();
-    console.log(file);
+    // Validate MIME type
+    if(mimeTypes.indexOf(files[0].type) == -1) {
+      alert('Error : Incorrect file type');
+      return;
+    } else {
+      data.append('file', files[0]);
+      data.append('upload_preset', 'darknet.fm');
+      const res = await fetch('https://api.cloudinary.com/v1_1/nicer00ster/image/upload', {
+        method: 'POST',
+        body: data,
+      });
 
-    this.setState({
-      image: file.secure_url,
-    });
+      const file = await res.json();
+
+      this.setState({
+        image: file.secure_url,
+        uploadingImage: false,
+      });
+    }
   }
 
   uploadSong = async e => {
+    this.setState({
+      uploadingSong: true,
+    });
+
     const files = e.target.files;
     const data = new FormData();
-    data.append('file', files[0]);
-    data.append('upload_preset', 'darknet.fm');
-    const res = await fetch('https://api.cloudinary.com/v1_1/nicer00ster/video/upload', {
-      method: 'POST',
-      body: data,
-    });
+    const mimeTypes = ['audio/mpeg', 'audio/wav', 'audio/mp4', 'audio/mp3'];
 
-    const file = await res.json();
+    if(mimeTypes.indexOf(files[0].type) == -1) {
+      alert('Error : Incorrect file type');
+      return;
+    } else {
+      data.append('file', files[0]);
+      data.append('upload_preset', 'darknet.fm');
+      const res = await fetch('https://api.cloudinary.com/v1_1/nicer00ster/video/upload', {
+        method: 'POST',
+        body: data,
+      });
 
-    this.setState({
-      song: file.secure_url,
-    });
+      const file = await res.json();
+
+      this.setState({
+        song: file.secure_url,
+        uploadingSong: false,
+      });
+    }
   }
 
   handleChange = e => {
@@ -179,7 +206,10 @@ class Upload extends Component {
                   },
                 });
               }}>
-              <fieldset disabled={loading} aria-busy={loading}>
+              <fieldset
+                disabled={loading || this.state.uploadingSong || this.state.uploadingImage}
+                aria-busy={loading || this.state.uploadingSong || this.state.uploadingImage}>
+                {this.state.uploadingSong || this.state.uploadingImage ? <Loading /> : null}
                 <label htmlFor="file">
                   <p>Image</p>
                   <input

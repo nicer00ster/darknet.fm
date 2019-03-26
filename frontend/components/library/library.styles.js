@@ -24,10 +24,16 @@ const SongListItem = styled.li`
   float: left;
   cursor: pointer;
   transition: all 0.35s;
+  ${props => props.theme.media.tablet`
+    min-width: 85px;
+  `}
   & div.art {
     width: 100%;
     height: 150px;
     position: relative;
+    ${props => props.theme.media.tablet`
+      height: 85px;
+    `}
   }
   & div.details {
     padding: 1rem;
@@ -35,6 +41,9 @@ const SongListItem = styled.li`
     z-index: 1;
     & .artist {
       font-size: 15px;
+      ${props => props.theme.media.tablet`
+        font-size: 10px;
+      `}
     }
     & .description {
       color: ${props => props.theme.lightBlack};

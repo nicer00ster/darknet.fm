@@ -67,7 +67,7 @@ const Play = styled.button`
   cursor: pointer;
   transition: background-color .3s ease;
   -webkit-transition: background-color .3s ease;
-  &:hover {
+  &:hover, &:focus {
     background-color: #eee;
     transition: background-color .3s ease;
     -webkit-transition: background-color .3s ease;
@@ -90,7 +90,7 @@ const Forward = styled.button`
   cursor: pointer;
   transition: background-color .3s ease;
   -webkit-transition: background-color .3s ease;
-  &:hover {
+  &:hover, &:focus {
     background-color: #eee;
     transition: background-color .3s ease;
     -webkit-transition: background-color .3s ease;
@@ -113,7 +113,7 @@ const Rewind = styled.button`
   cursor: pointer;
   transition: background-color .3s ease;
   -webkit-transition: background-color .3s ease;
-  &:hover {
+  &:hover, &:focus {
     background-color: #eee;
     transition: background-color .3s ease;
     -webkit-transition: background-color .3s ease;
@@ -136,7 +136,7 @@ const Heart = styled.button`
   cursor: pointer;
   transition: background-color .3s ease;
   -webkit-transition: background-color .3s ease;
-  &:hover {
+  &:hover, &:focus {
     background-color: #eee;
     transition: background-color .3s ease;
     -webkit-transition: background-color .3s ease;
@@ -159,7 +159,7 @@ const Mute = styled.button`
   cursor: pointer;
   transition: background-color .3s ease;
   -webkit-transition: background-color .3s ease;
-  &:hover {
+  &:hover, &:focus {
     background-color: #eee;
     transition: background-color .3s ease;
     -webkit-transition: background-color .3s ease;
@@ -196,7 +196,7 @@ const Seek = styled.div`
       content: "";
       padding: 3rem;
     }
-    &:hover {
+    &:hover, &:focus {
       transform: scale(1.2);
       background: ${props => props.theme.black};
     }

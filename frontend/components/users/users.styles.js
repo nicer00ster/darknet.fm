@@ -21,6 +21,9 @@ const UserListItem = styled.li`
   min-width: 175px;
   float: left;
   transition: all 0.35s;
+  ${props => props.theme.media.tablet`
+    min-width: 85px;
+  `}
   &:hover {
     box-shadow: ${props => props.theme.shadowHover};
   }
@@ -28,6 +31,9 @@ const UserListItem = styled.li`
     font-size: 16px;
     cursor: pointer;
     transition: all 0.25s;
+    ${props => props.theme.media.tablet`
+      font-size: 11px;
+    `}
     &:hover {
       color: ${props => props.theme.lightBlack};
     }
@@ -58,6 +64,11 @@ const AvatarImage = styled.div`
   border-radius: 50%;
   object-fit: fill;
   cursor: pointer;
+  ${props => props.theme.media.tablet`
+    width: 85px;
+    height: 85px;
+    margin: 0 auto;
+  `}
 `;
 
 export {

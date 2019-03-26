@@ -4,6 +4,10 @@ const UserContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  ${props => props.theme.media.tablet`
+    flex-direction: column;
+    align-items: center;
+  `}
 `;
 
 const PhotoContainer = styled.div`
@@ -14,16 +18,26 @@ const PhotoContainer = styled.div`
   border: 1px solid ${props => props.theme.grey};
   border-radius: ${props => props.theme.radius};
   box-shadow: ${props => props.theme.shadow};
+  ${props => props.theme.media.tablet`
+    width: 75%;
+  `}
   & p {
     color: ${props => props.theme.lightBlack};
   }
 `;
 
-const UserPhoto = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: ${props => props.theme.radius};
+const UserPhoto = styled.div`
+  width: 150px;
+  height: 150px;
+  position: relative;
+  background-image: ${props => `url(${props.src})`};
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  border-radius: 50%;
+  object-fit: fill;
   cursor: pointer;
+  margin: 0 auto;
   transition: all 0.25s;
   &:hover {
     opacity: 0.75;
@@ -39,6 +53,9 @@ const ProfileTabs = styled.ul`
   padding: 1rem;
   margin: 2rem;
   border-bottom: 1px solid ${props => props.theme.grey};
+  ${props => props.theme.media.tablet`
+    margin: 0 auto;
+  `}
 `;
 
 const Tab = styled.div`
@@ -64,7 +81,7 @@ const AvatarForm = styled.form`
     outline: 0;
     padding: 0;
     margin: 0;
-    div {
+    div.uploadAvatar {
       display: flex;
       justify-content: flex-end;
       transform: translateY(-50px);

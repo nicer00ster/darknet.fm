@@ -56,8 +56,8 @@ class Logout extends Component {
         {(logout, { loading }) => {
           return (
             <DNNavItem
-              onMouseEnter={this.state.isOpen ? debounce(this.closeMenu, 750) : this.showMenu}
-              onMouseLeave={this.state.isOpen ? debounce(this.closeMenu, 750) : this.showMenu}
+              onMouseEnter={!this.state.isOpen ? debounce(this.showMenu, 500) : null}
+              onMouseLeave={this.state.isOpen ? debounce(this.closeMenu, 500) : null}
               onClick={this.state.isOpen ? this.closeMenu : this.showMenu}
               style={loading ? isLoading : null}>
               <Avatar
@@ -89,24 +89,5 @@ class Logout extends Component {
     );
   }
 }
-
-// const Logout = props => (
-//   <Mutation
-//     refetchQueries={[
-//       { query: CURRENT_USER_QUERY }
-//     ]}
-//     mutation={LOGOUT_MUTATION}
-//     onCompleted={() => Router.push('/account')}>
-//     {(logout, { loading }) => {
-//       return (
-//         <DNNavItem style={loading ? isLoading : null}>
-//           {/* <a style={loading ? { color: 'rgba(0,0,0,.25)' } : null} onClick={logout}>Logout</a> */}
-//           <Avatar avatar={props.avatar} alt={props.name} />
-//           {loading ? <Loading /> : null}
-//         </DNNavItem>
-//       );
-//     }}
-//   </Mutation>
-// );
 
 export default Logout;

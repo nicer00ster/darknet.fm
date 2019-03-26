@@ -1,11 +1,27 @@
 import React, { Component } from 'react';
-import styled, { ThemeProvider, injectGlobal } from 'styled-components';
+import styled, { ThemeProvider, injectGlobal, css } from 'styled-components';
 import { ToastProvider } from 'react-awesome-toasts';
 
 import Header from '../header'
 import Meta from '../meta';
 import Toast from '../toast';
 import { DNLayout } from './layout.styles';
+
+const sizes = {
+  desktop: 1080,
+  tablet: 768,
+  phone: 576,
+};
+
+const media = Object.keys(sizes).reduce((acc, label) => {
+  acc[label] = (...args) => css`
+    @media (max-width: ${sizes[label] / 16}em) {
+      ${css(...args)}
+    }
+  `
+
+  return acc
+}, {});
 
 const theme = {
   maxWidth: '1080px',
@@ -19,6 +35,8 @@ const theme = {
   shadow: '0px 5px 25px 0px rgba(46, 61, 73, 0.2)',
   shadowHover: '2px 4px 8px 0px rgba(46, 61, 73, 0.2);',
   radius: '0.375rem',
+  media: media,
+  sizes: sizes,
 };
 
 injectGlobal`
@@ -48,6 +66,10 @@ injectGlobal`
       padding: 0;
       margin: 0;
       line-height: 2;
+      overflow-x: hidden;
+      ${media.tablet`
+        font-size: 1rem;
+      `}
     }
     a {
       text-decoration: none;
@@ -85,12 +107,12 @@ injectGlobal`
         -webkit-transition: all 0.15s ease-in-out 0s;
         transition: all 0.15s ease-in-out 0s;
       }
-      &:hover:before {
+      &:hover:before, &:focus:before {
         visibility: visible;
         -webkit-transform: scaleX(.5);
         transform: scaleX(.5);
       }
-      &:hover {
+      &:hover, &:focus {
         color: ${theme.black};
       }
       &:disabled {

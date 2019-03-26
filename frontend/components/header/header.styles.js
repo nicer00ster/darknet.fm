@@ -5,6 +5,9 @@ const DNHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   min-height: 152px;
+  ${props => props.theme.media.tablet`
+    min-height: 0;
+  `}
 `;
 
 const DNNav = styled.nav`
@@ -12,14 +15,46 @@ const DNNav = styled.nav`
   align-items: center;
   justify-content: space-between;
   width: 85%;
-  & ul {
-    display: flex;
-    list-style: none;
-    & li {
-      & a {
-        padding: .5rem;
-        text-transform: uppercase;
+  & i {
+    cursor: pointer;
+    padding: .4rem;
+  }
+`;
+
+const MobileMenu = styled.ul`
+  display: flex;
+  list-style: none;
+  transition: all 0.35s ease-in-out;
+  ${props => props.theme.media.tablet`
+    z-index: 999999;
+    width: 100%
+    height: 100%;
+    box-shadow: ${props => props.theme.shadow};
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: ${props => props.theme.white};
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    transform: translateY(-1600px);
+    font-size: 1.5rem;
+  `}
+  &.open {
+    ${props => props.theme.media.tablet`
+      transform: translateY(0);
+      padding: 2rem;
+      & i {
+        align-self: flex-end;
       }
+    `}
+  }
+  & li {
+    & a {
+      padding: .5rem;
+      text-transform: uppercase;
     }
   }
 `;
@@ -41,19 +76,19 @@ const DNNavItem = styled.li`
     height: .1em;
     bottom: 0;
     left: 0;
-    background-color: black;
+    background-color: ${props => props.theme.black};
     visibility: hidden;
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
     -webkit-transition: all 0.15s ease-in-out 0s;
     transition: all 0.15s ease-in-out 0s;
   }
-  &:hover:before {
+  &:hover:before, &:focus:before {
     visibility: visible;
     -webkit-transform: scaleX(.5);
     transform: scaleX(.5);
   }
-  &:hover {
+  &:hover, &:focus {
     color: ${props => props.theme.black};
   }
   & a.active {
@@ -72,18 +107,24 @@ const DNNavItem = styled.li`
       transition: all 0.15s ease-in-out 0s;
     }
   }
+  ${props => props.theme.media.tablet`
+    flex-direction: column;
+  `}
 `;
 
 const Logo = styled.a`
-  font-decoration: none;
   font-size: 76px;
   color: ${props => props.theme.black};
-  filter: drop-shadow(0 .5rem 0.35rem #1f222e);
+  filter: drop-shadow(0 .5rem 0.25rem #1f222e);
   cursor: pointer;
-  transition: ease-in-out 0.5s;
+  transition: ease-in-out 0.35s;
+  margin-right: 1rem;
   &:hover {
     color: #fefefe;
   }
+  ${props => props.theme.media.tablet`
+    font-size: 54px;
+  `}
 `;
 
-export { DNHeader, DNNav, DNNavItem, Logo };
+export { DNHeader, DNNav, DNNavItem, Logo, MobileMenu };

@@ -47,6 +47,9 @@ const UserSongPaginationContainer = styled.div`
     padding: 1rem;
     border-radius: ${props => props.theme.radius};
     transition: all 0.25s;
+    ${props => props.theme.media.tablet`
+      margin: 1rem;
+    `}
     &:hover {
       background-color: ${props => props.theme.hover};
     }
