@@ -7,9 +7,8 @@ const PaginationContainer = styled.div`
   justify-content: center;
   align-content: center;
   margin: 0 auto;
-  border: 1px solid ${props => props.theme.lightBlack};
   border-radius: ${props => props.theme.radius};
-  box-shadow: ${props => props.theme.shadow};
+  box-shadow: ${props => props.theme.shadowHover};
   min-height: 55px;
   white-space: nowrap;
   & a {
@@ -19,16 +18,18 @@ const PaginationContainer = styled.div`
       background-color: ${props => props.theme.hover};
     }
   }
+  & p {
+    color: ${props => props.theme.lightBlack};
+  }
   & > * {
     margin: 0;
     padding: 15px 30px;
-    border-right: 1px solid ${props => props.theme.lightBlack};
     &:last-child {
       border-right: 0;
     }
   }
   a[aria-disabled='true'] {
-    color: grey;
+    color: ${props => props.theme.grey};
     pointer-events: none;
   }
 `;

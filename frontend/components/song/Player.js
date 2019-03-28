@@ -33,6 +33,7 @@ class Player extends Component {
       position: 0,
       startTime: 0,
       progress: 0,
+      volume: 100,
     }
   }
 
@@ -79,9 +80,8 @@ class Player extends Component {
     }
     this.source = this.audioContext.createBufferSource();
     this.source.buffer = this.audioBuffer;
-    this.source.connect(this.audioContext.destination);
     this.source.connect(this.audioGain);
-    this.source.connect(this.audioAnalyser)
+    this.source.connect(this.audioAnalyser);
     this.audioGain.connect(this.audioContext.destination);
   }
 
@@ -116,9 +116,13 @@ class Player extends Component {
     }
   }
 
-  mute = () => {
-    console.log(this.audioGain);
-    this.audioGain.gain.setValueAtTime(0, this.audioContext.currentTime);
+  adjustVolume = e => {
+    this.setState({
+      volume: e.value,
+    });
+    let level = parseInt(e.value) / parseInt(e.max);
+
+    this.audioGain.gain.value = level * level;
   }
 
   seek = time => {
@@ -227,6 +231,7 @@ class Player extends Component {
     this.raf = cancelAnimationFrame(this.raf);
     this.rafSeek = cancelAnimationFrame(this.rafSeek);
     this.audioAnalyser.disconnect();
+    this.audioContext.close();
     this.audioGain.disconnect();
     this.scrubber.removeEventListener('mousedown', this.handleMouseDown);
     window.removeEventListener('mousemove', this.handleDrag);
@@ -252,7 +257,8 @@ class Player extends Component {
           play={this.play}
           pause={this.pause}
           seek={this.seek}
-          mute={this.mute}
+          volume={this.state.volume}
+          adjustVolume={this.adjustVolume}
           fastForward={this.fastForward}
           rewind={this.rewind}
           position={this.state.position}

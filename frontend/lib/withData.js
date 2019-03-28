@@ -14,12 +14,19 @@ function createClient({ headers }) {
         headers,
       });
     },
+    onError: (({ graphQLErrors, networkError }) => {
+      if(graphQLErrors)
+        graphQLErrors.map(({ message, locations, path }) =>
+          console.log(
+            `[GraphQL error]: Derp: ${message}, Location: ${locations}, Path: ${path}`,
+          ),
+        );
+      if (networkError) console.log(`[Network error]: ${networkError}`);
+    }),
     clientState: {
       resolvers: {},
       defaults: {
-        hasError: false,
-        goodField: '',
-        badField: '',
+        error: '',
       },
     },
   });

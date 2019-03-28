@@ -4,13 +4,14 @@ import NavItem from './NavItem';
 import Search from '../search';
 import User from '../user';
 import Logout from '../account/Logout';
+import Loading from '../loading';
 import { DNNav, MobileMenu } from './header.styles';
 
 class Nav extends Component {
   constructor() {
     super();
     this.state = {
-      width: 0,
+      width: 769,
       height: 0,
       showMenu: false,
     }
@@ -58,11 +59,8 @@ class Nav extends Component {
                     title="users"
                     onClick={this.handleMenu}
                     link="/users" />
-                  {/* <NavItem
-                    title="account"
-                    // as={`/user/${data.currentUser.name}`}
-                    link={`/user?id=${data.currentUser.id}`} /> */}
                   <Logout
+                    handleMenu={this.handleMenu}
                     userId={currentUser.id}
                     avatar={currentUser.avatar}
                     name={currentUser.name} />

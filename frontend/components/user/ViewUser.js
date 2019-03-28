@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { Query, Mutation } from 'react-apollo';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip';
 
 import Loading from '../loading';
 import User from './index';
@@ -184,7 +185,7 @@ class ViewUser extends Component {
                     <Tab>
                       <ProfileTabs>
                         <DNNavItem>
-                          <Link prefetch href={{
+                          <Link prefetch scroll={false} href={{
                             pathname: 'user',
                             query: {
                               id: this.props.id,
@@ -194,7 +195,7 @@ class ViewUser extends Component {
                           </Link>
                         </DNNavItem>
                         <DNNavItem>
-                          <Link prefetch href={{
+                          <Link prefetch scroll={false} href={{
                             pathname: 'user',
                             query: {
                               id: this.props.id,
@@ -206,7 +207,7 @@ class ViewUser extends Component {
                           </Link>
                         </DNNavItem>
                         <DNNavItem>
-                          <Link prefetch href={{
+                          <Link prefetch scroll={false} href={{
                             pathname: 'user',
                             query: {
                               id: this.props.id,
@@ -218,7 +219,7 @@ class ViewUser extends Component {
                           </Link>
                         </DNNavItem>
                         <DNNavItem>
-                          <Link prefetch href={{
+                          <Link prefetch scroll={false} href={{
                             pathname: 'user',
                             query: {
                               id: this.props.id,
@@ -233,8 +234,10 @@ class ViewUser extends Component {
                       ? <Overview>
                           <p>Username: {data.user.name}</p>
                           <p>Email: {data.user.email}</p>
-                          <div><i className="fal fa-users"></i>{data.user.followers.length}</div>
-                          <div><i className="fal fa-cloud-upload"></i>{data.user.songs.length}</div>
+                          <div data-tip={`${data.user.followers.length} followers`}><i className="fal fa-users"></i>{data.user.followers.length}</div>
+                          <ReactTooltip place="bottom" type="dark" effect="solid" />
+                          <div data-tip={`${data.user.songs.length} uploads`}><i className="fal fa-cloud-upload"></i>{data.user.songs.length}</div>
+                          <ReactTooltip place="bottom" type="dark" effect="solid" />
                         </Overview>
                       : null}
                       {this.props.query.uploads === data.user.name

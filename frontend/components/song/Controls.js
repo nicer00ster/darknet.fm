@@ -9,14 +9,17 @@ import {
   Forward,
   Rewind,
   Heart,
-  Mute,
   Bar,
   Seek,
   Time,
+  Volume,
 } from './controls.styles';
 import { formatDuration } from '../../lib/utils';
 
 class Controls extends Component {
+  state = {
+    volumeLevel: 100,
+  }
   render() {
     return (
       <ControlContainer>
@@ -48,12 +51,16 @@ class Controls extends Component {
             </Forward>
           </Buttons>
           <MetaButtons>
-            <Mute
-              disabled={this.props.disabled}
-              style={this.props.disabled ? { pointerEvents: 'none' } : null}
-              onClick={this.props.mute}>
-              <i className="fal fa-volume-mute"></i>
-            </Mute>
+            <Volume
+              type="range"
+              min="0"
+              max="100"
+              value={this.props.volume}
+              onChange={e => this.props.adjustVolume(e.target)}
+            />
+            <Time>
+              <span>{this.props.volume}%</span>
+            </Time>
             <Heart
               disabled={this.props.disabled}
               style={this.props.disabled ? { pointerEvents: 'none' } : null}

@@ -18,12 +18,13 @@ const TabContainer = styled.div`
   align-items: stretch;
   justify-content: center;
   align-content: center;
-  box-shadow: ${props => props.theme.shadow};
+  box-shadow: ${props => props.theme.shadowHover};
   margin: 2rem auto;
   border-radius: ${props => props.theme.radius};
+  transition: all 0.25s;
   & > * {
     margin: 1rem;
-    padding: 2rem 3.75rem;
+    padding: 2rem 2.75rem;
     background-color: transparent;
     border: 0;
     outline: 0;
@@ -36,6 +37,12 @@ const TabContainer = styled.div`
     color: grey;
     pointer-events: none;
   }
+  ${props => props.theme.media.tablet`
+    width: 100%;
+    & > * {
+      padding: 1rem;
+    }
+  `}
 `;
 
 const Gated = styled.div`
@@ -90,6 +97,9 @@ const Form = styled.form`
       animation: ${loading} 0.5s linear infinite;
     }
   }
+  ${props => props.theme.media.tablet`
+    width: 100%;
+  `}
 `;
 
 const UserMenu = styled.ul`
@@ -110,6 +120,7 @@ const UserMenu = styled.ul`
   ${props => props.theme.media.tablet`
     opacity: 1;
     box-shadow: none;
+    position: relative;
   `}
   &.active {
     opacity: 1;
@@ -119,9 +130,6 @@ const UserMenu = styled.ul`
       transform: translateY(0px);
     `}
   }
-  ${props => props.theme.media.tablet`
-    position: relative;
-  `}
 `;
 
 const UserMenuItem = styled.li`

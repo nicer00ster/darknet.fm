@@ -15,7 +15,6 @@ const PhotoContainer = styled.div`
   height: 100%;
   margin: 2rem;
   padding: 1rem;
-  border: 1px solid ${props => props.theme.grey};
   border-radius: ${props => props.theme.radius};
   box-shadow: ${props => props.theme.shadow};
   ${props => props.theme.media.tablet`
@@ -65,10 +64,14 @@ const Tab = styled.div`
 `;
 
 const Overview = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 1rem;
   margin: 2rem;
   & div {
     padding: .6rem;
+    width: auto;
     & i {
       padding-right: .4rem;
     }

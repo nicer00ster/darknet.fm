@@ -93,7 +93,7 @@ const Pagination = props => (
               }
             }}>
               <a aria-disabled={props.page <= 1}>
-                <i className="fal fa-chevron-left fa-2x"></i>
+                <i className="fal fa-chevron-double-left fa-2x"></i>
               </a>
             </Link>
             <p>Page {props.page} of {pages}</p>
@@ -104,7 +104,7 @@ const Pagination = props => (
               }
             }}>
               <a aria-disabled={props.page >= pages}>
-                <i className="fal fa-chevron-right fa-2x"></i>
+                <i className="fal fa-chevron-double-right fa-2x"></i>
               </a>
             </Link>
           </PaginationContainer>
@@ -133,7 +133,7 @@ const UserSongPagination = props => (
               }
             }}>
               <a aria-disabled={props.page <= 1}>
-                <i className="fal fa-chevron-left fa-2x"></i>
+                <i className="fal fa-chevron-double-left fa-2x"></i>
               </a>
             </Link>
             {props.children}
@@ -146,7 +146,7 @@ const UserSongPagination = props => (
               }
             }}>
               <a aria-disabled={props.page >= pages}>
-                <i className="fal fa-chevron-right fa-2x"></i>
+                <i className="fal fa-chevron-double-right fa-2x"></i>
               </a>
             </Link>
           </UserSongPaginationContainer>
@@ -175,7 +175,7 @@ const UserFollowerPagination = props => (
               }
             }}>
               <a aria-disabled={props.page <= 1}>
-                <i className="fal fa-chevron-left fa-2x"></i>
+                <i className="fal fa-chevron-double-left fa-2x"></i>
               </a>
             </Link>
             {props.children}
@@ -188,7 +188,7 @@ const UserFollowerPagination = props => (
               }
             }}>
               <a aria-disabled={props.page >= pages}>
-                <i className="fal fa-chevron-right fa-2x"></i>
+                <i className="fal fa-chevron-double-right fa-2x"></i>
               </a>
             </Link>
           </UserFollowerPaginationContainer>

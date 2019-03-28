@@ -31,8 +31,7 @@ class Logout extends Component {
     }
   }
   showMenu = e => {
-    e.preventDefault();
-
+    e.persist();
     this.setState({ isOpen: true }, () => {
       document.addEventListener('click', this.closeMenu);
     });
@@ -72,10 +71,10 @@ class Logout extends Component {
                       query: {
                         id: this.props.userId,
                       },
-                    })}>
+                    }).then(() => this.props.handleMenu())}>
                     Account
                   </UserMenuItem>
-                  <UserMenuItem>
+                  <UserMenuItem onClick={this.props.handleMenu}>
                     Donate
                   </UserMenuItem>
                   <UserMenuItem onClick={logout}>

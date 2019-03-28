@@ -37,6 +37,9 @@ const TagInput = styled.input`
 const InputContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  ${props => props.theme.media.phone`
+    flex-direction: column;
+  `}
   & label {
     flex: 1;
   }

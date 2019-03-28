@@ -78,7 +78,13 @@ class Upload extends Component {
 
     // Validate MIME type
     if(mimeTypes.indexOf(files[0].type) == -1) {
-      alert('Error : Incorrect file type');
+      this.props.toastManager.add("Invalid file type. Supported files are .jpeg or .png file.", {
+        appearance: 'error',
+        autoDismiss: true,
+      });
+      this.setState({
+        uploadingImage: false,
+      });
       return;
     } else {
       data.append('file', files[0]);
@@ -107,7 +113,16 @@ class Upload extends Component {
     const mimeTypes = ['audio/mpeg', 'audio/wav', 'audio/mp4', 'audio/mp3'];
 
     if(mimeTypes.indexOf(files[0].type) == -1) {
-      alert('Error : Incorrect file type');
+      this.props.toast.show({
+        text: 'Invalid file type. Supported files are .mp3, .mp4, .mpg/.mpeg, or .wav file.',
+        ariaLabel: 'Invalid file type.',
+        variant: 'error',
+        actionText: 'Okay',
+        onActionClick: this.props.toast.hide,
+      });
+      this.setState({
+        uploadingSong: false,
+      });
       return;
     } else {
       data.append('file', files[0]);
@@ -198,6 +213,15 @@ class Upload extends Component {
               ref={form => this.form = form}
               onSubmit={async e => {
                 e.preventDefault();
+                if(error) {
+                  this.props.toast.show({
+                    text: error.message,
+                    ariaLabel: 'Invalid file type.',
+                    variant: 'error',
+                    actionText: 'Okay',
+                    onActionClick: this.props.toast.hide,
+                  });
+                }
                 const res = await createSong();
                 Router.push({
                   pathname: '/song',

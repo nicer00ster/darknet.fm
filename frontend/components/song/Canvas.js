@@ -11,43 +11,43 @@ class Canvas extends Component {
   componentDidUpdate(prevProps) {
     if(this.props.isPlaying) {
       this.drawVisualiser();
+      document.addEventListener('resize', this.drawVisualiser);
     }
   }
   drawVisualiser = () => {
     const context = this.canvas.getContext("2d");
 
-    const gradient = context.createLinearGradient(0, 96, 0, 0);
-    gradient.addColorStop(0, "#1f222e");
-    gradient.addColorStop(1, "#fefefe");
+    this.canvas.width = document.querySelector('.seek').offsetWidth;
+    this.canvas.style.width = document.querySelector('.seek').offsetWidth;
 
-    context.fillStyle = gradient;
-    // context.shadowColor = "#fefefe";
-    // context.shadowBlur = 12;
+    context.fillStyle = 'transparent';
+
     context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     context.beginPath();
 
-    const barWidth = (this.canvas.width / this.props.frequencyBinCount) * 2.5;
+    const barWidth = (this.canvas.width / this.props.frequencyBinCount) * 4.5;
     let barHeight;
     let x = 0;
 
     for(let i = 0; i < this.props.frequencyBinCount; i++) {
      barHeight = this.props.audioData[i];
 
-     context.fillStyle = "#fefefe";
-     context.fillRect(x, this.canvas.height - barHeight / 3, barWidth, barHeight / 2);
+     context.fillStyle = '#1f222e';
+     context.fillRect(x, this.canvas.height - barHeight / 4, barWidth, barHeight / 3);
 
      x += barWidth + 1;
     }
   }
   componentWillUnmount() {
     const context = this.canvas.getContext("2d");
+    document.removeEventListener('resize', this.drawVisualiser);
     context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.canvas = null;
   }
   render() {
     return (
       <PlayerContainer>
-        <canvas className="frequency-bars" width="624" height="96" ref={canvas => this.canvas = canvas}></canvas>
+        <canvas className="frequency-bars" height="96" ref={canvas => this.canvas = canvas}></canvas>
       </PlayerContainer>
     );
   }

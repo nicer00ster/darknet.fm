@@ -26,6 +26,7 @@ const SongListItem = styled.li`
   transition: all 0.35s;
   ${props => props.theme.media.tablet`
     min-width: 85px;
+    height: 100%;
   `}
   & div.art {
     width: 100%;
@@ -43,10 +44,19 @@ const SongListItem = styled.li`
       font-size: 15px;
       ${props => props.theme.media.tablet`
         font-size: 10px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       `}
     }
     & .description {
       color: ${props => props.theme.lightBlack};
+      ${props => props.theme.media.tablet`
+        font-size: 10px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      `}
     }
   }
   &:hover {

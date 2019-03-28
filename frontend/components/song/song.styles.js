@@ -5,6 +5,9 @@ const SongContainer = styled.div`
   height: 380px;
   overflow: hidden;
   box-shadow: ${props => props.theme.shadow};
+  ${props => props.theme.media.tablet`
+    height: 100%;
+  `}
 `;
 
 const Foreground = styled.div`
@@ -17,6 +20,12 @@ const Foreground = styled.div`
   -moz-box-sizing: border-box;
   padding: 30px 560px 20px 30px;
   z-index: 10;
+  ${props => props.theme.media.tablet`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  `}
 `;
 
 const ArtWrapper = styled.div`
@@ -26,12 +35,22 @@ const ArtWrapper = styled.div`
   z-index: 1;
   width: 340px;
   height: 340px;
+  ${props => props.theme.media.tablet`
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.25;
+    z-index -1;
+  `}
   & img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     position: absolute;
     z-index: 1;
+    ${props => props.theme.media.tablet`
+      position: relative;
+    `}
   }
 `;
 
@@ -109,6 +128,14 @@ const SongMetaData = styled.div`
   right: 390px;
   text-align: right;
   user-select: none;
+  ${props => props.theme.media.tablet`
+    width: 100%;
+    right: 0;
+    margin: .4rem;
+    & div:first-child {
+      color: ${props => props.theme.white};
+    }
+  `}
   & div:last-child {
     display: flex;
     flex-direction: column;

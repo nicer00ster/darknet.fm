@@ -43,6 +43,7 @@ const UserListItem = styled.li`
     justify-content: space-between;
     color: ${props => props.theme.lightBlack};
     pointer-events: none;
+    z-index: 99999;
     & div {
       padding: .4rem;
       & i {
