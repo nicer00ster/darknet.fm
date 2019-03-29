@@ -32,9 +32,10 @@ type User {
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission]
-  songs: [Song]!
+  songs: [Song]! @relation(name: "UserToSong")
   avatar: String!
-  followers: [User]
+  followers: [User] @relation(name: "FollowersToFollowing")
+  following: [User] @relation(name: "FollowingToFollowers")
 }
 
 type Song {
@@ -47,5 +48,6 @@ type Song {
   tags: [Tag]
   createdAt: DateTime!
   updatedAt: DateTime!
-  user: User!
+  user: User! @relation(name: "UserToSong")
+  likes: [User] @relation(name: "UserToSongLikes")
 }

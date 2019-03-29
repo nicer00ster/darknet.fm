@@ -3,6 +3,7 @@ import Router from 'next/router';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import { adopt } from 'react-adopt';
+import ReactTooltip from 'react-tooltip';
 
 import Avatar from './Avatar';
 import {
@@ -120,8 +121,16 @@ class Users extends Component {
                               return (
                                 <>
                                 <span>
-                                  <div><i className="fal fa-users"></i>{user.followers.length}</div>
-                                  <div><i className="fal fa-cloud-upload"></i>{user.songs.length}</div>
+                                  <div>
+                                    <i data-tip={`${user.followers.length} follower${user.followers.length === 1 ? '' : 's'}`} className="fal fa-users"></i>
+                                    {user.followers.length}
+                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip" />
+                                  </div>
+                                  <div>
+                                    <i data-tip={`${user.songs.length} upload${user.songs.length === 1 ? '' : 's'}`} className="fal fa-cloud-upload"></i>
+                                    {user.songs.length}
+                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip" />
+                                  </div>
                                 </span>
                                 <button
                                   type="button"
@@ -138,8 +147,16 @@ class Users extends Component {
                               return (
                                 <>
                                 <span>
-                                  <div><i className="fal fa-users"></i>{user.followers.length}</div>
-                                  <div><i className="fal fa-cloud-upload"></i>{user.songs.length}</div>
+                                  <div>
+                                    <i data-tip={`${user.followers.length} follower${user.followers.length === 1 ? '' : 's'}`} className="fal fa-users"></i>
+                                    {user.followers.length}
+                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip" />
+                                  </div>
+                                  <div>
+                                    <i data-tip={`${user.songs.length} upload${user.songs.length === 1 ? '' : 's'}`} className="fal fa-cloud-upload"></i>
+                                    {user.songs.length}
+                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip" />
+                                  </div>
                                 </span>
                                 {currentUser && user.id === currentUser.id
                                   ? null
@@ -169,5 +186,5 @@ class Users extends Component {
   }
 }
 
-export { Composed };
+export { Composed, ALL_USERS_QUERY };
 export default Users;

@@ -37,6 +37,7 @@ const UserPhoto = styled.div`
   object-fit: fill;
   cursor: pointer;
   margin: 0 auto;
+  z-index: 99;
   transition: all 0.25s;
   &:hover {
     opacity: 0.75;
@@ -102,14 +103,14 @@ const AvatarForm = styled.form`
         z-index: -1;
       }
     }
-    &:hover, &:focus {
+    ${'' /* &:hover, &:focus {
       & > div {
         transform: translateY(0px);
         & > button {
           opacity: 1;
         }
       }
-    }
+    } */}
   }
 `;
 

@@ -78,6 +78,36 @@ const USER_FOLLOWERS_PAGINATION_QUERY = gql`
   }
 `;
 
+const USER_FOLLOWING_PAGINATION_QUERY = gql`
+  query USER_FOLLOWING_PAGINATION_QUERY($id: ID!) {
+    usersConnection(where: {
+      id: $id
+    }) {
+      edges {
+        node {
+          id
+          email
+          name
+          avatar
+          following {
+            id
+            name
+            email
+            avatar
+            songs {
+              id
+            }
+            following {
+              id
+              avatar
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 const Pagination = props => (
     <Query query={PAGINATION_QUERY}>
       {({ data, loading, error }) => {
@@ -197,11 +227,54 @@ const UserFollowerPagination = props => (
     </Query>
 );
 
+const UserFollowingPagination = props => (
+    <Query query={USER_FOLLOWING_PAGINATION_QUERY} variables={{
+      id: props.id,
+      skip: props.page * userPerPage - userPerPage,
+    }}>
+      {({ data, loading, error }) => {
+        if(loading) return <Loading />
+        const count = data.usersConnection.edges[0].node.following.length;
+        const pages = Math.ceil(count / userPerPage);
+        return (
+          <UserFollowerPaginationContainer>
+            <Link prefetch href={{
+              pathname: 'user',
+              query: {
+                id: props.id,
+                following: props.name,
+                page: props.page - 1
+              }
+            }}>
+              <a aria-disabled={props.page <= 1}>
+                <i className="fal fa-chevron-double-left fa-2x"></i>
+              </a>
+            </Link>
+            {props.children}
+            <Link prefetch href={{
+              pathname: 'user',
+              query: {
+                id: props.id,
+                following: props.name,
+                page: props.page + 1
+              }
+            }}>
+              <a aria-disabled={props.page >= pages}>
+                <i className="fal fa-chevron-double-right fa-2x"></i>
+              </a>
+            </Link>
+          </UserFollowerPaginationContainer>
+        );
+      }}
+    </Query>
+);
+
 export {
   PAGINATION_QUERY,
   USER_SONG_PAGINATION_QUERY,
   UserSongPagination,
   UserFollowerPagination,
+  UserFollowingPagination,
 }
 
 export default Pagination;

@@ -31,6 +31,7 @@ const theme = {
   grey: '#cacacc',
   white: '#fefefe',
   red: '#e95e5e',
+  yellow: '#ffeaa7',
   lightRed: 'rgba(233, 94, 94, 0.75)',
   shadow: '0px 5px 25px 0px rgba(46, 61, 73, 0.2)',
   shadowHover: '2px 4px 8px 0px rgba(46, 61, 73, 0.2);',
@@ -130,6 +131,11 @@ injectGlobal`
     select:-webkit-autofill:focus {
       -webkit-text-fill-color: ${theme.black};
       -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    }
+    .tooltip {
+      font-size: 11px;
+      padding: 4px;
+      background-color: ${theme.black} !important;
     }
 `;
 

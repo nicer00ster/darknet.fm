@@ -78,8 +78,7 @@ const Title = styled.div`
     color: ${props => props.theme.white};
     transition: all 0.25s;
     &:hover {
-      color: ${props => props.theme.black};
-      font-weight: bold;
+      color: ${props => props.theme.yellow};
     }
   }
   & p {
@@ -102,8 +101,7 @@ const Headline = styled.div`
     color: ${props => props.theme.white};
     transition: all 0.25s;
     &:hover {
-      color: ${props => props.theme.lightBlack};
-      font-weight: bold;
+      color: ${props => props.theme.yellow};
     }
   }
 `;

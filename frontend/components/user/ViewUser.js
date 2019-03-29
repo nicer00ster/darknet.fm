@@ -34,8 +34,10 @@ import {
 import { DNNavItem } from '../header/header.styles';
 import {
   UserSongPagination,
-  UserFollowerPagination
+  UserFollowerPagination,
+  UserFollowingPagination,
 } from '../pagination';
+import { CURRENT_USER_QUERY } from './index';
 
 const VIEW_USER_QUERY = gql`
   query VIEW_USER_QUERY($id: ID!, $skip: Int = 0, $first: Int = ${userPerPage}) {
@@ -56,6 +58,20 @@ const VIEW_USER_QUERY = gql`
         }
         followers {
           id
+          name
+        }
+      }
+      following(first: $first, skip: $skip, orderBy: createdAt_DESC) {
+        id
+        name
+        email
+        avatar
+        songs {
+          id
+        }
+        followers {
+          id
+          name
         }
       }
       songs(first: $first, skip: $skip, orderBy: createdAt_DESC) {
@@ -75,7 +91,7 @@ const VIEW_USER_QUERY = gql`
 
 const UPLOAD_AVATAR_MUTATION = gql`
   mutation UPLOAD_AVATAR_MUTATION($avatar: String!, $email: String!) {
-    uploadAvatar(avatar: $avatar, where: {
+    uploadAvatar(avatar: $avatar, email: $email, where: {
       email: $email
     }) {
       avatar
@@ -86,6 +102,7 @@ const UPLOAD_AVATAR_MUTATION = gql`
 class ViewUser extends Component {
   state = {
     avatar: "",
+    uploadingAvatar: false,
   }
   routeToSong = (song, e) => {
     Router.push({
@@ -96,6 +113,8 @@ class ViewUser extends Component {
     });
   }
   uploadImage = async e => {
+    this.setState({ uploadingAvatar: true });
+
     const files = e.target.files;
     const data = new FormData();
     data.append('file', files[0]);
@@ -109,6 +128,7 @@ class ViewUser extends Component {
 
     this.setState({
       avatar: file.secure_url,
+      uploadingAvatar: false,
     });
 
   }
@@ -129,12 +149,14 @@ class ViewUser extends Component {
                     <PhotoContainer>
                       <Mutation
                         mutation={UPLOAD_AVATAR_MUTATION}
+                        refetchQueries={[
+                          { query: CURRENT_USER_QUERY }
+                        ]}
                         variables={{
                           email: data.user.email,
                           avatar: this.state.avatar,
                       }}>
                         {(uploadAvatar, { error, loading }) => {
-                          if(loading) return <Loading />
                           if(currentUser && data.user.id !== currentUser.id) {
                             return (
                               <UserPhoto
@@ -145,12 +167,20 @@ class ViewUser extends Component {
                               <AvatarForm onSubmit={async e => {
                                 e.preventDefault();
                                 const res = await uploadAvatar();
+                                this.setState({
+                                  avatar: ""
+                                });
                               }}>
-                              <fieldset disabled={loading} aria-busy={loading}>
-                                <UserPhoto
-                                  onClick={() => document.querySelector("#file").click()}
-                                  src={this.state.avatar ? this.state.avatar : data.user.avatar} />
-                                  <div className="uploadAvatar">
+                              <fieldset
+                                style={loading || this.state.uploadingAvatar ? { pointerEvents: 'none', opacity: 0.25 } : null}
+                                disabled={loading || this.state.uploadingAvatar}
+                                aria-busy={loading || this.state.uploadingAvatar}>
+                                  <UserPhoto
+                                    onClick={() => document.querySelector("#file").click()}
+                                    src={this.state.avatar ? this.state.avatar : data.user.avatar}>
+                                    {loading || this.state.uploadingAvatar ? <Loading /> : null}
+                                  </UserPhoto>
+                                  <div className="uploadAvatar" style={this.state.avatar.length > 0 ? { transform: 'translateY(0px)' } : null}>
                                     <input
                                       id="file"
                                       type="file"
@@ -160,7 +190,12 @@ class ViewUser extends Component {
                                       required
                                       onChange={this.uploadImage}
                                     />
-                                    <button data-button type="submit">Upload</button>
+                                    <button
+                                      data-button
+                                      type="submit"
+                                      style={this.state.avatar.length > 0 ? { opacity: 1 } : null}>
+                                      Upload
+                                    </button>
                                   </div>
                                 </fieldset>
                               </AvatarForm>
@@ -234,10 +269,10 @@ class ViewUser extends Component {
                       ? <Overview>
                           <p>Username: {data.user.name}</p>
                           <p>Email: {data.user.email}</p>
-                          <div data-tip={`${data.user.followers.length} followers`}><i className="fal fa-users"></i>{data.user.followers.length}</div>
-                          <ReactTooltip place="bottom" type="dark" effect="solid" />
-                          <div data-tip={`${data.user.songs.length} uploads`}><i className="fal fa-cloud-upload"></i>{data.user.songs.length}</div>
-                          <ReactTooltip place="bottom" type="dark" effect="solid" />
+                          <div data-tip={`${data.user.followers.length} follower${data.user.followers.length === 1 ? '' : 's'}`}><i className="fal fa-users"></i>{data.user.followers.length}</div>
+                          <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                          <div data-tip={`${data.user.songs.length} upload${data.user.songs.length === 1 ? '' : 's'}`}><i className="fal fa-cloud-upload"></i>{data.user.songs.length}</div>
+                          <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
                         </Overview>
                       : null}
                       {this.props.query.uploads === data.user.name
@@ -288,8 +323,10 @@ class ViewUser extends Component {
                                               return (
                                                 <>
                                                 <span>
-                                                  <div><i className="fal fa-users"></i>{follower.followers.length}</div>
-                                                  <div><i className="fal fa-cloud-upload"></i>{follower.songs.length}</div>
+                                                  <div data-tip={`${follower.followers.length} follower${follower.followers.length === 1 ? '' : 's'}`}><i className="fal fa-users"></i>{follower.followers.length}</div>
+                                                  <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                                                  <div data-tip={`${follower.songs.length} upload${follower.songs.length === 1 ? '' : 's'}`}><i className="fal fa-cloud-upload"></i>{follower.songs.length}</div>
+                                                  <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
                                                 </span>
                                                 <button
                                                   data-button
@@ -306,8 +343,10 @@ class ViewUser extends Component {
                                               return (
                                                 <>
                                                 <span>
-                                                  <div><i className="fal fa-users"></i>{follower.followers.length}</div>
-                                                  <div><i className="fal fa-cloud-upload"></i>{follower.songs.length}</div>
+                                                  <div data-tip={`${follower.followers.length} follower${follower.followers.length === 1 ? '' : 's'}`}><i className="fal fa-users"></i>{follower.followers.length}</div>
+                                                  <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                                                  <div data-tip={`${follower.songs.length} upload${follower.songs.length === 1 ? '' : 's'}`}><i className="fal fa-cloud-upload"></i>{follower.songs.length}</div>
+                                                  <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
                                                 </span>
                                                 {currentUser && follower.id === currentUser.id
                                                   ? null
@@ -330,6 +369,81 @@ class ViewUser extends Component {
                                 </UserFollowerPagination>}
                           </UserList>
                         : null}
+                        {this.props.query.following === data.user.name
+                          ? <UserList>
+                              {data.user.following.length <= 0
+                                ? <p>{data.user.name} is not following anyone.</p>
+                                : <UserFollowingPagination id={this.props.id} name={data.user.name} page={parseFloat(this.props.query.page) || 1}>
+                                    {data.user.following.map(following => {
+                                      return (
+                                        <UserListItem key={following.id}>
+                                          <Avatar
+                                            avatar={following.avatar}
+                                            style={{ width: 65, height: 65 }}
+                                            onClick={() => Router.push({
+                                            pathname: '/user',
+                                            query: {
+                                              id: following.id,
+                                            },
+                                          })} />
+                                          <p onClick={() => Router.push({
+                                            pathname: '/user',
+                                            query: {
+                                              id: following.id,
+                                            },
+                                          })}>{following.name}</p>
+                                          <Composed email={following.email}>
+                                            {({ followUser, unfollowUser }) => {
+                                              if(currentUser && following.followers.some(user => user.id === currentUser.id)) {
+                                                return (
+                                                  <>
+                                                  <span>
+                                                    <div data-tip={`${following.followers.length} follower${following.followers.length === 1 ? '' : 's'}`}><i className="fal fa-users"></i>{following.followers.length}</div>
+                                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                                                    <div data-tip={`${following.songs.length} upload${following.songs.length === 1 ? '' : 's'}`}><i className="fal fa-cloud-upload"></i>{following.songs.length}</div>
+                                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                                                  </span>
+                                                  <button
+                                                    data-button
+                                                    disabled={unfollowUser.data.loading}
+                                                    aria-disabled={unfollowUser.data.loading}
+                                                    className="unfollow"
+                                                    onClick={unfollowUser.mutation}>
+                                                    Unfollow
+                                                    {unfollowUser.data.loading ? <Loading /> : null}
+                                                  </button>
+                                                  </>
+                                                );
+                                              } else {
+                                                return (
+                                                  <>
+                                                  <span>
+                                                    <div data-tip={`${following.followers.length} follower${following.followers.length === 1 ? '' : 's'}`}><i className="fal fa-users"></i>{following.followers.length}</div>
+                                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                                                    <div data-tip={`${following.songs.length} upload${following.songs.length === 1 ? '' : 's'}`}><i className="fal fa-cloud-upload"></i>{following.songs.length}</div>
+                                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                                                  </span>
+                                                  {currentUser && following.id === currentUser.id
+                                                    ? null
+                                                    : <button
+                                                        data-button
+                                                        disabled={followUser.data.loading}
+                                                        aria-disabled={followUser.data.loading}
+                                                        onClick={followUser.mutation}>
+                                                        Follow
+                                                        {followUser.data.loading ? <Loading /> : null}
+                                                      </button>}
+                                                  </>
+                                                );
+                                              }
+                                            }}
+                                          </Composed>
+                                        </UserListItem>
+                                      );
+                                    })}
+                                  </UserFollowingPagination>}
+                            </UserList>
+                          : null}
                     </Tab>
                   </UserContainer>
                 )

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactTooltip from 'react-tooltip';
 
 import {
   ControlContainer,
@@ -9,17 +10,17 @@ import {
   Forward,
   Rewind,
   Heart,
+  Unheart,
   Bar,
   Seek,
   Time,
   Volume,
 } from './controls.styles';
+import User from '../user';
+import Loading from '../loading';
 import { formatDuration } from '../../lib/utils';
 
 class Controls extends Component {
-  state = {
-    volumeLevel: 100,
-  }
   render() {
     return (
       <ControlContainer>
@@ -51,6 +52,16 @@ class Controls extends Component {
             </Forward>
           </Buttons>
           <MetaButtons>
+            <Heart
+              data-tip={`${this.props.numberOfLikes} Like${this.props.numberOfLikes === 1 ? '' : 's'}`}
+              className={this.props.isSongLikedByCurrentUser ? 'liked' : null}
+              disabled={this.props.disabled || this.props.unlikeSong.data.loading || this.props.likeSong.data.loading}
+              style={this.props.disabled || this.props.unlikeSong.data.loading || this.props.likeSong.data.loading ? { pointerEvents: 'none' } : null}
+              onClick={this.props.userId ? this.props.isSongLikedByCurrentUser ? this.props.unlikeSong.mutation : this.props.likeSong.mutation : () => alert('Log in to like songs.')}>
+              <i className={this.props.isSongLikedByCurrentUser ? 'fas fa-heart fa-fill' : 'fal fa-heart'}></i>
+              {this.props.unlikeSong.data.loading || this.props.likeSong.data.loading ? <Loading /> : null}
+            </Heart>
+            <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip" />
             <Volume
               type="range"
               min="0"
@@ -61,12 +72,6 @@ class Controls extends Component {
             <Time>
               <span>{this.props.volume}%</span>
             </Time>
-            <Heart
-              disabled={this.props.disabled}
-              style={this.props.disabled ? { pointerEvents: 'none' } : null}
-              onClick={() => alert('liked')}>
-              <i className="fal fa-heart"></i>
-            </Heart>
           </MetaButtons>
         </ControlsStyles>
       </ControlContainer>

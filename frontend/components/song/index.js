@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import fetch from 'isomorphic-unfetch';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
+import { adopt } from 'react-adopt';
 import Head from 'next/head';
 import Link from 'next/link';
 import moment from 'moment';
 
+import User from '../user';
 import Player from './Player';
 import Loading from '../loading';
 import {
@@ -35,6 +37,10 @@ const SONG_QUERY = gql`
       song
       createdAt
       tags
+      likes {
+        id
+        name
+      }
       user {
         id
         name
@@ -64,62 +70,132 @@ const SONG_USER_QUERY = gql`
   }
 `;
 
+const LIKE_SONG_MUTATION = gql`
+  mutation LIKE_SONG_MUTATION($id: ID!) {
+    likeSong(where: {
+      id: $id,
+    }) {
+      likes {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const UNLIKE_SONG_MUTATION = gql`
+  mutation UNLIKE_SONG_MUTATION($id: ID!) {
+    unlikeSong(where: {
+      id: $id,
+    }) {
+      likes {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const songQuery = ({ render, id }) => (
+  <Query
+    query={SONG_QUERY}
+    variables={{
+      id,
+    }}>
+    {(query, data) => render({ query, data })}
+  </Query>
+);
+
+const likeSong = ({ render, id }) => (
+  <Mutation
+    mutation={LIKE_SONG_MUTATION}
+    refetchQueries={[
+      { query: SONG_QUERY, variables: { id } }
+    ]}
+    variables={{ id }}>
+    {(mutation, data) => render({ mutation, data })}
+  </Mutation>
+);
+
+const unlikeSong = ({ render, id }) => (
+  <Mutation
+    mutation={UNLIKE_SONG_MUTATION}
+    refetchQueries={[
+      { query: SONG_QUERY, variables: { id } }
+    ]}
+    variables={{ id }}>
+    {(mutation, data) => render({ mutation, data })}
+  </Mutation>
+);
+
+const Composed = adopt({
+  songQuery,
+  likeSong,
+  unlikeSong,
+});
+
 class Song extends Component {
   render() {
     return (
-      <Query
-        query={SONG_QUERY}
-        variables={{
-          id: this.props.id,
-        }}>
-        {({ error, loading, data }) => {
-          if(error) return <p>{error}</p>
-          if(loading) return <Loading />
-          if(!data.song) return <p>No song found for {this.props.id}</p>
-          const song = data.song;
-          return (
-            <SongContainer>
-              <Head>
-                <title>DARKNET.FM | {song.title}</title>
-              </Head>
-              <Foreground>
-                <Player audio={song.song}>
-                  <ArtWrapper>
-                    <img src={song.image} alt={song.title}/>
-                  </ArtWrapper>
-                  <TitleContainer>
-                    <UserAndTitle>
-                      <Headline>
-                        <Link href={`user?id=${song.user.id}`}>
-                          <a>Uploaded by {song.user.name}</a>
-                        </Link>
-                      </Headline>
-                      <Title>
-                        <a href="#">{song.artist}</a>
-                        <p>{song.title}</p>
-                      </Title>
-                    </UserAndTitle>
-                  </TitleContainer>
-                  <SongMetaData>
-                    <div>{moment(song.createdAt).fromNow()}</div>
-                    <div>
-                      {song.tags.map((tag, index) => {
-                        if(index < 2) {
-                          return (
-                            <Tag key={index}>
-                              <span>{tag}</span>
-                            </Tag>
-                          );
-                        }
-                      })}
-                    </div>
-                  </SongMetaData>
-                </Player>
-              </Foreground>
-            </SongContainer>
-          );
-        }}
-      </Query>
+      <User>
+        {({ data: { currentUser } }) => (
+          <Composed id={this.props.id}>
+            {({ songQuery: { query: { data, loading, error } }, likeSong, unlikeSong }) => {
+              if(error) return <p>{error}</p>
+              if(loading) return <Loading />
+              if(!data.song) return <p>No song found for {this.props.id}</p>
+              let song = data.song;
+              return (
+                <SongContainer>
+                  <Head>
+                    <title>DARKNET.FM | {song.title}</title>
+                  </Head>
+                  <Foreground>
+                    <Player
+                      userId={currentUser && currentUser.id}
+                      isSongLikedByCurrentUser={currentUser && song.likes.some(user => user.id === currentUser.id)}
+                      numberOfLikes={song.likes.length}
+                      likeSong={likeSong}
+                      unlikeSong={unlikeSong}
+                      audio={song.song}>
+                      <ArtWrapper>
+                        <img src={song.image} alt={song.title}/>
+                      </ArtWrapper>
+                      <TitleContainer>
+                        <UserAndTitle>
+                          <Headline>
+                            <Link href={`user?id=${song.user.id}`}>
+                              <a>Uploaded by {song.user.name}</a>
+                            </Link>
+                          </Headline>
+                          <Title>
+                            <a href="#">{song.artist}</a>
+                            <p>{song.title}</p>
+                          </Title>
+                        </UserAndTitle>
+                      </TitleContainer>
+                      <SongMetaData>
+                        <div>{moment(song.createdAt).fromNow()}</div>
+                        <div>
+                          {song.tags.map((tag, index) => {
+                            if(index < 2) {
+                              return (
+                                <Tag key={index}>
+                                  <span>{tag}</span>
+                                </Tag>
+                              );
+                            }
+                          })}
+                        </div>
+                      </SongMetaData>
+                    </Player>
+                  </Foreground>
+                </SongContainer>
+              );
+            }}
+          </Composed>
+        )}
+      </User>
     );
   }
 }

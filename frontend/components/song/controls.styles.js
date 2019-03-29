@@ -127,6 +127,7 @@ const Rewind = styled.button`
 `;
 
 const Heart = styled.button`
+  position: relative;
   width: 55px;
   outline: 0;
   border: 0;
@@ -135,21 +136,26 @@ const Heart = styled.button`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 20px;
-  margin: 5px 0;
-  font-size: 32px;
+  background-color: transparent;
+  font-size: 16px;
   text-align: center;
-  background-color: ${props => props.theme.white};
   cursor: pointer;
-  transition: background-color .3s ease;
-  -webkit-transition: background-color .3s ease;
-  &:hover, &:focus {
-    background-color: #eee;
-    transition: background-color .3s ease;
-    -webkit-transition: background-color .3s ease;
+  & i {
+    transition: all 0.25s;
+  }
+  &.liked {
+     color: tomato;
+  }
+  &:hover {
+    & > i {
+      transform: scale(1.35);
+    }
   }
 `;
 
 const Volume = styled.input`
+  max-width: 130px;
+  width: 100%;
   -webkit-appearance: none;
   ::-webkit-slider-thumb {
     -webkit-appearance: none;

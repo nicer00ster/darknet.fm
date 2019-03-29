@@ -253,6 +253,7 @@ class Player extends Component {
           isPlaying={this.state.isPlaying}
         />}
         <Controls
+          userId={this.props.userId}
           isPlaying={this.state.isPlaying}
           play={this.play}
           pause={this.pause}
@@ -264,6 +265,10 @@ class Player extends Component {
           position={this.state.position}
           duration={this.audioBuffer.duration}
           disabled={this.state.isLoading}
+          isSongLikedByCurrentUser={this.props.isSongLikedByCurrentUser}
+          numberOfLikes={this.props.numberOfLikes}
+          likeSong={this.props.likeSong}
+          unlikeSong={this.props.unlikeSong}
         />
       </>
     );

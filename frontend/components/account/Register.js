@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import { Form } from './account.styles';
 import { DNInput } from '../layout/layout.styles';
 import { CURRENT_USER_QUERY } from '../user';
+import { ALL_USERS_QUERY } from '../users';
 
 const CREATE_USER_MUTATION = gql`
   mutation CREATE_USER_MUTATION($email: String!, $name: String!, $password: String!, $avatar: String!) {
@@ -31,7 +32,8 @@ class Register extends Component {
     return (
       <Mutation
         refetchQueries={[
-          { query: CURRENT_USER_QUERY }
+          { query: CURRENT_USER_QUERY },
+          { query: ALL_USERS_QUERY },
         ]}
         mutation={CREATE_USER_MUTATION}
         onCompleted={() => {
