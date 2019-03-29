@@ -174,6 +174,7 @@ const Mutations = {
     return updatedUser;
   },
   async followUser(parent, args, ctx, info) {
+    console.log(args.email);
     const [user] = await ctx.db.query.users({
       where: {
         email: args.email,
@@ -182,7 +183,18 @@ const Mutations = {
     if(!user) {
       throw new Error('No user exists.');
     }
-    console.log(ctx.request.userId + ' is now following ' + args.email);
+    const updatedCurrentUserFollowing = await ctx.db.mutation.updateUser({
+      where: {
+        id: ctx.request.userId,
+      },
+      data: {
+        following: {
+          connect: {
+            id: user.id,
+          },
+        },
+      },
+    });
     const updatedUser = await ctx.db.mutation.updateUser({
       where: {
         email: user.email,
@@ -206,7 +218,18 @@ const Mutations = {
     if(!user) {
       throw new Error('No user exists.');
     }
-    console.log(ctx.request.userId + ' is now unfollowing ' + args.email);
+    const updatedCurrentUserFollowing = await ctx.db.mutation.updateUser({
+      where: {
+        id: ctx.request.userId,
+      },
+      data: {
+        following: {
+          disconnect: {
+            id: user.id,
+          },
+        },
+      },
+    });
     const updatedUser = await ctx.db.mutation.updateUser({
       where: {
         email: user.email,
@@ -220,6 +243,52 @@ const Mutations = {
       },
     });
     return updatedUser;
+  },
+  async likeSong(parent, args, ctx, info) {
+    const [song] = await ctx.db.query.songs({
+      where: {
+        id: args.id,
+      },
+    });
+    if(!song) {
+      throw new Error('This song no longer exists.');
+    }
+    const updatedSong = await ctx.db.mutation.updateSong({
+      where: {
+        id: song.id,
+      },
+      data: {
+        likes: {
+          connect: {
+            id: ctx.request.userId,
+          },
+        },
+      },
+    });
+    return updatedSong;
+  },
+  async unlikeSong(parent, args, ctx, info) {
+    const [song] = await ctx.db.query.songs({
+      where: {
+        id: args.id,
+      },
+    });
+    if(!song) {
+      throw new Error('This song no longer exists.');
+    }
+    const updatedSong = await ctx.db.mutation.updateSong({
+      where: {
+        id: song.id,
+      },
+      data: {
+        likes: {
+          disconnect: {
+            id: ctx.request.userId,
+          },
+        },
+      },
+    });
+    return updatedSong;
   },
 }
 

@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/alex-busch-0e5bbf/darknet/dev
-# timestamp: Sun Mar 24 2019 09:33:00 GMT-0600 (Mountain Daylight Time)
+# timestamp: Thu Mar 28 2019 22:04:31 GMT-0600 (Mountain Daylight Time)
 
 type AggregateSong {
   count: Int!
@@ -99,6 +99,7 @@ type Song implements Node {
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
+  likes(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
 """A connection to a list of items."""
@@ -120,6 +121,7 @@ input SongCreateInput {
   song: String!
   tags: SongCreatetagsInput
   user: UserCreateOneWithoutSongsInput!
+  likes: UserCreateManyInput
 }
 
 input SongCreateManyWithoutUserInput {
@@ -139,6 +141,7 @@ input SongCreateWithoutUserInput {
   image: String!
   song: String!
   tags: SongCreatetagsInput
+  likes: UserCreateManyInput
 }
 
 """An edge in a connection."""
@@ -523,6 +526,7 @@ input SongUpdateInput {
   song: String
   tags: SongUpdatetagsInput
   user: UserUpdateOneRequiredWithoutSongsInput
+  likes: UserUpdateManyInput
 }
 
 input SongUpdateManyDataInput {
@@ -571,6 +575,7 @@ input SongUpdateWithoutUserDataInput {
   image: String
   song: String
   tags: SongUpdatetagsInput
+  likes: UserUpdateManyInput
 }
 
 input SongUpdateWithWhereUniqueWithoutUserInput {
@@ -878,6 +883,9 @@ input SongWhereInput {
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
   user: UserWhereInput
+  likes_every: UserWhereInput
+  likes_some: UserWhereInput
+  likes_none: UserWhereInput
 }
 
 input SongWhereUniqueInput {
@@ -917,6 +925,7 @@ type User implements Node {
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song!]
   avatar: String!
   followers(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  following(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
 """A connection to a list of items."""
@@ -940,6 +949,7 @@ input UserCreateInput {
   permissions: UserCreatepermissionsInput
   songs: SongCreateManyWithoutUserInput
   followers: UserCreateManyInput
+  following: UserCreateManyInput
 }
 
 input UserCreateManyInput {
@@ -966,6 +976,7 @@ input UserCreateWithoutSongsInput {
   avatar: String!
   permissions: UserCreatepermissionsInput
   followers: UserCreateManyInput
+  following: UserCreateManyInput
 }
 
 """An edge in a connection."""
@@ -1331,6 +1342,7 @@ input UserUpdateDataInput {
   permissions: UserUpdatepermissionsInput
   songs: SongUpdateManyWithoutUserInput
   followers: UserUpdateManyInput
+  following: UserUpdateManyInput
 }
 
 input UserUpdateInput {
@@ -1343,6 +1355,7 @@ input UserUpdateInput {
   permissions: UserUpdatepermissionsInput
   songs: SongUpdateManyWithoutUserInput
   followers: UserUpdateManyInput
+  following: UserUpdateManyInput
 }
 
 input UserUpdateManyDataInput {
@@ -1402,6 +1415,7 @@ input UserUpdateWithoutSongsDataInput {
   avatar: String
   permissions: UserUpdatepermissionsInput
   followers: UserUpdateManyInput
+  following: UserUpdateManyInput
 }
 
 input UserUpdateWithWhereUniqueNestedInput {
@@ -1697,6 +1711,9 @@ input UserWhereInput {
   followers_every: UserWhereInput
   followers_some: UserWhereInput
   followers_none: UserWhereInput
+  following_every: UserWhereInput
+  following_some: UserWhereInput
+  following_none: UserWhereInput
 }
 
 input UserWhereUniqueInput {

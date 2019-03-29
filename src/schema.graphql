@@ -5,17 +5,6 @@ type Toast {
   error: String
 }
 
-# type UserFollowersConnection {
-#   pageInfo: PageInfo!
-#   edges: [UserFollowersEdge]
-# }
-#
-# type UserFollowersEdge {
-#   cursor: String!
-#   node: User
-#   followedAt: DateTime
-# }
-
 type Mutation {
   createUser(name: String!, email: String!, password: String!, avatar: String!): User!
   createSong(artist: String!, title: String!, description: String!, image: String!, song: String!, tags: [String]): Song!
@@ -24,14 +13,16 @@ type Mutation {
   requestReset(email: String!): Toast
   resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
   toast(message: String, error: String): Toast
-  uploadAvatar(avatar: String!, where: UserWhereUniqueInput!): User!
+  uploadAvatar(avatar: String!, email: String!, where: UserWhereUniqueInput!): User!
   followUser(where: UserWhereUniqueInput!, email: String!): User!
   unfollowUser(where: UserWhereUniqueInput!, email: String!): User!
+  likeSong(where: SongWhereUniqueInput!): Song
+  unlikeSong(where: SongWhereUniqueInput!): Song
 }
 
 type Query {
   user(where: UserWhereUniqueInput!): User
-  users: [User]!
+  users(where: UserWhereUniqueInput): [User]!
   usersConnection(where: UserWhereInput): UserConnection!
   currentUser: User
   song(where: SongWhereUniqueInput!): Song
@@ -47,10 +38,5 @@ type User {
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, first: Int): [Song]!
   avatar: String!
   followers(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, first: Int): [User]
-  # followersConnection(
-  #   first: Int,
-  #   after: String,
-  #   last: Int,
-  #   before: String
-  # ): UserFollowersConnection
+  following(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, first: Int): [User]
 }
