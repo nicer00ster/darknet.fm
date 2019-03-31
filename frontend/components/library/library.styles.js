@@ -27,6 +27,7 @@ const SongListItem = styled.li`
   ${props => props.theme.media.tablet`
     min-width: 85px;
     height: 100%;
+    max-height: 165px;
   `}
   & div.art {
     width: 100%;

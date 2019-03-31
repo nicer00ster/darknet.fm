@@ -7,7 +7,6 @@ import debounce from 'lodash.debounce';
 import { withToast } from 'react-awesome-toasts';
 
 import { Form } from '../account/account.styles';
-import { ALL_SONGS_QUERY } from '../library';
 import Loading from '../loading';
 import { DNInput } from '../layout/layout.styles';
 import {
@@ -20,6 +19,8 @@ import {
   DropDown,
   DropDownItem,
 } from '../search/search.styles';
+import { ALL_SONGS_QUERY } from '../library';
+import { ALL_USERS_QUERY } from '../users';
 
 const UPLOAD_SONG_MUTATION = gql`
   mutation UPLOAD_SONG_MUTATION(
@@ -203,7 +204,8 @@ class Upload extends Component {
           tags: this.state.tags,
         }}
         refetchQueries={[
-          { query: ALL_SONGS_QUERY }
+          { query: ALL_SONGS_QUERY },
+          { query: ALL_USERS_QUERY },
         ]}
         mutation={UPLOAD_SONG_MUTATION}>
         {(createSong, { loading, error }) => {

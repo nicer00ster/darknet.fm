@@ -55,6 +55,11 @@ const ProfileTabs = styled.ul`
   border-bottom: 1px solid ${props => props.theme.grey};
   ${props => props.theme.media.tablet`
     margin: 0 auto;
+    padding: 2rem 0;
+    height: 100%;
+    width: 75%;
+    flex-wrap: wrap;
+    border-bottom: 0;
   `}
 `;
 

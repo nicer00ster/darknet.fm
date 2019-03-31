@@ -22,6 +22,10 @@ class Canvas extends Component {
 
     context.fillStyle = 'transparent';
 
+    const gradient = context.createLinearGradient(0, 0, 0, this.canvas.height);
+    gradient.addColorStop(1, '#1f222e');
+    gradient.addColorStop(0, '#ffeaa7');
+
     context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     context.beginPath();
 
@@ -32,7 +36,8 @@ class Canvas extends Component {
     for(let i = 0; i < this.props.frequencyBinCount; i++) {
      barHeight = this.props.audioData[i];
 
-     context.fillStyle = '#1f222e';
+     // context.fillStyle = '#1f222e';
+     context.fillStyle = gradient;
      context.fillRect(x, this.canvas.height - barHeight / 4, barWidth, barHeight / 3);
 
      x += barWidth + 1;

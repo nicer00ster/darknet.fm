@@ -32,7 +32,11 @@ const UserListItem = styled.li`
     cursor: pointer;
     transition: all 0.25s;
     ${props => props.theme.media.tablet`
-      font-size: 11px;
+      font-size: 10px;
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     `}
     &:hover {
       color: ${props => props.theme.lightBlack};
