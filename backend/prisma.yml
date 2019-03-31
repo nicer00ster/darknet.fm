@@ -1,7 +1,7 @@
-endpoint: ${env:PRISMA_ENDPOINT}
-# endpoint: https://darknetfm-prod-12d6487551.herokuapp.com/darknetfm-prod/prod
+#endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: https://darknetfm-prod-3d1f62af67.herokuapp.com/darknet-prod/prod
 datamodel: datamodel.prisma
-secret: ${env:PRISMA_SECRET}
+# secret: ${env:PRISMA_SECRET}
 hooks:
   post-deploy:
     - graphql get-schema -p prisma
