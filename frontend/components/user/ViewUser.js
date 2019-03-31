@@ -36,6 +36,7 @@ import {
   UserSongPagination,
   UserFollowerPagination,
   UserFollowingPagination,
+  UserLikesPagination,
 } from '../pagination';
 import { CURRENT_USER_QUERY } from './index';
 
@@ -48,6 +49,12 @@ const VIEW_USER_QUERY = gql`
       name
       email
       avatar
+      likedSongs {
+        id
+        image
+        artist
+        title
+      }
       followers(first: $first, skip: $skip, orderBy: createdAt_DESC) {
         id
         name
@@ -207,10 +214,10 @@ class ViewUser extends Component {
                         <DetailsListItem>
                           <h2>{data.user.name}</h2>
                         </DetailsListItem>
-                        <DetailsListItem>
+                        {/* <DetailsListItem>
                           <i className="fal fa-map-marker-alt fa-2x"></i>
                           <div>Philadelphia, PA</div>
-                        </DetailsListItem>
+                        </DetailsListItem> */}
                         <DetailsListItem>
                           <i className="fal fa-envelope fa-2x"></i>
                           <div>{data.user.email}</div>
@@ -264,8 +271,20 @@ class ViewUser extends Component {
                             <a>Following</a>
                           </Link>
                         </DNNavItem>
+                        <DNNavItem>
+                          <Link prefetch scroll={false} href={{
+                            pathname: 'user',
+                            query: {
+                              id: this.props.id,
+                              likes: data.user.name,
+                              page: 1,
+                            }
+                          }}>
+                            <a>Likes</a>
+                          </Link>
+                        </DNNavItem>
                       </ProfileTabs>
-                      {this.props.id && !this.props.query.uploads && !this.props.query.followers && !this.props.query.following
+                      {this.props.id && !this.props.query.uploads && !this.props.query.followers && !this.props.query.following && !this.props.query.likes
                       ? <Overview>
                           <p>Username: {data.user.name}</p>
                           <p>Email: {data.user.email}</p>
@@ -317,7 +336,7 @@ class ViewUser extends Component {
                                             id: follower.id,
                                           },
                                         })}>{follower.name}</p>
-                                        <Composed email={follower.email}>
+                                        <Composed email={follower.email} id={follower.id}>
                                           {({ followUser, unfollowUser }) => {
                                             if(currentUser && follower.followers.some(user => user.id === currentUser.id)) {
                                               return (
@@ -371,79 +390,98 @@ class ViewUser extends Component {
                         : null}
                         {this.props.query.following === data.user.name
                           ? <UserList>
-                              {data.user.following.length <= 0
-                                ? <p>{data.user.name} is not following anyone.</p>
-                                : <UserFollowingPagination id={this.props.id} name={data.user.name} page={parseFloat(this.props.query.page) || 1}>
-                                    {data.user.following.map(following => {
-                                      return (
-                                        <UserListItem key={following.id}>
-                                          <Avatar
-                                            avatar={following.avatar}
-                                            style={{ width: 65, height: 65 }}
-                                            onClick={() => Router.push({
-                                            pathname: '/user',
-                                            query: {
-                                              id: following.id,
-                                            },
-                                          })} />
-                                          <p onClick={() => Router.push({
-                                            pathname: '/user',
-                                            query: {
-                                              id: following.id,
-                                            },
-                                          })}>{following.name}</p>
-                                          <Composed email={following.email}>
-                                            {({ followUser, unfollowUser }) => {
-                                              if(currentUser && following.followers.some(user => user.id === currentUser.id)) {
-                                                return (
-                                                  <>
-                                                  <span>
-                                                    <div data-tip={`${following.followers.length} follower${following.followers.length === 1 ? '' : 's'}`}><i className="fal fa-users"></i>{following.followers.length}</div>
-                                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
-                                                    <div data-tip={`${following.songs.length} upload${following.songs.length === 1 ? '' : 's'}`}><i className="fal fa-cloud-upload"></i>{following.songs.length}</div>
-                                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
-                                                  </span>
-                                                  <button
-                                                    data-button
-                                                    disabled={unfollowUser.data.loading}
-                                                    aria-disabled={unfollowUser.data.loading}
-                                                    className="unfollow"
-                                                    onClick={unfollowUser.mutation}>
-                                                    Unfollow
-                                                    {unfollowUser.data.loading ? <Loading /> : null}
-                                                  </button>
-                                                  </>
-                                                );
-                                              } else {
-                                                return (
-                                                  <>
-                                                  <span>
-                                                    <div data-tip={`${following.followers.length} follower${following.followers.length === 1 ? '' : 's'}`}><i className="fal fa-users"></i>{following.followers.length}</div>
-                                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
-                                                    <div data-tip={`${following.songs.length} upload${following.songs.length === 1 ? '' : 's'}`}><i className="fal fa-cloud-upload"></i>{following.songs.length}</div>
-                                                    <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
-                                                  </span>
-                                                  {currentUser && following.id === currentUser.id
-                                                    ? null
-                                                    : <button
-                                                        data-button
-                                                        disabled={followUser.data.loading}
-                                                        aria-disabled={followUser.data.loading}
-                                                        onClick={followUser.mutation}>
-                                                        Follow
-                                                        {followUser.data.loading ? <Loading /> : null}
-                                                      </button>}
-                                                  </>
-                                                );
-                                              }
-                                            }}
-                                          </Composed>
-                                        </UserListItem>
-                                      );
-                                    })}
-                                  </UserFollowingPagination>}
+                            {data.user.following.length <= 0
+                              ? <p>{data.user.name} is not following anyone.</p>
+                              : <UserFollowingPagination id={this.props.id} name={data.user.name} page={parseFloat(this.props.query.page) || 1}>
+                                  {data.user.following.map(following => {
+                                    return (
+                                      <UserListItem key={following.id}>
+                                        <Avatar
+                                          avatar={following.avatar}
+                                          style={{ width: 65, height: 65 }}
+                                          onClick={() => Router.push({
+                                          pathname: '/user',
+                                          query: {
+                                            id: following.id,
+                                          },
+                                        })} />
+                                        <p onClick={() => Router.push({
+                                          pathname: '/user',
+                                          query: {
+                                            id: following.id,
+                                          },
+                                        })}>{following.name}</p>
+                                        <Composed email={following.email} id={following.id}>
+                                          {({ followUser, unfollowUser }) => {
+                                            if(currentUser && following.followers.some(user => user.id === currentUser.id)) {
+                                              return (
+                                                <>
+                                                <span>
+                                                  <div data-tip={`${following.followers.length} follower${following.followers.length === 1 ? '' : 's'}`}><i className="fal fa-users"></i>{following.followers.length}</div>
+                                                  <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                                                  <div data-tip={`${following.songs.length} upload${following.songs.length === 1 ? '' : 's'}`}><i className="fal fa-cloud-upload"></i>{following.songs.length}</div>
+                                                  <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                                                </span>
+                                                <button
+                                                  data-button
+                                                  disabled={unfollowUser.data.loading}
+                                                  aria-disabled={unfollowUser.data.loading}
+                                                  className="unfollow"
+                                                  onClick={unfollowUser.mutation}>
+                                                  Unfollow
+                                                  {unfollowUser.data.loading ? <Loading /> : null}
+                                                </button>
+                                                </>
+                                              );
+                                            } else {
+                                              return (
+                                                <>
+                                                <span>
+                                                  <div data-tip={`${following.followers.length} follower${following.followers.length === 1 ? '' : 's'}`}><i className="fal fa-users"></i>{following.followers.length}</div>
+                                                  <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                                                  <div data-tip={`${following.songs.length} upload${following.songs.length === 1 ? '' : 's'}`}><i className="fal fa-cloud-upload"></i>{following.songs.length}</div>
+                                                  <ReactTooltip place="bottom" type="dark" effect="solid" className="tooltip"/>
+                                                </span>
+                                                {currentUser && following.id === currentUser.id
+                                                  ? null
+                                                  : <button
+                                                      data-button
+                                                      disabled={followUser.data.loading}
+                                                      aria-disabled={followUser.data.loading}
+                                                      onClick={followUser.mutation}>
+                                                      Follow
+                                                      {followUser.data.loading ? <Loading /> : null}
+                                                    </button>}
+                                                </>
+                                              );
+                                            }
+                                          }}
+                                        </Composed>
+                                      </UserListItem>
+                                    );
+                                  })}
+                                </UserFollowingPagination>}
                             </UserList>
                           : null}
+                      {this.props.query.likes === data.user.name
+                      ? <SongList>
+                        {data.user.likedSongs.length <= 0
+                        ? <p>{data.user.name} has not liked any songs yet.</p>
+                        : <UserLikesPagination id={this.props.id} name={data.user.name} page={parseFloat(this.props.query.page) || 1}>
+                            {data.user.likedSongs.map(song => {
+                              return (
+                                <SongListItem onClick={() => this.routeToSong(song)} key={song.id}>
+                                  <SongImage className="art" src={song.image} />
+                                  <div className="details">
+                                    <p className="artist">{song.artist}</p>
+                                    <p className="description">{song.title}</p>
+                                  </div>
+                                </SongListItem>
+                              );
+                            })}
+                          </UserLikesPagination>}
+                        </SongList>
+                      : null}
                     </Tab>
                   </UserContainer>
                 )

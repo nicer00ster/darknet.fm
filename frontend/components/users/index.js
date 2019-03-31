@@ -32,8 +32,8 @@ const ALL_USERS_QUERY = gql`
 `;
 
 const FOLLOW_USER_MUTATION = gql`
-  mutation FOLLOW_USER_MUTATION($email: String!) {
-    followUser(email: $email, where: {
+  mutation FOLLOW_USER_MUTATION($email: String!, $id: ID!) {
+    followUser(email: $email, id: $id, where: {
       email: $email
     }) {
       id
@@ -42,8 +42,8 @@ const FOLLOW_USER_MUTATION = gql`
 `;
 
 const UNFOLLOW_USER_MUTATION = gql`
-  mutation UNFOLLOW_USER_MUTATION($email: String!) {
-    unfollowUser(email: $email, where: {
+  mutation UNFOLLOW_USER_MUTATION($email: String!, $id: ID!) {
+    unfollowUser(email: $email, id: $id, where: {
       email: $email
     }) {
       id
@@ -61,24 +61,24 @@ const UPLOAD_AVATAR_MUTATION = gql`
   }
 `;
 
-const followUser = ({ render, email }) => (
+const followUser = ({ render, email, id }) => (
   <Mutation
     mutation={FOLLOW_USER_MUTATION}
     refetchQueries={[
       { query: ALL_USERS_QUERY }
     ]}
-    variables={{ email }}>
+    variables={{ email, id }}>
     {(mutation, data) => render({ mutation, data })}
   </Mutation>
 );
 
-const unfollowUser = ({ render, email }) => (
+const unfollowUser = ({ render, email, id }) => (
   <Mutation
     mutation={UNFOLLOW_USER_MUTATION}
     refetchQueries={[
       { query: ALL_USERS_QUERY }
     ]}
-    variables={{ email }}>
+    variables={{ email, id }}>
     {(mutation, data) => render({ mutation, data })}
   </Mutation>
 );
@@ -115,7 +115,7 @@ class Users extends Component {
                           id: user.id,
                         },
                       })}>{user.name}</p>
-                        <Composed email={user.email}>
+                        <Composed email={user.email} id={user.id}>
                           {({ followUser, unfollowUser }) => {
                             if(currentUser && user.followers.some(follower => follower.id === currentUser.id)) {
                               return (

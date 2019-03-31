@@ -23,6 +23,7 @@ import {
   PlayButton,
   SongMetaData,
 } from './song.styles';
+import { VIEW_USER_QUERY } from '../user/ViewUser';
 
 const SONG_QUERY = gql`
   query SONG_QUERY($id: ID!) {
@@ -110,7 +111,8 @@ const likeSong = ({ render, id, userId }) => (
   <Mutation
     mutation={LIKE_SONG_MUTATION}
     refetchQueries={[
-      { query: SONG_QUERY, variables: { id } }
+      { query: SONG_QUERY, variables: { id } },
+      { query: VIEW_USER_QUERY, variables: { id: userId } },
     ]}
     variables={{ id, userId }}>
     {(mutation, data) => render({ mutation, data })}
@@ -121,7 +123,8 @@ const unlikeSong = ({ render, id, userId }) => (
   <Mutation
     mutation={UNLIKE_SONG_MUTATION}
     refetchQueries={[
-      { query: SONG_QUERY, variables: { id } }
+      { query: SONG_QUERY, variables: { id } },
+      { query: VIEW_USER_QUERY, variables: { id: userId } },
     ]}
     variables={{ id, userId }}>
     {(mutation, data) => render({ mutation, data })}
