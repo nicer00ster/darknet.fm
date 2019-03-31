@@ -71,8 +71,8 @@ const SONG_USER_QUERY = gql`
 `;
 
 const LIKE_SONG_MUTATION = gql`
-  mutation LIKE_SONG_MUTATION($id: ID!) {
-    likeSong(where: {
+  mutation LIKE_SONG_MUTATION($id: ID!, $userId: ID!) {
+    likeSong(id: $id, userId: $userId, where: {
       id: $id,
     }) {
       likes {
@@ -84,8 +84,8 @@ const LIKE_SONG_MUTATION = gql`
 `;
 
 const UNLIKE_SONG_MUTATION = gql`
-  mutation UNLIKE_SONG_MUTATION($id: ID!) {
-    unlikeSong(where: {
+  mutation UNLIKE_SONG_MUTATION($id: ID!, $userId: ID!) {
+    unlikeSong(id: $id, userId: $userId, where: {
       id: $id,
     }) {
       likes {
@@ -106,24 +106,24 @@ const songQuery = ({ render, id }) => (
   </Query>
 );
 
-const likeSong = ({ render, id }) => (
+const likeSong = ({ render, id, userId }) => (
   <Mutation
     mutation={LIKE_SONG_MUTATION}
     refetchQueries={[
       { query: SONG_QUERY, variables: { id } }
     ]}
-    variables={{ id }}>
+    variables={{ id, userId }}>
     {(mutation, data) => render({ mutation, data })}
   </Mutation>
 );
 
-const unlikeSong = ({ render, id }) => (
+const unlikeSong = ({ render, id, userId }) => (
   <Mutation
     mutation={UNLIKE_SONG_MUTATION}
     refetchQueries={[
       { query: SONG_QUERY, variables: { id } }
     ]}
-    variables={{ id }}>
+    variables={{ id, userId }}>
     {(mutation, data) => render({ mutation, data })}
   </Mutation>
 );
@@ -139,7 +139,7 @@ class Song extends Component {
     return (
       <User>
         {({ data: { currentUser } }) => (
-          <Composed id={this.props.id}>
+          <Composed id={this.props.id} userId={currentUser.id}>
             {({ songQuery: { query: { data, loading, error } }, likeSong, unlikeSong }) => {
               if(error) return <p>{error}</p>
               if(loading) return <Loading />
