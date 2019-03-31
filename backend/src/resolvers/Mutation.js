@@ -7,7 +7,7 @@ const { transport, emailTemplate } = require('../mail');
 const Mutations = {
   async createUser(parent, args, ctx, info) {
     if(!args.email) {
-      throw new Error('Enter an email.');
+      throw new Error('Enter an email.')
     }
     if(!args.name) {
       throw new Error('Choose a username.');
