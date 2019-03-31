@@ -6,6 +6,15 @@ const { transport, emailTemplate } = require('../mail');
 
 const Mutations = {
   async createUser(parent, args, ctx, info) {
+    if(!args.email) {
+      throw new Error('Enter an email.');
+    }
+    if(!args.name) {
+      throw new Error('Choose a username.');
+    }
+    if(!args.password) {
+      throw new Error('Enter a password.');
+    }
     args.email = args.email.toLowerCase();
     const password = await bcrypt.hash(args.password, 10);
     const user = await ctx.db.mutation.createUser({
@@ -174,7 +183,6 @@ const Mutations = {
     return updatedUser;
   },
   async followUser(parent, args, ctx, info) {
-    console.log(args.email);
     const [user] = await ctx.db.query.users({
       where: {
         email: args.email,
@@ -253,6 +261,18 @@ const Mutations = {
     if(!song) {
       throw new Error('This song no longer exists.');
     }
+    const updatedUser = await ctx.db.mutation.updateUser({
+      where: {
+        id: args.userId,
+      },
+      data: {
+        likedSongs: {
+          connect: {
+            id: song.id,
+          },
+        },
+      },
+    });
     const updatedSong = await ctx.db.mutation.updateSong({
       where: {
         id: song.id,
@@ -276,6 +296,18 @@ const Mutations = {
     if(!song) {
       throw new Error('This song no longer exists.');
     }
+    const updatedUser = await ctx.db.mutation.updateUser({
+      where: {
+        id: args.userId,
+      },
+      data: {
+        likedSongs: {
+          disconnect: {
+            id: song.id,
+          },
+        },
+      },
+    });
     const updatedSong = await ctx.db.mutation.updateSong({
       where: {
         id: song.id,

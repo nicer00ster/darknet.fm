@@ -36,6 +36,7 @@ type User {
   avatar: String!
   followers: [User] @relation(name: "FollowersToFollowing")
   following: [User] @relation(name: "FollowingToFollowers")
+  likedSongs: [Song] @relation(name: "UserToLikedSongs")
 }
 
 type Song {

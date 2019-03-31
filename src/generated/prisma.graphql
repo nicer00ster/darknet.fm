@@ -1,5 +1,5 @@
-# source: https://us1.prisma.sh/alex-busch-0e5bbf/darknet/dev
-# timestamp: Thu Mar 28 2019 22:04:31 GMT-0600 (Mountain Daylight Time)
+# source: https://darknetfm-prod-12d6487551.herokuapp.com/darknetfm-prod/prod
+# timestamp: Sat Mar 30 2019 09:18:09 GMT-0600 (Mountain Daylight Time)
 
 type AggregateSong {
   count: Int!
@@ -23,18 +23,18 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createSong(data: SongCreateInput!): Song!
   createUser(data: UserCreateInput!): User!
-  updateSong(data: SongUpdateInput!, where: SongWhereUniqueInput!): Song
+  createSong(data: SongCreateInput!): Song!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deleteSong(where: SongWhereUniqueInput!): Song
+  updateSong(data: SongUpdateInput!, where: SongWhereUniqueInput!): Song
   deleteUser(where: UserWhereUniqueInput!): User
-  upsertSong(where: SongWhereUniqueInput!, create: SongCreateInput!, update: SongUpdateInput!): Song!
+  deleteSong(where: SongWhereUniqueInput!): Song
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManySongs(data: SongUpdateManyMutationInput!, where: SongWhereInput): BatchPayload!
+  upsertSong(where: SongWhereUniqueInput!, create: SongCreateInput!, update: SongUpdateInput!): Song!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  deleteManySongs(where: SongWhereInput): BatchPayload!
+  updateManySongs(data: SongUpdateManyMutationInput!, where: SongWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManySongs(where: SongWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -74,12 +74,12 @@ enum Permission {
 }
 
 type Query {
-  songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  song(where: SongWhereUniqueInput!): Song
+  songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song]!
   user(where: UserWhereUniqueInput!): User
-  songsConnection(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection!
+  song(where: SongWhereUniqueInput!): Song
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  songsConnection(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -113,7 +113,6 @@ type SongConnection {
 }
 
 input SongCreateInput {
-  id: ID
   artist: String!
   title: String!
   description: String!
@@ -122,6 +121,11 @@ input SongCreateInput {
   tags: SongCreatetagsInput
   user: UserCreateOneWithoutSongsInput!
   likes: UserCreateManyInput
+}
+
+input SongCreateManyInput {
+  create: [SongCreateInput!]
+  connect: [SongWhereUniqueInput!]
 }
 
 input SongCreateManyWithoutUserInput {
@@ -134,7 +138,6 @@ input SongCreatetagsInput {
 }
 
 input SongCreateWithoutUserInput {
-  id: ID
   artist: String!
   title: String!
   description: String!
@@ -518,6 +521,17 @@ input SongSubscriptionWhereInput {
   node: SongWhereInput
 }
 
+input SongUpdateDataInput {
+  artist: String
+  title: String
+  description: String
+  image: String
+  song: String
+  tags: SongUpdatetagsInput
+  user: UserUpdateOneRequiredWithoutSongsInput
+  likes: UserUpdateManyInput
+}
+
 input SongUpdateInput {
   artist: String
   title: String
@@ -538,6 +552,17 @@ input SongUpdateManyDataInput {
   tags: SongUpdatetagsInput
 }
 
+input SongUpdateManyInput {
+  create: [SongCreateInput!]
+  connect: [SongWhereUniqueInput!]
+  disconnect: [SongWhereUniqueInput!]
+  delete: [SongWhereUniqueInput!]
+  update: [SongUpdateWithWhereUniqueNestedInput!]
+  updateMany: [SongUpdateManyWithWhereNestedInput!]
+  deleteMany: [SongScalarWhereInput!]
+  upsert: [SongUpsertWithWhereUniqueNestedInput!]
+}
+
 input SongUpdateManyMutationInput {
   artist: String
   title: String
@@ -550,7 +575,6 @@ input SongUpdateManyMutationInput {
 input SongUpdateManyWithoutUserInput {
   create: [SongCreateWithoutUserInput!]
   connect: [SongWhereUniqueInput!]
-  set: [SongWhereUniqueInput!]
   disconnect: [SongWhereUniqueInput!]
   delete: [SongWhereUniqueInput!]
   update: [SongUpdateWithWhereUniqueWithoutUserInput!]
@@ -578,9 +602,20 @@ input SongUpdateWithoutUserDataInput {
   likes: UserUpdateManyInput
 }
 
+input SongUpdateWithWhereUniqueNestedInput {
+  where: SongWhereUniqueInput!
+  data: SongUpdateDataInput!
+}
+
 input SongUpdateWithWhereUniqueWithoutUserInput {
   where: SongWhereUniqueInput!
   data: SongUpdateWithoutUserDataInput!
+}
+
+input SongUpsertWithWhereUniqueNestedInput {
+  where: SongWhereUniqueInput!
+  update: SongUpdateDataInput!
+  create: SongCreateInput!
 }
 
 input SongUpsertWithWhereUniqueWithoutUserInput {
@@ -893,8 +928,8 @@ input SongWhereUniqueInput {
 }
 
 type Subscription {
-  song(where: SongSubscriptionWhereInput): SongSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  song(where: SongSubscriptionWhereInput): SongSubscriptionPayload
 }
 
 enum Tag {
@@ -926,6 +961,7 @@ type User implements Node {
   avatar: String!
   followers(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   following(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  likedSongs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song!]
 }
 
 """A connection to a list of items."""
@@ -939,7 +975,6 @@ type UserConnection {
 }
 
 input UserCreateInput {
-  id: ID
   name: String!
   email: String!
   password: String!
@@ -950,6 +985,7 @@ input UserCreateInput {
   songs: SongCreateManyWithoutUserInput
   followers: UserCreateManyInput
   following: UserCreateManyInput
+  likedSongs: SongCreateManyInput
 }
 
 input UserCreateManyInput {
@@ -967,7 +1003,6 @@ input UserCreatepermissionsInput {
 }
 
 input UserCreateWithoutSongsInput {
-  id: ID
   name: String!
   email: String!
   password: String!
@@ -977,6 +1012,7 @@ input UserCreateWithoutSongsInput {
   permissions: UserCreatepermissionsInput
   followers: UserCreateManyInput
   following: UserCreateManyInput
+  likedSongs: SongCreateManyInput
 }
 
 """An edge in a connection."""
@@ -1343,6 +1379,7 @@ input UserUpdateDataInput {
   songs: SongUpdateManyWithoutUserInput
   followers: UserUpdateManyInput
   following: UserUpdateManyInput
+  likedSongs: SongUpdateManyInput
 }
 
 input UserUpdateInput {
@@ -1356,6 +1393,7 @@ input UserUpdateInput {
   songs: SongUpdateManyWithoutUserInput
   followers: UserUpdateManyInput
   following: UserUpdateManyInput
+  likedSongs: SongUpdateManyInput
 }
 
 input UserUpdateManyDataInput {
@@ -1371,7 +1409,6 @@ input UserUpdateManyDataInput {
 input UserUpdateManyInput {
   create: [UserCreateInput!]
   connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
   delete: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueNestedInput!]
@@ -1416,6 +1453,7 @@ input UserUpdateWithoutSongsDataInput {
   permissions: UserUpdatepermissionsInput
   followers: UserUpdateManyInput
   following: UserUpdateManyInput
+  likedSongs: SongUpdateManyInput
 }
 
 input UserUpdateWithWhereUniqueNestedInput {
@@ -1714,6 +1752,9 @@ input UserWhereInput {
   following_every: UserWhereInput
   following_some: UserWhereInput
   following_none: UserWhereInput
+  likedSongs_every: SongWhereInput
+  likedSongs_some: SongWhereInput
+  likedSongs_none: SongWhereInput
 }
 
 input UserWhereUniqueInput {

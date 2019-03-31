@@ -14,10 +14,10 @@ type Mutation {
   resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
   toast(message: String, error: String): Toast
   uploadAvatar(avatar: String!, email: String!, where: UserWhereUniqueInput!): User!
-  followUser(where: UserWhereUniqueInput!, email: String!): User!
-  unfollowUser(where: UserWhereUniqueInput!, email: String!): User!
-  likeSong(where: SongWhereUniqueInput!): Song
-  unlikeSong(where: SongWhereUniqueInput!): Song
+  followUser(where: UserWhereUniqueInput!, email: String!, id: ID!): User!
+  unfollowUser(where: UserWhereUniqueInput!, email: String!, id: ID!): User!
+  likeSong(where: SongWhereUniqueInput!, id: ID!, userId: ID!): Song
+  unlikeSong(where: SongWhereUniqueInput!, id: ID!, userId: ID!): Song
 }
 
 type Query {
@@ -39,4 +39,5 @@ type User {
   avatar: String!
   followers(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, first: Int): [User]
   following(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, first: Int): [User]
+  likedSongs: [Song]
 }
