@@ -12,6 +12,7 @@ type Mutation {
   logout: Toast
   requestReset(email: String!): Toast
   resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
+  updatePermissions(permissions: [Permission], userId: ID!): User
   toast(message: String, error: String): Toast
   uploadAvatar(avatar: String!, email: String!, where: UserWhereUniqueInput!): User!
   followUser(where: UserWhereUniqueInput!, email: String!, id: ID!): User!

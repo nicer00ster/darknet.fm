@@ -5,7 +5,7 @@ import { endpoint, prodEndpoint } from '../config';
 
 function createClient({ headers }) {
   return new ApolloClient({
-    uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
+    uri: process.env.NODE_ENV === 'development' ? endpoint : endpoint,
     request: operation => {
       operation.setContext({
         fetchOptions: {

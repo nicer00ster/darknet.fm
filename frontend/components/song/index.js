@@ -142,7 +142,7 @@ class Song extends Component {
     return (
       <User>
         {({ data: { currentUser } }) => (
-          <Composed id={this.props.id} userId={currentUser.id}>
+          <Composed id={this.props.id} userId={currentUser && currentUser.id}>
             {({ songQuery: { query: { data, loading, error } }, likeSong, unlikeSong }) => {
               if(error) return <p>{error}</p>
               if(loading) return <Loading />

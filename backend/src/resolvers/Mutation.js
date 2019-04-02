@@ -2,7 +2,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
+
 const { transport, emailTemplate } = require('../mail');
+const { checkPermissions } = require('../permissions');
 
 const Mutations = {
   async createUser(parent, args, ctx, info) {
@@ -181,6 +183,29 @@ const Mutations = {
       },
     });
     return updatedUser;
+  },
+  async updatePermissions(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in!');
+    }
+    const currentUser = await ctx.db.query.user({
+        where: {
+          id: ctx.request.userId,
+        },
+      }, info);
+
+    checkPermissions(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
+
+    return ctx.db.mutation.updateUser({
+        data: {
+          permissions: {
+            set: args.permissions,
+          },
+        },
+        where: {
+          id: args.userId,
+        },
+      }, info);
   },
   async followUser(parent, args, ctx, info) {
     const [user] = await ctx.db.query.users({
