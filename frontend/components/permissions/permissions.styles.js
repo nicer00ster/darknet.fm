@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+const PermissionsContainer = styled.div`
+  border-radius: ${props => props.theme.radius};
+  box-shadow: ${props => props.theme.shadow};
+  padding: 2rem;
+`;
+
 const Table = styled.table`
   border-spacing: 0;
   width: 100%;
@@ -21,6 +27,7 @@ const Table = styled.table`
       }
     }
     label {
+      text-align: center;
       padding: 10px 5px;
       display: block;
     }
@@ -32,4 +39,20 @@ const Table = styled.table`
   }
 `;
 
-export { Table };
+const Checkbox = styled.input`
+  top: 0;
+  left: 0;
+  width: 100%;
+  cursor: inherit;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  padding: 0;
+  position: absolute;
+`;
+
+export {
+  Table,
+  PermissionsContainer,
+  Checkbox,
+};

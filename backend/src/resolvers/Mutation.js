@@ -193,7 +193,7 @@ const Mutations = {
           id: ctx.request.userId,
         },
       }, info);
-
+      
     checkPermissions(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
 
     return ctx.db.mutation.updateUser({

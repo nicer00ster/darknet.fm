@@ -16,7 +16,7 @@ Router.onRouteChangeComplete = () => {
 const Header = () => (
     <DNHeader>
       <Link href="/">
-        <Logo>🞛</Logo>
+        <Logo>◈</Logo>
       </Link>
       <Nav />
     </DNHeader>

@@ -28,6 +28,7 @@ const UserListItem = styled.li`
     box-shadow: ${props => props.theme.shadowHover};
   }
   & p {
+    text-align: center;
     font-size: 16px;
     cursor: pointer;
     transition: all 0.25s;

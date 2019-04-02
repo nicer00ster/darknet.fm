@@ -3,7 +3,11 @@ import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { adopt } from 'react-adopt';
 
-import { Table } from './permissions.styles';
+import {
+  Table,
+  PermissionsContainer,
+  Checkbox,
+} from './permissions.styles';
 
 const UPDATE_PERMISSIONS_MUTATION = gql`
   mutation updatePermissions($permissions: [Permission], $userId: ID!) {
@@ -69,7 +73,7 @@ const Permissions = props => (
   <Composed>
     {({ queryPermissions, queryUsers }) => {
       return (
-        <div>
+        <PermissionsContainer>
           <h2>Manage User Permissions</h2>
           <Table>
             <thead>
@@ -82,7 +86,7 @@ const Permissions = props => (
             </thead>
             <tbody>{queryUsers.query.data.users.map(user => <UserPermissions user={user} key={user.id} />)}</tbody>
           </Table>
-        </div>
+        </PermissionsContainer>
       )
     }}
   </Composed>
@@ -114,7 +118,8 @@ class UserPermissions extends Component {
             {queryPermissions.query.data.__type.enumValues.map(permission => (
               <td key={permission.name}>
                 <label htmlFor={`${user.id}-permission-${permission.name}`}>
-                  <input
+                  <svg class="j2dfb39" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"></path></svg>
+                  <Checkbox
                     id={`${user.id}-permission-${permission.name}`}
                     type="checkbox"
                     checked={this.state.permissions.includes(permission.name)}
